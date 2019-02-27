@@ -23,7 +23,7 @@ class FotoController extends Controller
         $path           = "";
 
         $ext = strtolower(pathinfo($img, PATHINFO_EXTENSION));
-        $final_image = rand(1000,1000000).$img;
+        $final_image = $img;
         
         $path = 'views/uploads/'.$idsiniestro;
 
