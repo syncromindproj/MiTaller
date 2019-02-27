@@ -46,11 +46,32 @@ class FotoController extends Controller
 			case 6:
                 $path .= "/ETALLER/".strtolower($final_image);
                 break;
+            case 7:
+                $path .= "/FOTOS/REPUESTOS/".strtolower($final_image);
+                break;
+            case 8:
+                $path .= "/FOTOS/SINIESTRO/".strtolower($final_image);
+                break;
+            case 9:
+                $path .= "/FOTOS/INSPECCION/".strtolower($final_image);
+                break;
+            case 10:
+                $path .= "/REPUESTOS/NOTAS_CREDITO/".strtolower($final_image);
+                break;
+            case 11:
+                $path .= "/REPUESTOS/GUIAS_REMISION/".strtolower($final_image);
+                break;
+            case 12:
+                $path .= "/INVENTARIOS/".strtolower($final_image);
+                break;
+            case 13:
+                $path .= "/FRANQUICIAS/".strtolower($final_image);
+                break;
         }
 
         if(move_uploaded_file($tmp,$path)) 
         {
-            $placas = $this->model->InsertaFoto($idtipofoto, $idsiniestro, $path);
+            $placas = $this->model->InsertaFoto($idtipofoto, $idsiniestro, $path, $img);
             echo json_encode($idsiniestro);
             
         }

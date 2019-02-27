@@ -337,16 +337,19 @@
                                         <li id="tab_repuestos"><a href="#repuestos" data-toggle="tab">Repuestos</a></li>
                                         <li id="tab_presupuestos"><a href="#presupuesto" data-toggle="tab">Presupuesto</a></li>
                                         <li id="tab_cartas"><a href="#carta" data-toggle="tab">Carta de Conformidad</a></li>
+                                        <li id="tab_inventarios"><a href="#inventarios" data-toggle="tab">Inventarios</a></li>
+                                        <li id="tab_franquicias"><a href="#franquicias" data-toggle="tab">Franquicias</a></li>
 										<li id="tab_etaller"><a href="#etaller" data-toggle="tab">eTaller</a></li>
                                     </ul>
                                     <div class="tab-content">
-                                    <div class="tab-pane" id="generales">
+                                        <div class="tab-pane" id="generales">
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <table id="generales_table" class="table table-striped table-bordered" style="width:100%">
                                                         <thead>
                                                             <tr>
                                                                 <th>Imagen</th>
+                                                                <th>Descripcion</th>
                                                                 <th>Opciones</th>
                                                             </tr>
                                                         </thead>
@@ -357,28 +360,104 @@
                                         <div class="tab-pane" id="fotos">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <table id="fotos_table" class="table table-striped table-bordered" style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Imagen</th>
-                                                                <th>Opciones</th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
+                                                    <div class="nav-tabs-custom">
+                                                        <ul class="nav nav-tabs">
+                                                            <li id="tab_fotos_inspeccion" class="active"><a href="#fotos_inspeccion" data-toggle="tab">Inspección</a></li>
+                                                            <li id="tab_fotos_repuestos"><a href="#fotos_repuestos" data-toggle="tab">Repuestos</a></li>
+                                                            <li id="tab_fotos_siniestros"><a href="#fotos_siniestros" data-toggle="tab">Siniestro</a></li>
+                                                        </ul>
+                                                        <div class="tab-content">
+                                                            <div class="tab-pane active" id="fotos_inspeccion">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <table id="fotos_inspeccion_tabla" class="table table-striped table-bordered" style="width:100%">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Imagen</th>
+                                                                                    <th>Descripcion</th>
+                                                                                    <th>Opciones</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                        </table>
+                                                                    </div>                                                
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-pane" id="fotos_repuestos">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <table id="fotos_repuestos_tabla" class="table table-striped table-bordered" style="width:100%">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Imagen</th>
+                                                                                    <th>Descripcion</th>
+                                                                                    <th>Opciones</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                        </table>
+                                                                    </div>                                                
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-pane" id="fotos_siniestros">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <table id="fotos_siniestros_tabla" class="table table-striped table-bordered" style="width:100%">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Imagen</th>
+                                                                                    <th>Descripcion</th>
+                                                                                    <th>Opciones</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                        </table>
+                                                                    </div>                                                
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>                                                
                                             </div>
                                         </div>
                                         <div class="tab-pane" id="repuestos">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <table id="repuestos_table" class="table table-striped table-bordered" style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Imagen</th>
-                                                                <th>Opciones</th>
-                                                            </tr>
-                                                        </thead>
-                                                    </table>
+                                                    <div class="nav-tabs-custom">
+                                                        <ul class="nav nav-tabs">
+                                                            <li id="tab_fotos_credito" class="active"><a href="#fotos_credito" data-toggle="tab">Notas de crédito</a></li>
+                                                            <li id="tab_fotos_guia"><a href="#fotos_guia" data-toggle="tab">Guía de remisión</a></li>
+                                                        </ul>
+                                                        <div class="tab-content">
+                                                            <div class="tab-pane active" id="fotos_credito">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <table id="fotos_credito_tabla" class="table table-striped table-bordered" style="width:100%">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Imagen</th>
+                                                                                    <th>Descripcion</th>
+                                                                                    <th>Opciones</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                        </table>
+                                                                    </div>                                                
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-pane" id="fotos_guia">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <table id="fotos_guia_tabla" class="table table-striped table-bordered" style="width:100%">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Imagen</th>
+                                                                                    <th>Descripcion</th>
+                                                                                    <th>Opciones</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                        </table>
+                                                                    </div>                                                
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>                                                
                                             </div>
                                         </div>
@@ -389,6 +468,7 @@
                                                         <thead>
                                                             <tr>
                                                                 <th>Imagen</th>
+                                                                <th>Descripcion</th>
                                                                 <th>Opciones</th>
                                                             </tr>
                                                         </thead>
@@ -403,6 +483,37 @@
                                                         <thead>
                                                             <tr>
                                                                 <th>Imagen</th>
+                                                                <th>Descripcion</th>
+                                                                <th>Opciones</th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>                                                
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="inventarios">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <table id="inventarios_table" class="table table-striped table-bordered" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Imagen</th>
+                                                                <th>Descripcion</th>
+                                                                <th>Opciones</th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>                                                
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="franquicias">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <table id="franquicias_table" class="table table-striped table-bordered" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Imagen</th>
+                                                                <th>Descripcion</th>
                                                                 <th>Opciones</th>
                                                             </tr>
                                                         </thead>
@@ -417,6 +528,7 @@
                                                         <thead>
                                                             <tr>
                                                                 <th>Imagen</th>
+                                                                <th>Descripcion</th>
                                                                 <th>Opciones</th>
                                                             </tr>
                                                         </thead>
@@ -866,12 +978,24 @@
 
                         $("#modal_title_documentos").html("Ver Documentos");
                         
-                        generales       = CrearDatatable(idsiniestro, 5, "generales_table");
-                        fotos           = CrearDatatable(idsiniestro, 1, "fotos_table");
-                        repuestos       = CrearDatatable(idsiniestro, 2, "repuestos_table");
-                        presupuestos    = CrearDatatable(idsiniestro, 3, "presupuestos_table");
-                        cartas          = CrearDatatable(idsiniestro, 4, "cartas_table");
-                        etaller         = CrearDatatable(idsiniestro, 6, "etaller_table");
+                        generales               = CrearDatatable(idsiniestro, 5, "generales_table");
+                        
+                        //FOTOS
+                        fotos_inspeccion        = CrearDatatable(idsiniestro, 9, "fotos_inspeccion_tabla");
+                        fotos_repuestos         = CrearDatatable(idsiniestro, 7, "fotos_repuestos_tabla");
+                        fotos_siniestro         = CrearDatatable(idsiniestro, 8, "fotos_siniestros_tabla");
+                        //END FOTOS
+
+                        //REPUESTOS
+                        fotos_credito           = CrearDatatable(idsiniestro, 10, "fotos_credito_tabla");
+                        fotos_guia              = CrearDatatable(idsiniestro, 11, "fotos_guia_tabla");
+                        //END REPUESTOS
+
+                        presupuestos            = CrearDatatable(idsiniestro, 3, "presupuestos_table");
+                        cartas                  = CrearDatatable(idsiniestro, 4, "cartas_table");
+                        inventarios             = CrearDatatable(idsiniestro, 12, "inventarios_table");
+                        franquicias             = CrearDatatable(idsiniestro, 13, "franquicias_table");
+                        etaller                 = CrearDatatable(idsiniestro, 6, "etaller_table");
                     }
 
                     if(option == "delete"){
@@ -955,7 +1079,7 @@
             var tabla = $('#' + tabla).DataTable( {
                 "responsive":true,
                 "scrollCollapse": true,
-                "searching": false,
+                "searching": true,
                 "bDestroy": true,
                 "ordering": false,
                 "columnDefs":[
@@ -967,17 +1091,22 @@
                             return '<a target="_blank" href="<?PHP echo constant('URL'); ?>/'+full[1]+'"><img width="200" src="<?PHP echo constant('URL'); ?>'+full[1]+'"/></a>';
                             return false;
                         },
-                        "width":"50%"
+                        "width":"40%"
                     },
                     {
                         "targets":1,
+                        "data":"descripcion",
+                        "width":"40%"
+                    },
+                    {
+                        "targets":2,
                         "data":"idfoto",
                         "render": function(url, type, full){
                             console.log(url);
                             return '<button type="button" onclick="show_elimina_foto('+ full[0] +');" class="delete btn btn-danger"><i class="fa fa-remove"></i> Eliminar</button>'
                             return false;
                         },
-                        "width":"50%"
+                        "width":"20%"
                     }
                 ],
                 "ajax": {
@@ -992,6 +1121,7 @@
                 },
                 "columns":[
                     {"data":"ruta"},
+                    {"data":"descripcion"},
                     {"data":"idfoto"}
                 ],
                 "dom": 'Bfrtip',
@@ -1016,12 +1146,7 @@
                                 $('#md_verdocumentos').modal();
                                 $("#mensaje_confirmacion_documento").html("Se han registrado los documentos.");
                                 $("#confirm_documentos").show().delay(2000).fadeOut();
-                                tabla.ajax.reload();	
-                                fotos.ajax.reload();	
-                                repuestos.ajax.reload();	
-                                presupuestos.ajax.reload();	
-                                cartas.ajax.reload();	
-								etaller.ajax.reload();
+                                refresh_tables();
                             });
                         }
                     }
@@ -1049,17 +1174,27 @@
             success: function(result){
                 console.log(result);
                 $('#modal-delete-foto').modal('hide');
-                fotos.ajax.reload();	
-                repuestos.ajax.reload();	
-                presupuestos.ajax.reload();	
-                cartas.ajax.reload();	
-                generales.ajax.reload();	
-				etaller.ajax.reload();
+                refresh_tables();
             },
             error:function(result){
                 console.log("error"+result);
             }
         });
+    }
+
+    function refresh_tables()
+    {
+        presupuestos.ajax.reload();	
+        cartas.ajax.reload();	
+        generales.ajax.reload();	
+        etaller.ajax.reload();
+        fotos_inspeccion.ajax.reload();
+        fotos_repuestos.ajax.reload();
+        fotos_siniestro.ajax.reload();
+        fotos_credito.ajax.reload();
+        fotos_guia.ajax.reload();
+        inventarios.ajax.reload();
+        franquicias.ajax.reload();
     }
 
     function elimina_siniestro()

@@ -12,6 +12,7 @@ class FotoModel extends Model
             SELECT 
             f.idfoto,
             f.ruta,
+            f.descripcion,
             f.estado
             FROM foto f
             WHERE f.idsiniestro=:idsiniestro
@@ -35,15 +36,16 @@ class FotoModel extends Model
         }
     }
 
-    function InsertaFoto($idtipofoto, $idsiniestro, $archivo)
+    function InsertaFoto($idtipofoto, $idsiniestro, $archivo, $descripcion)
     {
         try{
-            $query = $this->db->connect()->prepare('insert into foto (idtipofoto, idsiniestro, ruta)
-            values (:idtipofoto, :idsiniestro, :ruta)');
+            $query = $this->db->connect()->prepare('insert into foto (idtipofoto, idsiniestro, ruta, descripcion)
+            values (:idtipofoto, :idsiniestro, :ruta, :descripcion)');
             $query->execute([
                 'idtipofoto'    => $idtipofoto,
                 'idsiniestro'   => $idsiniestro,
-                'ruta'          => $archivo
+                'ruta'          => $archivo,
+                'descripcion'   => $descripcion
             ]);
             return "Foto Insertada";
         }catch(PDOException $e){

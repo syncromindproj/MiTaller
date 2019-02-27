@@ -65,7 +65,16 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
                     mkdir($folder."/REPUESTOS", 0777, true);
                     mkdir($folder."/PRESUPUESTOS", 0777, true);
                     mkdir($folder."/CARTAS_DE_APROBACION", 0777, true);
-					mkdir($folder."/ETALLER", 0777, true);
+                    mkdir($folder."/INVENTARIOS", 0777, true);
+                    mkdir($folder."/FRANQUICIAS", 0777, true);
+                    mkdir($folder."/ETALLER", 0777, true);
+                    
+                    mkdir($folder."/FOTOS/SINIESTRO", 0777, true);
+                    mkdir($folder."/FOTOS/REPUESTOS", 0777, true);
+                    mkdir($folder."/FOTOS/INSPECCION", 0777, true);
+
+                    mkdir($folder."/REPUESTOS/NOTAS_CREDITO", 0777, true);
+                    mkdir($folder."/REPUESTOS/GUIAS_REMISION", 0777, true);
                 }
             }
             //echo $idsiniestro;die;
