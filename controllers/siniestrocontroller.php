@@ -28,8 +28,8 @@ class SiniestroController extends Controller
         $datos = json_decode($datos, true);
         $idsiniestro = $datos['idsiniestro'];
         
-        $rootPath = realpath(".")."\\views\\uploads\\".$idsiniestro;
-        //$rootPath = realpath(".")."/views/uploads/".$idsiniestro;
+        //$rootPath = realpath(".")."\\views\\uploads\\".$idsiniestro;
+        $rootPath = realpath(".")."/views/uploads/".$idsiniestro;
         $zip = new ZipArchive();
         $zip->open('views/uploads/'.$idsiniestro.'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
         $files = new RecursiveIteratorIterator(
