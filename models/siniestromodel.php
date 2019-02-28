@@ -98,7 +98,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
                 'idsiniestro'   => $idsiniestro
             ]);
 
-            return $archivo;    
+            return "Eliminado";    
             
         }catch(PDOException $e){
             return $e->getMessage();

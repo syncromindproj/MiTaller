@@ -67,7 +67,7 @@ class SiniestroController extends Controller
         $datos = $_REQUEST['datos'];
         $datos = json_decode($datos, true);
         $siniestros = $this->model->EliminaSiniestro($datos["idsiniestro"]);
-        echo json_encode($fotos);
+        echo json_encode($siniestros);
         
     }
     

@@ -187,7 +187,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="frm_siniestro" method="POST">
-                        <table id="siniestros" class="table table-striped table-bordered" style="width:100%">
+                        <table id="table_siniestros" class="table table-striped table-bordered" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Fecha</th>
@@ -633,7 +633,6 @@
           </div>
         </div>
         <!-- End Delete Foto -->
-
     </section>
     <!-- /.content -->
   </div>
@@ -685,6 +684,7 @@
 
 <script>
     var siniestros = "";
+    var placas = "";
     
     $(document).ready(function() {
         var placa = "";
@@ -699,11 +699,12 @@
 			$(this).datepicker('hide');
 		});
 
-		var placas = $('#placas').DataTable( {
+		placas = $('#placas').DataTable( {
 		    "ajax": "<?PHP echo constant('URL'); ?>placa/getPlacas",
 			"responsive":true,
 			"scrollX":        false,
 			"scrollCollapse": true,
+            "bDestroy": true,
 			"fixedColumns":   {
 				"leftColumns": 2
 			},
@@ -711,7 +712,7 @@
 				"url":"https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
 			},
 			"columns":[
-				{"data":"nroplaca"},
+				{"data":"nroplaca", "width":"10%"},
                 {"data":"marca"},
                 {"data":"modelo"},
                 {"data":"dni"},
@@ -780,7 +781,7 @@
                         $("#txt_placa").focus();
                     }else{
                         $('#md_nuevosiniestro').modal('hide');
-                        siniestros.ajax.reload();	
+                        muestra_siniestros(nroplaca);
                         placas.ajax.reload();	
                     }
                 },
@@ -894,141 +895,10 @@
             if(option == "delete"){
                 $('#modal-delete').modal();
                 $('#sp_grupo').html(nroplaca);
-                
             }
 
             if(option == "siniestro"){
-                $('#md_siniestros').modal();
-                $("#modal_title_siniestro_ver").html(nroplaca);
-                $("#btn_enviar_siniestro").text("Actualizar");
-                var info = {};
-                info["nroplaca"]    = nroplaca;
-                var myJsonString    = JSON.stringify(info);
-                
-                siniestros = $('#siniestros').DataTable( {
-                    "responsive":true,
-                    "scrollX":        false,
-                    "scrollCollapse": true,
-                    "bDestroy": true,
-                    "ordering": false,
-                    "ajax": {
-                        "type": "POST",
-                        "url": "<?PHP echo constant('URL'); ?>siniestro/ListaSiniestros",
-                        "data": {
-                            "datos": myJsonString
-                        },
-                        "error": function (jqXHR, textStatus, errorThrown) {
-                            console.log("sss");
-                        }
-                    },
-                    "language":{
-                        "url":"https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
-                    },
-                    "columns":[
-                        {"data":"fecha_siniestro"},
-                        {"data":"nrosiniestro"},
-                        {"data":"aseguradora"},
-                        {"data":"estado"},
-                        {
-                            data: null,
-                            className: "centerd",
-                            defaultContent: '<button class="documentos btn btn-warning"><i class="fa fa-file"></i> Ver Documentos</button> <button class="delete btn btn-danger"><i class="fa fa-remove"></i> Eliminar</button> <button class="descargar btn btn-success"><i class="fa fa-download"></i> Descargar</button>'
-                        }
-                    ],
-                    "dom": 'Bfrtip',
-                    "buttons": [
-                        {
-                            text: 'Nuevo',
-                            action: function ( e, dt, node, config ) {
-                                opcion = "nuevo";
-                                $('#md_siniestros').modal('hide');
-                                $('#md_nuevosiniestro').modal();
-                                $("#modal_title_siniestro").html("Nuevo Siniestro");
-                                $("#btn_enviar").text("Guardar");
-                                $("#txt_fecha").val("");
-                                $("#txt_aseguradora").val("");
-                                $("#txt_nrosiniestro").val("");
-                            }
-                        }
-                    ]
-                } );
-                
-                $('#siniestros tbody').on( 'click', 'button', function () {
-                    var data = siniestros.row( $(this).parents('tr') ).data();
-                    var idsiniestro = data['idsiniestro'];
-                    console.log(idsiniestro);
-                    
-                    var option = $(this)[0].classList[0];
-                    if(option == "documentos"){
-                        $('#md_verdocumentos').modal();
-
-                        $("#tab_generales").addClass("active");
-                        $("#tab_fotos").removeClass("active");
-                        $("#tab_repuestos").removeClass("active");
-                        $("#tab_presupuestos").removeClass("active");
-                        $("#tab_cartas").removeClass("active");
-						$("#tab_etaller").removeClass("active");
-
-                        $("#generales").addClass("active");
-                        $("#fotos").removeClass("active");
-                        $("#repuestos").removeClass("active");
-                        $("#presupuesto").removeClass("active");
-                        $("#carta").removeClass("active");
-						$("#etaller").removeClass("active");
-
-                        $("#modal_title_documentos").html("Ver Documentos");
-                        
-                        generales               = CrearDatatable(idsiniestro, 5, "generales_table");
-                        
-                        //FOTOS
-                        fotos_inspeccion        = CrearDatatable(idsiniestro, 9, "fotos_inspeccion_tabla");
-                        fotos_repuestos         = CrearDatatable(idsiniestro, 7, "fotos_repuestos_tabla");
-                        fotos_siniestro         = CrearDatatable(idsiniestro, 8, "fotos_siniestros_tabla");
-                        //END FOTOS
-
-                        //REPUESTOS
-                        fotos_credito           = CrearDatatable(idsiniestro, 10, "fotos_credito_tabla");
-                        fotos_guia              = CrearDatatable(idsiniestro, 11, "fotos_guia_tabla");
-                        //END REPUESTOS
-
-                        presupuestos            = CrearDatatable(idsiniestro, 3, "presupuestos_table");
-                        cartas                  = CrearDatatable(idsiniestro, 4, "cartas_table");
-                        inventarios             = CrearDatatable(idsiniestro, 12, "inventarios_table");
-                        franquicias             = CrearDatatable(idsiniestro, 13, "franquicias_table");
-                        etaller                 = CrearDatatable(idsiniestro, 6, "etaller_table");
-                    }
-
-                    if(option == "delete"){
-                        $('#modal-delete-siniestro').modal();
-                        $('#btn_elimina_siniestro').attr("data-value", idsiniestro);
-                        
-                    }
-
-                    if(option == "descargar"){
-                        console.log("descarga");
-                        $.ajax({
-                            type: "POST",
-                            url: "<?PHP echo constant('URL'); ?>siniestro/ZipSiniestro", 
-                            data:{
-                                datos: '{"idsiniestro": ' + idsiniestro + '}'
-                            },
-                            dataType : 'json',
-                            success: function(result){
-                                var datos = JSON.parse(result);
-                                if(datos.estado == 1){
-                                    window.location = datos.file;
-                                }else{
-                                    $("#modal-zip").modal();
-                                }
-                            },
-                            error:function(result){
-                                console.log(result);
-                            }
-                        });
-                    }
-                    return false;
-                
-                });
+                muestra_siniestros(nroplaca);
             }
         });
        
@@ -1054,7 +924,6 @@
 
         $('#md_siniestros').on('hidden.bs.modal', function () {
             console.log("cierra siniestros");
-            
         });
 
         $('#md_verdocumentos').on('hidden.bs.modal', function () {
@@ -1065,101 +934,245 @@
 
         $('#md_nuevosiniestro').on('hidden.bs.modal', function () {
             $('#md_siniestros').modal();
-
-            
         });
         
-        function CrearDatatable(idsiniestro, tipo, tabla){
-            var info = {};
-            info["idsiniestro"]    = idsiniestro;
-            info["tipo"]           = tipo;
-            var myJsonString    = JSON.stringify(info);
-            console.log(tabla);
-
-            var tabla = $('#' + tabla).DataTable( {
-                "responsive":true,
-                "scrollCollapse": true,
-                "searching": true,
-                "bDestroy": true,
-                "ordering": false,
-                "columnDefs":[
-                    {
-                        "targets":0,
-                        "data":"url",
-                        "render": function(url, type, full){
-                            console.log(full['ruta']);
-                            return '<a target="_blank" href="<?PHP echo constant('URL'); ?>/'+full[1]+'"><img width="200" src="<?PHP echo constant('URL'); ?>'+full[1]+'"/></a>';
-                            return false;
-                        },
-                        "width":"40%"
-                    },
-                    {
-                        "targets":1,
-                        "data":"descripcion",
-                        "width":"40%"
-                    },
-                    {
-                        "targets":2,
-                        "data":"idfoto",
-                        "render": function(url, type, full){
-                            console.log(url);
-                            return '<button type="button" onclick="show_elimina_foto('+ full[0] +');" class="delete btn btn-danger"><i class="fa fa-remove"></i> Eliminar</button>'
-                            return false;
-                        },
-                        "width":"20%"
-                    }
-                ],
-                "ajax": {
-                    "type": "POST",
-                    "url": "<?PHP echo constant('URL'); ?>foto/ListaFotos",
-                    "data": {
-                        "datos": myJsonString
-                    }
-                },
-                "language":{
-                    "url":"https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
-                },
-                "columns":[
-                    {"data":"ruta"},
-                    {"data":"descripcion"},
-                    {"data":"idfoto"}
-                ],
-                "dom": 'Bfrtip',
-                "buttons": [
-                    {
-                        text: 'Nuevo',
-                        action: function ( e, dt, node, config ) {
-                            opcion = "nuevo";
-                            $('#md_fotos').modal();
-                            $('#md_verdocumentos').modal('hide');
-                            
-                            $("#modal_title_fotos").html("Agregar Fotos");
-                            $("#btn_enviar").text("Guardar");
-                            
-                            $('#fileupload').fileupload({
-                                url: 'foto/Subir',
-                                formData: { 'idsiniestro': idsiniestro, 'idtipofoto' : tipo }
-                                
-                            });
-                            $('#fileupload').bind('fileuploaddone', function (e, data) {
-                                $('#md_fotos').modal('hide');
-                                $('#md_verdocumentos').modal();
-                                $("#mensaje_confirmacion_documento").html("Se han registrado los documentos.");
-                                $("#confirm_documentos").show().delay(2000).fadeOut();
-                                refresh_tables();
-                            });
-                        }
-                    }
-                ]
-            } );
-
-            return tabla;
-        }  
+        
     } );
+
+    function muestra_siniestros(nroplaca){
+        $('#md_siniestros').modal();
+        $("#modal_title_siniestro_ver").html(nroplaca);
+        $("#btn_enviar_siniestro").text("Actualizar");
+        var info = {};
+        info["nroplaca"]    = nroplaca;
+        var myJsonString    = JSON.stringify(info);
+        
+        siniestros = $('#table_siniestros').DataTable( {
+            "responsive":true,
+            "scrollX":        false,
+            "scrollCollapse": true,
+            "bDestroy": true,
+            "ordering": false,
+            "ajax": {
+                "type": "POST",
+                "url": "<?PHP echo constant('URL'); ?>siniestro/ListaSiniestros",
+                "data": {
+                    "datos": myJsonString
+                },
+                "error": function (jqXHR, textStatus, errorThrown) {
+                    console.log("sss");
+                }
+            },
+            "columnDefs":[
+                {
+                    "targets":0,
+                    "data":"fecha_siniestro",
+                    "width":"15%"
+                },
+                {
+                    "targets":1,
+                    "data":"nrosiniestro",
+                    "width":"15%"
+                },
+                {
+                    "targets":2,
+                    "data":"aseguradora",
+                    "width":"15%"
+                },
+                {
+                    "targets":3,
+                    "data":"estado",
+                    "width":"15%"
+                },
+                {
+                    "targets":4,
+                    "data":"idsiniestro",
+                    "render": function(url, type, full){
+                        console.log(url);
+                        return '<button type="button" onclick="show_muestra_documentos('+ full[0] +');" class="btn btn-warning"><i class="fa fa-file"></i> Ver Documentos</button> <button type="button" onclick="alerta_elimina_siniestro('+ full[0] +');" class="btn btn-danger"><i class="fa fa-remove"></i> Eliminar</button> <button type="button" onclick="descarga_siniestro('+ full[0] +');" class="btn btn-success"><i class="fa fa-download"></i> Descargar</button>'
+                        return false;
+                    },
+                    "width":"40%"
+                }
+            ],
+            "language":{
+                "url":"https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+            },
+            "dom": 'Bfrtip',
+            "buttons": [
+                {
+                    text: 'Nuevo',
+                    action: function ( e, dt, node, config ) {
+                        opcion = "nuevo";
+                        $('#md_siniestros').modal('hide');
+                        $('#md_nuevosiniestro').modal();
+                        $("#modal_title_siniestro").html("Nuevo Siniestro");
+                        $("#btn_enviar").text("Guardar");
+                        $("#txt_fecha").val("");
+                        $("#txt_aseguradora").val("");
+                        $("#txt_nrosiniestro").val("");
+                    }
+                }
+            ]
+        } );
+    }
+
+    function descarga_siniestro(idsiniestro){
+        console.log("descarga");
+        $.ajax({
+            type: "POST",
+            url: "<?PHP echo constant('URL'); ?>siniestro/ZipSiniestro", 
+            data:{
+                datos: '{"idsiniestro": ' + idsiniestro + '}'
+            },
+            dataType : 'json',
+            success: function(result){
+                var datos = JSON.parse(result);
+                if(datos.estado == 1){
+                    window.location = datos.file;
+                }else{
+                    $("#modal-zip").modal();
+                }
+            },
+            error:function(result){
+                console.log(result);
+            }
+        });
+    }
+
+    function alerta_elimina_siniestro(idsiniestro){
+        $('#modal-delete-siniestro').modal();
+        $('#btn_elimina_siniestro').attr("data-value", idsiniestro);
+    }
+
+    function CrearDatatable(idsiniestro, tipo, tabla){
+        var info = {};
+        info["idsiniestro"]    = idsiniestro;
+        info["tipo"]           = tipo;
+        var myJsonString    = JSON.stringify(info);
+        console.log(tabla);
+
+        var tabla = $('#' + tabla).DataTable( {
+            "responsive":true,
+            "scrollCollapse": true,
+            "searching": true,
+            "bDestroy": true,
+            "ordering": false,
+            "columnDefs":[
+                {
+                    "targets":0,
+                    "data":"url",
+                    "render": function(url, type, full){
+                        console.log(full['ruta']);
+                        return '<a target="_blank" href="<?PHP echo constant('URL'); ?>/'+full[1]+'"><img width="200" src="<?PHP echo constant('URL'); ?>'+full[1]+'"/></a>';
+                        return false;
+                    },
+                    "width":"40%"
+                },
+                {
+                    "targets":1,
+                    "data":"descripcion",
+                    "width":"40%"
+                },
+                {
+                    "targets":2,
+                    "data":"idfoto",
+                    "render": function(url, type, full){
+                        console.log(url);
+                        return '<button type="button" onclick="show_elimina_foto('+ full[0] +');" class="delete btn btn-danger"><i class="fa fa-remove"></i> Eliminar</button>'
+                        return false;
+                    },
+                    "width":"20%"
+                }
+            ],
+            "ajax": {
+                "type": "POST",
+                "url": "<?PHP echo constant('URL'); ?>foto/ListaFotos",
+                "data": {
+                    "datos": myJsonString
+                }
+            },
+            "language":{
+                "url":"https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+            },
+            "columns":[
+                {"data":"ruta"},
+                {"data":"descripcion"},
+                {"data":"idfoto"}
+            ],
+            "dom": 'Bfrtip',
+            "buttons": [
+                {
+                    text: 'Nuevo',
+                    action: function ( e, dt, node, config ) {
+                        opcion = "nuevo";
+                        $('#md_fotos').modal();
+                        $('#md_verdocumentos').modal('hide');
+                        
+                        $("#modal_title_fotos").html("Agregar Fotos");
+                        $("#btn_enviar").text("Guardar");
+                        
+                        $('#fileupload').fileupload({
+                            url: 'foto/Subir',
+                            formData: { 'idsiniestro': idsiniestro, 'idtipofoto' : tipo }
+                            
+                        });
+                        $('#fileupload').bind('fileuploaddone', function (e, data) {
+                            $('#md_fotos').modal('hide');
+                            $('#md_verdocumentos').modal();
+                            $("#mensaje_confirmacion_documento").html("Se han registrado los documentos.");
+                            $("#confirm_documentos").show().delay(2000).fadeOut();
+                            refresh_tables();
+                        });
+                    }
+                }
+            ]
+        } );
+
+        return tabla;
+    }  
 
     function show_elimina_foto(valor){
         $("#modal-delete-foto").modal();
         $("#btn_elimina_foto").attr("data-value", valor);
+    }
+
+    function show_muestra_documentos(idsiniestro){
+        $('#md_verdocumentos').modal();
+
+        $("#tab_generales").addClass("active");
+        $("#tab_fotos").removeClass("active");
+        $("#tab_repuestos").removeClass("active");
+        $("#tab_presupuestos").removeClass("active");
+        $("#tab_cartas").removeClass("active");
+        $("#tab_etaller").removeClass("active");
+
+        $("#generales").addClass("active");
+        $("#fotos").removeClass("active");
+        $("#repuestos").removeClass("active");
+        $("#presupuesto").removeClass("active");
+        $("#carta").removeClass("active");
+        $("#etaller").removeClass("active");
+
+        $("#modal_title_documentos").html("Ver Documentos");
+        
+        generales               = CrearDatatable(idsiniestro, 5, "generales_table");
+        //FOTOS
+        fotos_inspeccion        = CrearDatatable(idsiniestro, 9, "fotos_inspeccion_tabla");
+        fotos_repuestos         = CrearDatatable(idsiniestro, 7, "fotos_repuestos_tabla");
+        fotos_siniestro         = CrearDatatable(idsiniestro, 8, "fotos_siniestros_tabla");
+        //END FOTOS
+
+        //REPUESTOS
+        fotos_credito           = CrearDatatable(idsiniestro, 10, "fotos_credito_tabla");
+        fotos_guia              = CrearDatatable(idsiniestro, 11, "fotos_guia_tabla");
+        //END REPUESTOS
+
+        presupuestos            = CrearDatatable(idsiniestro, 3, "presupuestos_table");
+        cartas                  = CrearDatatable(idsiniestro, 4, "cartas_table");
+        inventarios             = CrearDatatable(idsiniestro, 12, "inventarios_table");
+        franquicias             = CrearDatatable(idsiniestro, 13, "franquicias_table");
+        etaller                 = CrearDatatable(idsiniestro, 6, "etaller_table");
     }
 
     function elimina_foto(val)
@@ -1210,7 +1223,8 @@
             success: function(result){
                 console.log(result);
                 $('#modal-delete-siniestro').modal('hide');
-                siniestros.ajax.reload();	
+                siniestros.ajax.reload();
+                placas.ajax.reload();
             },
             error:function(result){
                 console.log("error"+result);
