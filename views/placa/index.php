@@ -339,6 +339,7 @@
                                         <li id="tab_cartas"><a href="#carta" data-toggle="tab">Carta de Conformidad</a></li>
                                         <li id="tab_inventarios"><a href="#inventarios" data-toggle="tab">Inventarios</a></li>
                                         <li id="tab_franquicias"><a href="#franquicias" data-toggle="tab">Franquicias</a></li>
+										<li id="tab_otrosdocs"><a href="#otros_documentos" data-toggle="tab">Otros Documentos</a></li>
 										<li id="tab_etaller"><a href="#etaller" data-toggle="tab">eTaller</a></li>
                                     </ul>
                                     <div class="tab-content">
@@ -424,6 +425,7 @@
                                                         <ul class="nav nav-tabs">
                                                             <li id="tab_fotos_credito" class="active"><a href="#fotos_credito" data-toggle="tab">Notas de crédito</a></li>
                                                             <li id="tab_fotos_guia"><a href="#fotos_guia" data-toggle="tab">Guía de remisión</a></li>
+															<li id="tab_fotos_proveedores"><a href="#fotos_proveedores" data-toggle="tab">Proveedores</a></li>
                                                         </ul>
                                                         <div class="tab-content">
                                                             <div class="tab-pane active" id="fotos_credito">
@@ -445,6 +447,21 @@
                                                                 <div class="row">
                                                                     <div class="col-md-12">
                                                                         <table id="fotos_guia_tabla" class="table table-striped table-bordered" style="width:100%">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Imagen</th>
+                                                                                    <th>Descripcion</th>
+                                                                                    <th>Opciones</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                        </table>
+                                                                    </div>                                                
+                                                                </div>
+                                                            </div>
+															<div class="tab-pane" id="fotos_proveedores">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <table id="proveedores_table" class="table table-striped table-bordered" style="width:100%">
                                                                             <thead>
                                                                                 <tr>
                                                                                     <th>Imagen</th>
@@ -510,6 +527,21 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <table id="franquicias_table" class="table table-striped table-bordered" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Imagen</th>
+                                                                <th>Descripcion</th>
+                                                                <th>Opciones</th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>                                                
+                                            </div>
+                                        </div>
+										<div class="tab-pane" id="otros_documentos">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <table id="otrosdocs_table" class="table table-striped table-bordered" style="width:100%">
                                                         <thead>
                                                             <tr>
                                                                 <th>Imagen</th>
@@ -1146,6 +1178,7 @@
         $("#tab_presupuestos").removeClass("active");
         $("#tab_cartas").removeClass("active");
         $("#tab_etaller").removeClass("active");
+		$("#tab_otrosdocs").removeClass("active");
 
         $("#generales").addClass("active");
         $("#fotos").removeClass("active");
@@ -1173,6 +1206,9 @@
         inventarios             = CrearDatatable(idsiniestro, 12, "inventarios_table");
         franquicias             = CrearDatatable(idsiniestro, 13, "franquicias_table");
         etaller                 = CrearDatatable(idsiniestro, 6, "etaller_table");
+		otrosdocs				= CrearDatatable(idsiniestro, 15, "otrosdocs_table");
+
+        proveedores             = CrearDatatable(idsiniestro, 14, "proveedores_table");
     }
 
     function elimina_foto(val)
@@ -1208,6 +1244,8 @@
         fotos_guia.ajax.reload();
         inventarios.ajax.reload();
         franquicias.ajax.reload();
+		proveedores.ajax.reload();
+		otrosdocs.ajax.reload();
     }
 
     function elimina_siniestro()

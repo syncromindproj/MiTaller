@@ -75,6 +75,10 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
 
                     mkdir($folder."/REPUESTOS/NOTAS_CREDITO", 0777, true);
                     mkdir($folder."/REPUESTOS/GUIAS_REMISION", 0777, true);
+                    
+                    mkdir($folder."/REPUESTOS/PROVEEDORES", 0777, true);
+                    
+                    mkdir($folder."/OTROS_DOCUMENTOS", 0777, true);
                 }
             }
             //echo $idsiniestro;die;

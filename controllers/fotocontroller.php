@@ -67,6 +67,12 @@ class FotoController extends Controller
             case 13:
                 $path .= "/FRANQUICIAS/".strtolower($final_image);
                 break;
+            case 14:
+                $path .= "/REPUESTOS/PROVEEDORES/".strtolower($final_image);
+                break;
+            case 15:
+                $path .= "/OTROS_DOCUMENTOS/".strtolower($final_image);
+                break;
         }
 
         if(move_uploaded_file($tmp,$path)) 
