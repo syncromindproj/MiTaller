@@ -37,5 +37,29 @@ class UsuarioModel extends Model
             return [];
         }
     }
+
+    public function ObtieneTipo($usuario)
+    {
+        $idtipo = "";
+        try{
+            $query = $this->db->connect()->prepare("
+            SELECT 
+            idtipo
+            FROM usuario
+            WHERE usuario = :usuario
+            and estado = 1");
+            $query->execute([
+                'usuario'  => $usuario
+            ]);
+            
+            while($row =  $query->fetch()){
+               $idtipo = $row['idtipo'];
+            }
+
+            return $idtipo;
+        }catch(PDOException $e){
+            return [];
+        }
+    }
 }
 ?>
