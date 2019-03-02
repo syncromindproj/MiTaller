@@ -1,3 +1,9 @@
+<?php
+  session_start();
+  if(!isset($_SESSION['nombres'])){
+    header("Location:/mitaller");
+  }
+?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -95,7 +101,7 @@ desired effect
               <!-- The user image in the navbar-->
               <img src="<?PHP echo constant('URL'); ?>views/dist/img/user2-160x160.jpeg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Administrador</span>
+              <span class="hidden-xs"><?php echo($_SESSION['nombres']); ?> </span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
@@ -103,32 +109,16 @@ desired effect
                 <img src="<?PHP echo constant('URL'); ?>views/dist/img/user2-160x160.jpeg" class="img-circle" alt="User Image">
 
                 <p>
-                  Alejandro Diaz - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  <?php echo($_SESSION['nombres']); ?> 
+                  <small>Peñaranda Planchado y Pintura</small>
                 </p>
               </li>
               <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
+              
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="#" onclick="cierra_sesion();" class="btn btn-default btn-flat">Cerrar sesión</a>
                 </div>
               </li>
             </ul>
@@ -151,7 +141,7 @@ desired effect
           <img src="<?PHP echo constant('URL'); ?>views/dist/img/user2-160x160.jpeg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Administrador</p>
+          <p><?php echo($_SESSION['nombres']); ?></p>
           <!-- Status -->
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
@@ -161,6 +151,21 @@ desired effect
       <!-- Sidebar Menu -->
       <?PHP require 'views/menu.php'; ?>
       <!-- /.sidebar-menu -->
+      <script>
+        function cierra_sesion(){
+          $.ajax({
+              type: "POST",
+              url: "<?PHP echo constant('URL'); ?>usuario/CerrarSesion", 
+              success: function(result){
+                  console.log(result);
+                  window.location = "../mitaller";
+              },
+              error:function(result){
+                  console.log(result);
+              }
+          });
+        }
+      </script>
     </section>
     <!-- /.sidebar -->
   </aside>
