@@ -78,6 +78,32 @@
         </div>
         <!-- /.row -->
 
+        <!-- Modal Observaciones -->
+        <div class="modal fade" id="modal_observaciones">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Observaciones</h4>
+              </div>
+              <div class="modal-body">
+                <p>
+                    <textarea id="observaciones_div">
+
+                    </textarea>
+                </p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" id="btn_actualizar_observacion" data-value="" class="btn btn-default" data-dismiss="modal">Actualizar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- End Modal Observaciones -->
 
         <div id="md_nuevo" class="modal" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
@@ -161,7 +187,14 @@
                                     <option value="PACIFICO">PACIFICO</option>
                                     <option value="MAPFRE">MAPFRE</option>
                                 </select>
-                                
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="txt_observaciones">Observaciones</label>
+                                <textarea id="txt_observaciones" name="txt_observaciones" rows="10" cols="80">
+                                            
+                                </textarea>
                             </div>
                         </div>
                 </div>
@@ -192,6 +225,7 @@
                                 <tr>
                                     <th>Fecha</th>
                                     <th>Nro siniestro</th>
+                                    <th>Observaciones</th>
                                     <th>Aseguradora</th>
                                     <th>Estado</th>
                                     <th>Opciones</th>
@@ -363,15 +397,15 @@
                                                 <div class="col-md-12">
                                                     <div class="nav-tabs-custom">
                                                         <ul class="nav nav-tabs">
-                                                            <li id="tab_fotos_inspeccion" class="active"><a href="#fotos_inspeccion" data-toggle="tab">Inspección</a></li>
+                                                            <li id="tab_fotos_siniestros" class="active"><a href="#fotos_siniestros" data-toggle="tab">Siniestro</a></li>
                                                             <li id="tab_fotos_repuestos"><a href="#fotos_repuestos" data-toggle="tab">Repuestos</a></li>
-                                                            <li id="tab_fotos_siniestros"><a href="#fotos_siniestros" data-toggle="tab">Siniestro</a></li>
+                                                            <li id="tab_fotos_inspeccion"><a href="#fotos_inspeccion" data-toggle="tab">Inspección</a></li>
                                                         </ul>
                                                         <div class="tab-content">
-                                                            <div class="tab-pane active" id="fotos_inspeccion">
+                                                            <div class="tab-pane active" id="fotos_siniestros">
                                                                 <div class="row">
                                                                     <div class="col-md-12">
-                                                                        <table id="fotos_inspeccion_tabla" class="table table-striped table-bordered" style="width:100%">
+                                                                        <table id="fotos_siniestros_tabla" class="table table-striped table-bordered" style="width:100%">
                                                                             <thead>
                                                                                 <tr>
                                                                                     <th>Imagen</th>
@@ -383,6 +417,7 @@
                                                                     </div>                                                
                                                                 </div>
                                                             </div>
+                                                            
                                                             <div class="tab-pane" id="fotos_repuestos">
                                                                 <div class="row">
                                                                     <div class="col-md-12">
@@ -398,10 +433,11 @@
                                                                     </div>                                                
                                                                 </div>
                                                             </div>
-                                                            <div class="tab-pane" id="fotos_siniestros">
+                                                            
+                                                            <div class="tab-pane" id="fotos_inspeccion">
                                                                 <div class="row">
                                                                     <div class="col-md-12">
-                                                                        <table id="fotos_siniestros_tabla" class="table table-striped table-bordered" style="width:100%">
+                                                                        <table id="fotos_inspeccion_tabla" class="table table-striped table-bordered" style="width:100%">
                                                                             <thead>
                                                                                 <tr>
                                                                                     <th>Imagen</th>
@@ -711,6 +747,8 @@
 <script src="<?PHP echo constant('URL'); ?>views/public/js/jquery.fileupload-validate.js"></script>
 <!-- The File Upload user interface plugin -->
 <script src="<?PHP echo constant('URL'); ?>views/public/js/jquery.fileupload-ui.js"></script>
+<!-- CK Editor -->
+<script src="<?PHP echo constant('URL'); ?>views/bower_components/ckeditor/ckeditor.js"></script>
 <!-- End Uploader -->
 
 
@@ -722,6 +760,50 @@
         var placa = "";
         var opcion = "";
 
+        CKEDITOR.replace('txt_observaciones', {
+            toolbarGroups: [
+                { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+                { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+                { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+                { name: 'forms', groups: [ 'forms' ] },
+                '/',
+                { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+                { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+                { name: 'links', groups: [ 'links' ] },
+                { name: 'insert', groups: [ 'insert' ] },
+                '/',
+                { name: 'styles', groups: [ 'styles' ] },
+                { name: 'colors', groups: [ 'colors' ] },
+                { name: 'tools', groups: [ 'tools' ] },
+                { name: 'others', groups: [ 'others' ] },
+                { name: 'about', groups: [ 'about' ] }
+            ],
+            removeButtons: 'Source,Save,Templates,NewPage,Preview,Print,Undo,Redo,Find,Replace,SelectAll,Scayt,Flash,Image,Link,Unlink,Anchor,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Form,Radio,Checkbox,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,RemoveFormat,Subscript,Superscript,CreateDiv,Blockquote,BidiLtr,BidiRtl,Language,About,PasteFromWord,PasteText,Paste,Copy,Cut'
+        });
+
+        CKEDITOR.replace('observaciones_div', {
+            toolbarGroups: [
+                { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+                { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+                { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+                { name: 'forms', groups: [ 'forms' ] },
+                '/',
+                { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+                { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+                { name: 'links', groups: [ 'links' ] },
+                { name: 'insert', groups: [ 'insert' ] },
+                '/',
+                { name: 'styles', groups: [ 'styles' ] },
+                { name: 'colors', groups: [ 'colors' ] },
+                { name: 'tools', groups: [ 'tools' ] },
+                { name: 'others', groups: [ 'others' ] },
+                { name: 'about', groups: [ 'about' ] }
+            ],
+            removeButtons: 'Source,Save,Templates,NewPage,Preview,Print,Undo,Redo,Find,Replace,SelectAll,Scayt,Flash,Image,Link,Unlink,Anchor,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Form,Radio,Checkbox,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,RemoveFormat,Subscript,Superscript,CreateDiv,Blockquote,BidiLtr,BidiRtl,Language,About,PasteFromWord,PasteText,Paste,Copy,Cut'
+        });
+
+        //CKEDITOR.replace('observaciones_div');
+        
         $('#txt_fecha').datepicker({
 			maxViewMode: 2,
 			language: "es"
@@ -754,7 +836,7 @@
 				{
                     data: null,
                     className: "centerd",
-                    defaultContent: '<button class="edit btn btn-primary"><i class="fa fa-pencil"></i> Editar</button> <button class="siniestro btn btn-warning"><i class="fa fa-car"></i> Ver Siniestros</button> <button class="delete btn btn-danger"><i class="fa fa-remove"></i> Eliminar</button>'
+                    defaultContent: '<button title="Editar placa" class="edit btn btn-primary"><i class="fa fa-pencil"></i></button> <button title="Ver siniestros" class="siniestro btn btn-warning"><i class="fa fa-search"></i></button> <button title="Eliminar placa" class="delete btn btn-danger"><i class="fa fa-trash"></i></button>'
                 }
 			],
 			"dom": 'Bfrtip',
@@ -792,12 +874,14 @@
             var fecha           = $("#txt_fecha").val();
             var aseguradora     = $("#txt_aseguradora").val();
             var nro_siniestro   = $("#txt_nrosiniestro").val();
+            var observaciones   = CKEDITOR.instances["txt_observaciones"].getData();
             var info = {};
             
             info["fecha_siniestro"]     = fecha;
             info["aseguradora"]         = aseguradora;
             info["nroplaca"]            = nroplaca;
             info["nrosiniestro"]        = nro_siniestro.toUpperCase();
+            info["observaciones"]       = observaciones;
             var myJsonString            = JSON.stringify(info);
             $.ajax({
                 type: "POST",
@@ -968,6 +1052,29 @@
             $('#md_siniestros').modal();
         });
         
+        $("#btn_actualizar_observacion").click(function(){
+            var info = {};
+            info["idsiniestro"]    = $("#btn_actualizar_observacion").attr("data-value");
+            info["descripcion"]    = CKEDITOR.instances["observaciones_div"].getData();
+            var myJsonString    = JSON.stringify(info);
+
+            $.ajax({
+                type: "POST",
+                url: "<?PHP echo constant('URL'); ?>siniestro/ActualizaObservacion", 
+                data:{
+                    datos: myJsonString
+                },
+                success: function(result){
+                    console.log(result);
+                    $('#modal-delete-siniestro').modal('hide');
+                    siniestros.ajax.reload();
+                    placas.ajax.reload();
+                },
+                error:function(result){
+                    console.log("error"+result);
+                }
+            });
+        });
         
     } );
 
@@ -1008,20 +1115,34 @@
                 },
                 {
                     "targets":2,
-                    "data":"aseguradora",
+                    "data":"descripcion",
+                    "render": function(url, type, full){
+                        if(full[5] != ""){
+                            return '<a href="javascript:ver_observacion('+ full[0] +');">Ver observación</a>'
+                        }else{
+                            return '<a href="javascript:ver_observacion('+ full[0] +');">Registrar observación</a>'
+                        }
+                        
+                        return false;
+                    },
                     "width":"15%"
                 },
                 {
                     "targets":3,
-                    "data":"estado",
+                    "data":"aseguradora",
                     "width":"15%"
                 },
                 {
                     "targets":4,
+                    "data":"estado",
+                    "width":"15%"
+                },
+                {
+                    "targets":5,
                     "data":"idsiniestro",
                     "render": function(url, type, full){
                         console.log(url);
-                        return '<button type="button" onclick="show_muestra_documentos('+ full[0] +');" class="btn btn-warning"><i class="fa fa-file"></i> Ver Documentos</button> <button type="button" onclick="alerta_elimina_siniestro('+ full[0] +');" class="btn btn-danger"><i class="fa fa-remove"></i> Eliminar</button> <button type="button" onclick="descarga_siniestro('+ full[0] +');" class="btn btn-success"><i class="fa fa-download"></i> Descargar</button>'
+                        return '<button title="Ver documentos" type="button" onclick="show_muestra_documentos('+ full[0] +');" class="btn btn-warning"><i class="fa fa-file"></i></button> <button title="Eliminar siniestro" type="button" onclick="alerta_elimina_siniestro('+ full[0] +');" class="btn btn-danger"><i class="fa fa-trash"></i></button> <button title="Descargar documentos" type="button" onclick="descarga_siniestro('+ full[0] +');" class="btn btn-success"><i class="fa fa-download"></i></button>'
                         return false;
                     },
                     "width":"40%"
@@ -1043,6 +1164,7 @@
                         $("#txt_fecha").val("");
                         $("#txt_aseguradora").val("");
                         $("#txt_nrosiniestro").val("");
+                        CKEDITOR.instances.txt_observaciones.setData("");
                     }
                 }
             ]
@@ -1111,7 +1233,7 @@
                     "data":"idfoto",
                     "render": function(url, type, full){
                         console.log(url);
-                        return '<button type="button" onclick="show_elimina_foto('+ full[0] +');" class="delete btn btn-danger"><i class="fa fa-remove"></i> Eliminar</button>'
+                        return '<button type="button" onclick="show_elimina_foto('+ full[0] +');" class="delete btn btn-danger"><i class="fa fa-trash"></i></button>'
                         return false;
                     },
                     "width":"20%"
@@ -1272,8 +1394,31 @@
 
     }
 
-    
-      
+    function ver_observacion(idsiniestro)
+    {
+        $("#modal_observaciones").modal();
+        $.ajax({
+            type: "POST",
+            url: "<?PHP echo constant('URL'); ?>siniestro/GetObservacion", 
+            data:{
+                datos: '{"idsiniestro": ' + idsiniestro + '}'
+            },
+            success: function(result){
+                console.log(result);
+                CKEDITOR.instances.observaciones_div.setData(result);
+                $('#md_siniestros').modal('hide');
+                $('#btn_actualizar_observacion').attr("data-value", idsiniestro);        
+            },
+            error:function(result){
+                console.log("error"+result);
+            }
+        });
+    }
+
+    $('#modal_observaciones').on('hidden.bs.modal', function () {
+        $("#modal_observaciones").modal('hide');
+        $('#md_siniestros').modal();
+    });
     
 </script>
 <!-- The main application script -->

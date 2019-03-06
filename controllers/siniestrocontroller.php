@@ -70,6 +70,22 @@ class SiniestroController extends Controller
         echo json_encode($siniestros);
         
     }
+
+    public function ActualizaObservacion()
+    {
+        $datos = $_REQUEST['datos'];
+        $datos = json_decode($datos, true);
+        $siniestros = $this->model->ActualizaObservacion($datos["idsiniestro"], $datos['descripcion']);
+        echo json_encode($siniestros);
+    }
+
+    public function GetObservacion()
+    {
+        $datos = $_REQUEST['datos'];
+        $datos = json_decode($datos, true);
+        $observacion = $this->model->GetObservacion($datos["idsiniestro"]);
+        echo $observacion;
+    }
     
 }
 ?>

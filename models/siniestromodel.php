@@ -9,7 +9,7 @@ class SiniestroModel extends Model{
         
         try{
             $query = $this->db->connect()->prepare("
-            SELECT s.idsiniestro, s.nrosiniestro,  DATE_FORMAT(s.fecha_siniestro, '%d/%m/%Y') as fecha_siniestro, s.aseguradora, (case when s.estado = 0 then 'INACTIVO' WHEN s.estado = 1 THEN 'ACTIVO' END) as estado
+            SELECT s.idsiniestro, s.nrosiniestro,  DATE_FORMAT(s.fecha_siniestro, '%d/%m/%Y') as fecha_siniestro, s.aseguradora, (case when s.estado = 0 then 'INACTIVO' WHEN s.estado = 1 THEN 'ACTIVO' END) as estado, descripcion
 FROM siniestro s 
 left join placa_siniestro ps
 on s.idsiniestro = ps.idsiniestro
@@ -34,20 +34,40 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
         }
     }
 
+    function GetObservacion($idsiniestro){
+        $observacion = "";
+        try{
+            $query = $this->db->connect()->prepare("select descripcion from siniestro where idsiniestro = :idsiniestro");
+            $query->execute([
+                'idsiniestro'  => $idsiniestro
+            ]);
+
+            while($row =  $query->fetch()){
+                $observacion = $row['descripcion'];
+            }
+
+            return $observacion;
+        }catch(PDOException $e){
+            return [];
+        }
+    }
+
     function RegistraSiniestro($datos){
         try{
             $time               = $datos['fecha_siniestro'];
             $date               = str_replace('/', '-', $time);
             $fecha_siniestro    = date("Y-m-d", strtotime($date));
             $nrosiniestro       = $datos['nrosiniestro'];
+            $observaciones      = $datos['observaciones'];
             $idsiniestro        = "";
         
-            $query = $this->db->connect()->prepare('call inserta_siniestro (:fecha_siniestro, :nrosiniestro, :aseguradora, :nroplaca)');
+            $query = $this->db->connect()->prepare('call inserta_siniestro (:fecha_siniestro, :nrosiniestro, :aseguradora, :nroplaca, :observaciones)');
             $query->execute([
                 'fecha_siniestro'   => $fecha_siniestro,
                 'nrosiniestro'      => $nrosiniestro,
                 'aseguradora'       => $datos['aseguradora'],
-                'nroplaca'          => $datos['nroplaca']
+                'nroplaca'          => $datos['nroplaca'],
+                'observaciones'     => $observaciones
             ]);
 
             while($row =  $query->fetch()){
@@ -103,6 +123,23 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             ]);
 
             return "Eliminado";    
+            
+        }catch(PDOException $e){
+            return $e->getMessage();
+            
+        }
+    }
+
+    function ActualizaObservacion($idsiniestro, $descripcion)
+    {
+        try{
+            $query = $this->db->connect()->prepare('update siniestro set descripcion = :descripcion where idsiniestro = :idsiniestro');
+            $query->execute([
+                'descripcion'   => $descripcion,
+                'idsiniestro'   => $idsiniestro
+            ]);
+
+            return "Actualizado";    
             
         }catch(PDOException $e){
             return $e->getMessage();
