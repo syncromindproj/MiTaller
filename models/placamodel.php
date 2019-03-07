@@ -11,7 +11,7 @@ class PlacaModel extends Model
         $items = [];
         try{
             $query = $this->db->connect()->query("
-            SELECT p.nroplaca, p.marca, p.modelo, p.dni, p.nombres, p.apellidos, (CASE WHEN COUNT(ps.nroplaca)=0 then 'NO REGISTRA SINIESTROS' WHEN COUNT(ps.nroplaca)>0 THEN (CONCAT(COUNT(ps.nroplaca),  ' SINIESTROS')) END)  as nrosiniestros
+            SELECT p.nroplaca, p.marca, p.modelo, p.color, p.anio, p.dni, p.nombres, p.apellidos, (CASE WHEN COUNT(ps.nroplaca)=0 then 'NO REGISTRA SINIESTROS' WHEN COUNT(ps.nroplaca)>0 THEN (CONCAT(COUNT(ps.nroplaca),  ' SINIESTROS')) END)  as nrosiniestros
             FROM placa p
             left join placa_siniestro ps
             on p.nroplaca = ps.nroplaca
@@ -33,15 +33,19 @@ class PlacaModel extends Model
 
     public function InsertaPlaca($datos){
         try{
-            $query = $this->db->connect()->prepare('insert into placa (nroplaca, marca, modelo, dni, nombres, apellidos)
-            values (:nroplaca, :marca, :modelo, :dni, :nombres, :apellidos)');
+            $query = $this->db->connect()->prepare('insert into placa (nroplaca, marca, modelo, dni, nombres, apellidos, color, anio, celular, correo)
+            values (:nroplaca, :marca, :modelo, :dni, :nombres, :apellidos, :color, :anio, :celular, :correo)');
             $query->execute([
                 'nroplaca'  => $datos['nroplaca'],
                 'marca'     => $datos['marca'],
                 'modelo'    => $datos['modelo'],
                 'dni'       => $datos['dni'],
                 'nombres'   => $datos['nombres'],
-                'apellidos' => $datos['apellidos']
+                'apellidos' => $datos['apellidos'],
+                'color'     => $datos['color'],
+                'anio'      => $datos['anio'],
+                'celular'   => $datos['celular'],
+                'correo'    => $datos['correo']
             ]);
             return "Placa Insertada";
         }catch(PDOException $e){
@@ -51,14 +55,18 @@ class PlacaModel extends Model
     }
 
     public function ActualizaPlaca($datos){
-        $query = $this->db->connect()->prepare('update placa set marca = :marca, modelo = :modelo, dni = :dni, nombres = :nombres, apellidos = :apellidos where nroplaca=:nroplaca');
+        $query = $this->db->connect()->prepare('update placa set marca = :marca, modelo = :modelo, dni = :dni, nombres = :nombres, apellidos = :apellidos, color = :color, anio = :anio, celular = :celular, correo = :correo where nroplaca=:nroplaca');
         $query->execute([
             'nroplaca'  => $datos['nroplaca'],
             'marca'     => $datos['marca'],
             'modelo'    => $datos['modelo'],
             'dni'       => $datos['dni'],
             'nombres'   => $datos['nombres'],
-            'apellidos' => $datos['apellidos']
+            'apellidos' => $datos['apellidos'],
+            'color'     => $datos['color'],
+            'anio'      => $datos['anio'],
+            'celular'   => $datos['celular'],
+            'correo'    => $datos['correo']
         ]);
     }
 
@@ -81,10 +89,14 @@ class PlacaModel extends Model
                 $item->nroplaca     = $row['nroplaca'];
                 $item->marca        = $row['marca'];
                 $item->modelo       = $row['modelo'];
+                $item->color        = $row['color'];
+                $item->anio         = $row['anio'];
                 $item->dni          = $row['dni'];
                 $item->nombres      = $row['nombres'];
                 $item->apellidos    = $row['apellidos'];
                 $item->estado       = $row['estado'];
+                $item->celular      = $row['celular'];
+                $item->correo       = $row['correo'];
             }
             
             return $item;

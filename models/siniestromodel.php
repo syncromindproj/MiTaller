@@ -35,18 +35,22 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
     }
 
     function GetObservacion($idsiniestro){
-        $observacion = "";
+        $items = [];
         try{
-            $query = $this->db->connect()->prepare("select descripcion from siniestro where idsiniestro = :idsiniestro");
+            $query = $this->db->connect()->prepare("select *  from siniestro where idsiniestro = :idsiniestro");
             $query->execute([
                 'idsiniestro'  => $idsiniestro
             ]);
 
             while($row =  $query->fetch()){
-                $observacion = $row['descripcion'];
+                $items[] = $row;
             }
 
-            return $observacion;
+            if(count($items) == 0){
+                $items = "";
+            }
+
+            return $items;
         }catch(PDOException $e){
             return [];
         }
@@ -59,15 +63,21 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $fecha_siniestro    = date("Y-m-d", strtotime($date));
             $nrosiniestro       = $datos['nrosiniestro'];
             $observaciones      = $datos['observaciones'];
+            $obs_adicionales    = $datos['obs_adicionales'];
+            $obs_ocurrencias    = $datos['obs_ocurrencias'];
+            $obs_siniestro      = $datos['obs_siniestro'];
             $idsiniestro        = "";
         
-            $query = $this->db->connect()->prepare('call inserta_siniestro (:fecha_siniestro, :nrosiniestro, :aseguradora, :nroplaca, :observaciones)');
+            $query = $this->db->connect()->prepare('call inserta_siniestro (:fecha_siniestro, :nrosiniestro, :aseguradora, :nroplaca, :observaciones, :obs_adicionales, :obs_ocurrencias, :obs_siniestro)');
             $query->execute([
                 'fecha_siniestro'   => $fecha_siniestro,
                 'nrosiniestro'      => $nrosiniestro,
                 'aseguradora'       => $datos['aseguradora'],
                 'nroplaca'          => $datos['nroplaca'],
-                'observaciones'     => $observaciones
+                'observaciones'     => $observaciones,
+                'obs_adicionales'   => $obs_adicionales,
+                'obs_ocurrencias'   => $obs_ocurrencias,
+                'obs_siniestro'     => $obs_siniestro
             ]);
 
             while($row =  $query->fetch()){
@@ -130,13 +140,22 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
         }
     }
 
-    function ActualizaObservacion($idsiniestro, $descripcion)
+    function ActualizaObservacion($datos)
     {
         try{
-            $query = $this->db->connect()->prepare('update siniestro set descripcion = :descripcion where idsiniestro = :idsiniestro');
+            $idsiniestro        = $datos['idsiniestro'];
+            $descripcion        = $datos['descripcion'];
+            $obs_siniestros     = $datos['obs_siniestros'];
+            $obs_trabajos       = $datos['obs_trabajos'];
+            $obs_ocurrencias    = $datos['obs_ocurrencias'];
+
+            $query = $this->db->connect()->prepare('update siniestro set descripcion = :descripcion, obs_siniestro = :obs_siniestros, obs_adicionales = :obs_trabajos, obs_ocurrencias = :obs_ocurrencias where idsiniestro = :idsiniestro');
             $query->execute([
-                'descripcion'   => $descripcion,
-                'idsiniestro'   => $idsiniestro
+                'descripcion'       => $descripcion,
+                'idsiniestro'       => $idsiniestro,
+                'obs_siniestros'    => $obs_siniestros,
+                'obs_trabajos'      => $obs_trabajos,
+                'obs_ocurrencias'   => $obs_ocurrencias,
             ]);
 
             return "Actualizado";    

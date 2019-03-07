@@ -80,7 +80,7 @@
 
         <!-- Modal Observaciones -->
         <div class="modal fade" id="modal_observaciones">
-          <div class="modal-dialog">
+          <div class="modal-dialog modal-lg">
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -88,11 +88,52 @@
                 <h4 class="modal-title">Observaciones</h4>
               </div>
               <div class="modal-body">
-                <p>
-                    <textarea id="observaciones_div">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active" id="tab_observaciones_cliente_ver"><a href="#obscliente_ver" data-toggle="tab">Observaciones Cliente</a></li>
+                            <li id="tab_observaciones_siniestro_ver"><a href="#obssiniestro_ver" data-toggle="tab">Observaciones del Siniestro</a></li>
+                            <li id="tab_observaciones_trabajos_ver"><a href="#obstrabajos_ver" data-toggle="tab">Trabajos Adicionales</a></li>
+                            <li id="tab_observaciones_ocurrencias_ver"><a href="#obsocurrencias_ver" data-toggle="tab">Ocurrencias</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="obscliente_ver">
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <textarea id="observaciones_cliente_div">
 
-                    </textarea>
-                </p>
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="obssiniestro_ver">
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <textarea id="observaciones_siniestros_div">
+
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="obstrabajos_ver">
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <textarea id="observaciones_trabajos_div">
+
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="obsocurrencias_ver">
+                                <div class="row">
+                                    <div class="col-md-12 form-group">
+                                        <textarea id="observaciones_ocurrencias_div">
+
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
               </div>
               <div class="modal-footer">
                 <button type="button" id="btn_actualizar_observacion" data-value="" class="btn btn-default" data-dismiss="modal">Actualizar</button>
@@ -117,6 +158,11 @@
                 <div class="modal-body">
                     <form id="frm_placa" method="POST">
                         <div class="row">
+                            <div class="col-md-12">
+                                <h3 style="text-decoration:underline;">Datos Vehículo</h3>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-4 form-group" id="grupo_placa">
                                 <label for="txt_placa">Nro. Placa</label>
                                 <input required type="text" class="form-control" id="txt_placa" name="txt_placa" placeholder="Número de placa">
@@ -131,8 +177,23 @@
                                 <input required type="text" class="form-control" id="txt_modelo" name="txt_modelo" placeholder="Modelo">
                             </div>
                         </div>
-                        <div class="row top-buffer">
+                        <div class="row">
+                            <div class="col-md-4 form-group">
+                                <label for="txt_color">Color</label>
+                                <input required type="text" class="form-control" id="txt_color" name="txt_color" placeholder="Color">
+                            </div>
                             <div class="col-md-4">
+                                <label for="txt_anio">Año</label>
+                                <input required type="text" class="form-control" id="txt_anio" name="txt_anio" placeholder="Año">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3 style="text-decoration:underline;">Datos Propietario</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 form-group">
                                 <label for="txt_dni">DNI</label>
                                 <input required type="text" class="form-control" id="txt_dni" name="txt_dni" placeholder="DNI">
                             </div>
@@ -143,6 +204,16 @@
                             <div class="col-md-4">
                                 <label for="txt_apellidos">Apellidos</label>
                                 <input required type="text" class="form-control" id="txt_apellidos" name="txt_apellidos" placeholder="Apellidos">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="txt_celular">Celular</label>
+                                <input required type="text" class="form-control" id="txt_celular" name="txt_celular" placeholder="Celular">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="txt_correo">Correo</label>
+                                <input required type="email" class="form-control" id="txt_correo" name="txt_correo" placeholder="Correo">
                             </div>
                         </div>
                 </div>
@@ -167,36 +238,79 @@
                 </div>
                 <div class="modal-body">
                     <form id="frm_siniestro_nuevo" method="POST">
-                        <div class="row">
-                            <div class="col-md-4 form-group">
-                                <label for="txt_fecha">Fecha</label>
-                                <input required type="text" class="form-control" id="txt_fecha" name="txt_fecha" placeholder="Fecha">
-                            </div>
-                            
-                            <div class="col-md-4">
-                                <label for="txt_nrosiniestro">Número de Siniestro</label>
-                                <input type="text" class="form-control" id="txt_nrosiniestro" name="txt_nrosiniestro" placeholder="Número de siniestro">
-                                
-                            </div>
-
-                            <div class="col-md-4">
-                                <label for="txt_aseguradora">Aseguradora</label>
-                                <select required class="form-control" id="txt_aseguradora" name="txt_aseguradora" placeholder="Marca">
-                                    <option value="">SELECCIONE UNA OPCIÓN</option>
-                                    <option value="RIMAC">RIMAC</option>
-                                    <option value="PACIFICO">PACIFICO</option>
-                                    <option value="MAPFRE">MAPFRE</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label for="txt_observaciones">Observaciones</label>
-                                <textarea id="txt_observaciones" name="txt_observaciones" rows="10" cols="80">
+                        <div class="nav-tabs-custom">
+                            <ul class="nav nav-tabs">
+                                <li id="tab_datosgenerales" class="active"><a href="#generales" data-toggle="tab">Datos Generales</a></li>
+                                <li id="tab_observaciones_cliente"><a href="#obscliente" data-toggle="tab">Observaciones Cliente</a></li>
+                                <li id="tab_observaciones_siniestro"><a href="#obssiniestro" data-toggle="tab">Observaciones del Siniestro</a></li>
+                                <li id="tab_observaciones_trabajos"><a href="#obstrabajos" data-toggle="tab">Trabajos Adicionales</a></li>
+                                <li id="tab_observaciones_ocurrencias"><a href="#obsocurrencias" data-toggle="tab">Ocurrencias</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="generales">
+                                    <div class="row">
+                                        <div class="col-md-4 form-group">
+                                            <label for="txt_fecha">Fecha</label>
+                                            <input required type="text" class="form-control" id="txt_fecha" name="txt_fecha" placeholder="Fecha">
+                                        </div>
+                                        
+                                        <div class="col-md-4">
+                                            <label for="txt_nrosiniestro">Número de Siniestro</label>
+                                            <input type="text" class="form-control" id="txt_nrosiniestro" name="txt_nrosiniestro" placeholder="Número de siniestro">
                                             
-                                </textarea>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label for="txt_aseguradora">Aseguradora</label>
+                                            <select required class="form-control" id="txt_aseguradora" name="txt_aseguradora" placeholder="Marca">
+                                                <option value="">SELECCIONE UNA OPCIÓN</option>
+                                                <option value="RIMAC">RIMAC</option>
+                                                <option value="PACIFICO">PACIFICO</option>
+                                                <option value="MAPFRE">MAPFRE</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="obscliente">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <textarea id="txt_observaciones" name="txt_observaciones" rows="10" cols="80">
+                                                        
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="obssiniestro">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <textarea id="txt_observaciones_siniestro" name="txt_observaciones_siniestro" rows="10" cols="80">
+                                                        
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="obstrabajos">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <textarea id="txt_observaciones_trabajos" name="txt_observaciones_trabajos" rows="10" cols="80">
+                                                        
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="obsocurrencias">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <textarea id="txt_observaciones_ocurrencias" name="txt_observaciones_ocurrencias" rows="10" cols="80">
+                                                        
+                                            </textarea>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
+                        
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -760,7 +874,7 @@
         var placa = "";
         var opcion = "";
 
-        CKEDITOR.replace('txt_observaciones', {
+        var options_editor = {
             toolbarGroups: [
                 { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
                 { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
@@ -779,31 +893,18 @@
                 { name: 'about', groups: [ 'about' ] }
             ],
             removeButtons: 'Source,Save,Templates,NewPage,Preview,Print,Undo,Redo,Find,Replace,SelectAll,Scayt,Flash,Image,Link,Unlink,Anchor,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Form,Radio,Checkbox,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,RemoveFormat,Subscript,Superscript,CreateDiv,Blockquote,BidiLtr,BidiRtl,Language,About,PasteFromWord,PasteText,Paste,Copy,Cut'
-        });
+        };
 
-        CKEDITOR.replace('observaciones_div', {
-            toolbarGroups: [
-                { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
-                { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
-                { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
-                { name: 'forms', groups: [ 'forms' ] },
-                '/',
-                { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-                { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
-                { name: 'links', groups: [ 'links' ] },
-                { name: 'insert', groups: [ 'insert' ] },
-                '/',
-                { name: 'styles', groups: [ 'styles' ] },
-                { name: 'colors', groups: [ 'colors' ] },
-                { name: 'tools', groups: [ 'tools' ] },
-                { name: 'others', groups: [ 'others' ] },
-                { name: 'about', groups: [ 'about' ] }
-            ],
-            removeButtons: 'Source,Save,Templates,NewPage,Preview,Print,Undo,Redo,Find,Replace,SelectAll,Scayt,Flash,Image,Link,Unlink,Anchor,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,Form,Radio,Checkbox,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,RemoveFormat,Subscript,Superscript,CreateDiv,Blockquote,BidiLtr,BidiRtl,Language,About,PasteFromWord,PasteText,Paste,Copy,Cut'
-        });
-
-        //CKEDITOR.replace('observaciones_div');
+        CKEDITOR.replace('txt_observaciones', options_editor);
+        CKEDITOR.replace('observaciones_cliente_div', options_editor);
+        CKEDITOR.replace('observaciones_siniestros_div', options_editor);
+        CKEDITOR.replace('observaciones_trabajos_div', options_editor);
+        CKEDITOR.replace('observaciones_ocurrencias_div', options_editor);
         
+        CKEDITOR.replace('txt_observaciones_siniestro', options_editor);
+        CKEDITOR.replace('txt_observaciones_trabajos', options_editor);
+        CKEDITOR.replace('txt_observaciones_ocurrencias', options_editor);
+
         $('#txt_fecha').datepicker({
 			maxViewMode: 2,
 			language: "es"
@@ -875,6 +976,9 @@
             var aseguradora     = $("#txt_aseguradora").val();
             var nro_siniestro   = $("#txt_nrosiniestro").val();
             var observaciones   = CKEDITOR.instances["txt_observaciones"].getData();
+            var obssiniestro    = CKEDITOR.instances["txt_observaciones_siniestro"].getData();
+            var obstrabajos     = CKEDITOR.instances["txt_observaciones_trabajos"].getData();
+            var obsocurrencias  = CKEDITOR.instances["txt_observaciones_ocurrencias"].getData();
             var info = {};
             
             info["fecha_siniestro"]     = fecha;
@@ -882,6 +986,9 @@
             info["nroplaca"]            = nroplaca;
             info["nrosiniestro"]        = nro_siniestro.toUpperCase();
             info["observaciones"]       = observaciones;
+            info["obs_siniestro"]       = obssiniestro;
+            info["obs_adicionales"]     = obstrabajos;
+            info["obs_ocurrencias"]     = obsocurrencias;
             var myJsonString            = JSON.stringify(info);
             $.ajax({
                 type: "POST",
@@ -913,17 +1020,25 @@
             var nroplaca    = $("#txt_placa").val();
             var marca       = $("#txt_marca").val();
             var modelo      = $("#txt_modelo").val();
+            var color       = $("#txt_color").val();
+            var anio        = $("#txt_anio").val();
             var dni         = $("#txt_dni").val();
             var nombres     = $("#txt_nombres").val();
             var apellidos   = $("#txt_apellidos").val();
+            var celular     = $("#txt_celular").val();
+            var correo      = $("#txt_correo").val();
             var info = {};
             
             info["nroplaca"]    = nroplaca.toUpperCase();
             info["marca"]       = marca.toUpperCase();
             info["modelo"]      = modelo.toUpperCase();
+            info["color"]       = color.toUpperCase();
+            info["anio"]        = anio;
             info["dni"]         = dni.toUpperCase();
             info["nombres"]     = nombres.toUpperCase();
             info["apellidos"]   = apellidos.toUpperCase();
+            info["celular"]     = celular;
+            info["correo"]      = correo;
             var myJsonString    = JSON.stringify(info);
             
             if(opcion == "nuevo"){
@@ -997,6 +1112,8 @@
                         $("#txt_placa").val(datos.nroplaca);
                         $("#txt_marca").val(datos.marca);
                         $("#txt_modelo").val(datos.modelo);
+                        $("#txt_color").val(datos.color);
+                        $("#txt_anio").val(datos.anio);
                         $("#txt_dni").val(datos.dni);
                         $("#txt_nombres").val(datos.nombres);
                         $("#txt_apellidos").val(datos.apellidos);
@@ -1054,9 +1171,12 @@
         
         $("#btn_actualizar_observacion").click(function(){
             var info = {};
-            info["idsiniestro"]    = $("#btn_actualizar_observacion").attr("data-value");
-            info["descripcion"]    = CKEDITOR.instances["observaciones_div"].getData();
-            var myJsonString    = JSON.stringify(info);
+            info["idsiniestro"]         = $("#btn_actualizar_observacion").attr("data-value");
+            info["descripcion"]         = CKEDITOR.instances["observaciones_cliente_div"].getData();
+            info["obs_siniestros"]      = CKEDITOR.instances["observaciones_siniestros_div"].getData();
+            info["obs_trabajos"]        = CKEDITOR.instances["observaciones_trabajos_div"].getData();
+            info["obs_ocurrencias"]     = CKEDITOR.instances["observaciones_ocurrencias_div"].getData();
+            var myJsonString            = JSON.stringify(info);
 
             $.ajax({
                 type: "POST",
@@ -1404,8 +1524,12 @@
                 datos: '{"idsiniestro": ' + idsiniestro + '}'
             },
             success: function(result){
-                console.log(result);
-                CKEDITOR.instances.observaciones_div.setData(result);
+                var datos = JSON.parse(result);
+                console.log(datos);
+                CKEDITOR.instances.observaciones_cliente_div.setData(datos[0].descripcion);
+                CKEDITOR.instances.observaciones_siniestros_div.setData(datos[0].obs_siniestro);
+                CKEDITOR.instances.observaciones_trabajos_div.setData(datos[0].obs_adicionales);
+                CKEDITOR.instances.observaciones_ocurrencias_div.setData(datos[0].obs_ocurrencias);
                 $('#md_siniestros').modal('hide');
                 $('#btn_actualizar_observacion').attr("data-value", idsiniestro);        
             },
@@ -1418,6 +1542,7 @@
     $('#modal_observaciones').on('hidden.bs.modal', function () {
         $("#modal_observaciones").modal('hide');
         $('#md_siniestros').modal();
+        $('body').css("padding-right", "0px");
     });
     
 </script>

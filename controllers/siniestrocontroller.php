@@ -75,7 +75,7 @@ class SiniestroController extends Controller
     {
         $datos = $_REQUEST['datos'];
         $datos = json_decode($datos, true);
-        $siniestros = $this->model->ActualizaObservacion($datos["idsiniestro"], $datos['descripcion']);
+        $siniestros = $this->model->ActualizaObservacion($datos);
         echo json_encode($siniestros);
     }
 
@@ -83,8 +83,8 @@ class SiniestroController extends Controller
     {
         $datos = $_REQUEST['datos'];
         $datos = json_decode($datos, true);
-        $observacion = $this->model->GetObservacion($datos["idsiniestro"]);
-        echo $observacion;
+        $observaciones = $this->model->GetObservacion($datos["idsiniestro"]);
+        echo json_encode($observaciones);
     }
     
 }
