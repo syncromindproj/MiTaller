@@ -240,14 +240,14 @@
                     <form id="frm_siniestro_nuevo" method="POST">
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
-                                <li id="tab_datosgenerales" class="active"><a href="#generales" data-toggle="tab">Datos Generales</a></li>
+                                <li id="tab_datosgenerales" class="active"><a href="#generales_siniestro" data-toggle="tab">Datos Generales</a></li>
                                 <li id="tab_observaciones_cliente"><a href="#obscliente" data-toggle="tab">Observaciones Cliente</a></li>
                                 <li id="tab_observaciones_siniestro"><a href="#obssiniestro" data-toggle="tab">Observaciones del Siniestro</a></li>
                                 <li id="tab_observaciones_trabajos"><a href="#obstrabajos" data-toggle="tab">Trabajos Adicionales</a></li>
                                 <li id="tab_observaciones_ocurrencias"><a href="#obsocurrencias" data-toggle="tab">Ocurrencias</a></li>
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active" id="generales">
+                                <div class="tab-pane active" id="generales_siniestro">
                                     <div class="row">
                                         <div class="col-md-4 form-group">
                                             <label for="txt_fecha">Fecha</label>
@@ -422,6 +422,9 @@
                             <tr class="template-upload fade">
                                 <td>
                                     <span class="preview"></span>
+                                </td>
+                                <td>
+                                    <input name="txt_comentario[]" placeholder="Comentario"></input>
                                 </td>
                                 <td>
                                     <p class="name">{%=file.name%}</p>
@@ -1338,7 +1341,14 @@
                     "data":"url",
                     "render": function(url, type, full){
                         console.log(full['ruta']);
-                        return '<a target="_blank" href="<?PHP echo constant('URL'); ?>/'+full[1]+'"><img width="200" src="<?PHP echo constant('URL'); ?>'+full[1]+'"/></a>';
+                        var extension = full['ruta'].split(".");
+                        if(extension[1] == "jpg" || extension[1] == "png" || extension[1] == "gif"){
+                            return '<a target="_blank" href="<?PHP echo constant('URL'); ?>/'+full[1]+'"><img width="200" src="<?PHP echo constant('URL'); ?>'+full[1]+'"/></a>';
+                        }
+                        
+                        if(extension[1] == "pdf"){
+                            return '<a target="_blank" href="<?PHP echo constant('URL'); ?>/'+full[1]+'"><img width="200" src="<?PHP echo constant('URL'); ?>/views/public/img/pdf-icon-200.png"/></a>';
+                        }
                         return false;
                     },
                     "width":"40%"
@@ -1388,9 +1398,30 @@
                         
                         $('#fileupload').fileupload({
                             url: 'foto/Subir',
-                            formData: { 'idsiniestro': idsiniestro, 'idtipofoto' : tipo }
+                            formData: { 
+                                'idsiniestro': idsiniestro, 
+                                'idtipofoto' : tipo
+                            }
                             
                         });
+
+                        $('#fileupload').bind('fileuploadsubmit', function (e, data) {
+                            var inputs = data.context.find(':input');
+                            if (inputs.filter(function () {
+                                    return !this.value && $(this).prop('required');
+                                }).first().focus().length) {
+                                data.context.find('button').prop('disabled', false);
+                                return false;
+                            }
+                            var datos = inputs.serializeArray();
+                            //data.formData = inputs.serializeArray();
+                            data.formData = { 
+                                'idsiniestro': idsiniestro, 
+                                'idtipofoto' : tipo,
+                                'txt_comentario' : datos[0].value.toUpperCase()
+                            }
+                        });
+
                         $('#fileupload').bind('fileuploaddone', function (e, data) {
                             $('#md_fotos').modal('hide');
                             $('#md_verdocumentos').modal();
