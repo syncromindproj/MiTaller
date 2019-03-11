@@ -102,10 +102,14 @@
             success: function(result){
                 var numero = JSON.parse(result);
                 $("#" + div).html(numero);   
-                $("#div_" + tipo).css("display", "block");    
+                $("#div_" + tipo).css("display", "block");   
+                //console.log(numero); 
             },
             error:function(result){
                 console.log(result);
+            },
+            complete: function() {
+                setInterval(GetInfoPanel(tipo, div), 5000); 
             }
         });
     }

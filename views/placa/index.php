@@ -1325,7 +1325,7 @@
                         $("#btn_enviar").text("Guardar");
                         
                         $('#fileupload').fileupload({
-                            url: 'foto/Subir',
+                            url: '<?PHP echo constant('URL'); ?>foto/Subir',
                             formData: { 
                                 'idsiniestro': idsiniestro, 
                                 'idtipofoto' : tipo
