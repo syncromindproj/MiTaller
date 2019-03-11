@@ -56,6 +56,46 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
         }
     }
 
+    function InfoPanel($tipo)
+    {
+        $numero = 0;
+
+        try{
+            switch($tipo){
+                case "prioritarios":
+                    $query = $this->db->connect()->prepare("SELECT count(*) as numero FROM siniestro WHERE estado = 1 and esprioritario=1");
+                    $query->execute();
+                    while($row =  $query->fetch()){
+                        $numero = $row['numero'];
+                    }
+                    break;
+
+                case "siniestros":
+                    $query = $this->db->connect()->prepare("SELECT count(*) as numero FROM siniestro WHERE estado = 1");
+                    $query->execute();
+                    while($row =  $query->fetch()){
+                        $numero = $row['numero'];
+                    }
+                    break;
+
+                case "vehiculos":
+                    $query = $this->db->connect()->prepare("SELECT count(*) as numero FROM placa WHERE estado = 1");
+                    $query->execute();
+                    while($row =  $query->fetch()){
+                        $numero = $row['numero'];
+                    }
+                    break;
+            }
+            
+
+            return $numero;
+        }catch(PDOException $e){
+            return $numero;
+        }
+    }
+
+
+
     function RegistraSiniestro($datos){
         try{
             $time               = $datos['fecha_siniestro'];
@@ -63,21 +103,17 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $fecha_siniestro    = date("Y-m-d", strtotime($date));
             $nrosiniestro       = $datos['nrosiniestro'];
             $observaciones      = $datos['observaciones'];
-            $obs_adicionales    = $datos['obs_adicionales'];
-            $obs_ocurrencias    = $datos['obs_ocurrencias'];
-            $obs_siniestro      = $datos['obs_siniestro'];
+            $esprioritario      = $datos['esprioritario'];
             $idsiniestro        = "";
         
-            $query = $this->db->connect()->prepare('call inserta_siniestro (:fecha_siniestro, :nrosiniestro, :aseguradora, :nroplaca, :observaciones, :obs_adicionales, :obs_ocurrencias, :obs_siniestro)');
+            $query = $this->db->connect()->prepare('call inserta_siniestro (:fecha_siniestro, :nrosiniestro, :aseguradora, :nroplaca, :observaciones, :esprioritario)');
             $query->execute([
                 'fecha_siniestro'   => $fecha_siniestro,
                 'nrosiniestro'      => $nrosiniestro,
                 'aseguradora'       => $datos['aseguradora'],
                 'nroplaca'          => $datos['nroplaca'],
                 'observaciones'     => $observaciones,
-                'obs_adicionales'   => $obs_adicionales,
-                'obs_ocurrencias'   => $obs_ocurrencias,
-                'obs_siniestro'     => $obs_siniestro
+                'esprioritario'     => $esprioritario
             ]);
 
             while($row =  $query->fetch()){
@@ -102,6 +138,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
                     mkdir($folder."/FOTOS/SINIESTRO", 0777, true);
                     mkdir($folder."/FOTOS/REPUESTOS", 0777, true);
                     mkdir($folder."/FOTOS/INSPECCION", 0777, true);
+                    mkdir($folder."/FOTOS/FOTOS_TERMINADO", 0777, true);
 
                     mkdir($folder."/REPUESTOS/NOTAS_CREDITO", 0777, true);
                     mkdir($folder."/REPUESTOS/GUIAS_REMISION", 0777, true);
@@ -145,17 +182,11 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
         try{
             $idsiniestro        = $datos['idsiniestro'];
             $descripcion        = $datos['descripcion'];
-            $obs_siniestros     = $datos['obs_siniestros'];
-            $obs_trabajos       = $datos['obs_trabajos'];
-            $obs_ocurrencias    = $datos['obs_ocurrencias'];
-
-            $query = $this->db->connect()->prepare('update siniestro set descripcion = :descripcion, obs_siniestro = :obs_siniestros, obs_adicionales = :obs_trabajos, obs_ocurrencias = :obs_ocurrencias where idsiniestro = :idsiniestro');
+            
+            $query = $this->db->connect()->prepare('update siniestro set descripcion = :descripcion where idsiniestro = :idsiniestro');
             $query->execute([
                 'descripcion'       => $descripcion,
-                'idsiniestro'       => $idsiniestro,
-                'obs_siniestros'    => $obs_siniestros,
-                'obs_trabajos'      => $obs_trabajos,
-                'obs_ocurrencias'   => $obs_ocurrencias,
+                'idsiniestro'       => $idsiniestro
             ]);
 
             return "Actualizado";    

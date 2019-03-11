@@ -86,6 +86,14 @@ class SiniestroController extends Controller
         $observaciones = $this->model->GetObservacion($datos["idsiniestro"]);
         echo json_encode($observaciones);
     }
+
+    function InfoPanel()
+    {
+        $datos = $_REQUEST['datos'];
+        $datos = json_decode($datos, true);
+        $numero = $this->model->InfoPanel($datos['tipo']);
+        echo json_encode($numero);
+    }
     
 }
 ?>

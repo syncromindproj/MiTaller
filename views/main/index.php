@@ -106,7 +106,7 @@
                 $("#error_div").show().delay(2000).fadeOut();
               }else{
                 console.log(datos.data);
-                window.location = "placa";
+                window.location = "panel";
               }
               
           },

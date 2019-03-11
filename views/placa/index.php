@@ -57,13 +57,14 @@
                     <table id="placas" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Nro Placa</th>
+                                <th>Placa</th>
                                 <th>Marca</th>
                                 <th>Modelo</th>
                                 <th>DNI</th>
                                 <th>Nombres</th>
                                 <th>Apellidos</th>
                                 <th>Siniestros</th>
+                                <th>Fecha</th>
                                 <th>Opciones</th>
                             </tr>
                         </thead>
@@ -92,42 +93,12 @@
                     <div class="nav-tabs-custom">
                         <ul class="nav nav-tabs">
                             <li class="active" id="tab_observaciones_cliente_ver"><a href="#obscliente_ver" data-toggle="tab">Observaciones Cliente</a></li>
-                            <li id="tab_observaciones_siniestro_ver"><a href="#obssiniestro_ver" data-toggle="tab">Observaciones del Siniestro</a></li>
-                            <li id="tab_observaciones_trabajos_ver"><a href="#obstrabajos_ver" data-toggle="tab">Trabajos Adicionales</a></li>
-                            <li id="tab_observaciones_ocurrencias_ver"><a href="#obsocurrencias_ver" data-toggle="tab">Ocurrencias</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="obscliente_ver">
                                 <div class="row">
                                     <div class="col-md-12 form-group">
                                         <textarea id="observaciones_cliente_div">
-
-                                        </textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="obssiniestro_ver">
-                                <div class="row">
-                                    <div class="col-md-12 form-group">
-                                        <textarea id="observaciones_siniestros_div">
-
-                                        </textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="obstrabajos_ver">
-                                <div class="row">
-                                    <div class="col-md-12 form-group">
-                                        <textarea id="observaciones_trabajos_div">
-
-                                        </textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane" id="obsocurrencias_ver">
-                                <div class="row">
-                                    <div class="col-md-12 form-group">
-                                        <textarea id="observaciones_ocurrencias_div">
 
                                         </textarea>
                                     </div>
@@ -157,7 +128,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="frm_placa" method="POST">
+                    <form id="frm_placa" data-value="" method="POST">
                         <div class="row">
                             <div class="col-md-12">
                                 <h3 style="text-decoration:underline;">Datos Vehículo</h3>
@@ -243,9 +214,6 @@
                             <ul class="nav nav-tabs">
                                 <li id="tab_datosgenerales" class="active"><a href="#generales_siniestro" data-toggle="tab">Datos Generales</a></li>
                                 <li id="tab_observaciones_cliente"><a href="#obscliente" data-toggle="tab">Observaciones Cliente</a></li>
-                                <li id="tab_observaciones_siniestro"><a href="#obssiniestro" data-toggle="tab">Observaciones del Siniestro</a></li>
-                                <li id="tab_observaciones_trabajos"><a href="#obstrabajos" data-toggle="tab">Trabajos Adicionales</a></li>
-                                <li id="tab_observaciones_ocurrencias"><a href="#obsocurrencias" data-toggle="tab">Ocurrencias</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="generales_siniestro">
@@ -271,38 +239,20 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input id="chk_prioritario" type="checkbox"> Prioritario
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="tab-pane" id="obscliente">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <textarea id="txt_observaciones" name="txt_observaciones" rows="10" cols="80">
-                                                        
-                                            </textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="obssiniestro">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <textarea id="txt_observaciones_siniestro" name="txt_observaciones_siniestro" rows="10" cols="80">
-                                                        
-                                            </textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="obstrabajos">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <textarea id="txt_observaciones_trabajos" name="txt_observaciones_trabajos" rows="10" cols="80">
-                                                        
-                                            </textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="obsocurrencias">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <textarea id="txt_observaciones_ocurrencias" name="txt_observaciones_ocurrencias" rows="10" cols="80">
                                                         
                                             </textarea>
                                         </div>
@@ -315,7 +265,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" id="btn_enviar" name="btn_enviar" class="btn btn-primary">Registrar</button>
+                    <button type="submit" data-value="" id="btn_registrar_siniestro" name="btn_enviar" class="btn btn-primary">Registrar</button>
                 </div>
                 </form>
                 </div>
@@ -425,9 +375,6 @@
                                     <span class="preview"></span>
                                 </td>
                                 <td>
-                                    <input name="txt_comentario[]" placeholder="Comentario"></input>
-                                </td>
-                                <td>
                                     <p class="name">{%=file.name%}</p>
                                     <strong class="error text-danger"></strong>
                                 </td>
@@ -518,6 +465,7 @@
                                                             <li id="tab_fotos_siniestros" class="active"><a href="#fotos_siniestros" data-toggle="tab">Siniestro</a></li>
                                                             <li id="tab_fotos_repuestos"><a href="#fotos_repuestos" data-toggle="tab">Repuestos</a></li>
                                                             <li id="tab_fotos_inspeccion"><a href="#fotos_inspeccion" data-toggle="tab">Inspección</a></li>
+                                                            <li id="tab_fotos_terminados"><a href="#fotos_terminados" data-toggle="tab">Vehículo terminado</a></li>
                                                         </ul>
                                                         <div class="tab-content">
                                                             <div class="tab-pane active" id="fotos_siniestros">
@@ -556,6 +504,22 @@
                                                                 <div class="row">
                                                                     <div class="col-md-12">
                                                                         <table id="fotos_inspeccion_tabla" class="table table-striped table-bordered" style="width:100%">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Imagen</th>
+                                                                                    <th>Descripcion</th>
+                                                                                    <th>Opciones</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                        </table>
+                                                                    </div>                                                
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="tab-pane" id="fotos_terminados">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <table id="fotos_terminado_tabla" class="table table-striped table-bordered" style="width:100%">
                                                                             <thead>
                                                                                 <tr>
                                                                                     <th>Imagen</th>
@@ -750,7 +714,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancelar</button>
-                <button type="button" id="btn_elimina" class="btn btn-outline">Eliminar</button>
+                <button type="button" id="btn_elimina" data-value="" class="btn btn-outline">Eliminar</button>
               </div>
             </div>
           </div>
@@ -901,14 +865,7 @@
 
         CKEDITOR.replace('txt_observaciones', options_editor);
         CKEDITOR.replace('observaciones_cliente_div', options_editor);
-        CKEDITOR.replace('observaciones_siniestros_div', options_editor);
-        CKEDITOR.replace('observaciones_trabajos_div', options_editor);
-        CKEDITOR.replace('observaciones_ocurrencias_div', options_editor);
         
-        CKEDITOR.replace('txt_observaciones_siniestro', options_editor);
-        CKEDITOR.replace('txt_observaciones_trabajos', options_editor);
-        CKEDITOR.replace('txt_observaciones_ocurrencias', options_editor);
-
         $('#txt_fecha').datepicker({
 			maxViewMode: 2,
 			language: "es"
@@ -923,6 +880,7 @@
 			"responsive":true,
 			"scrollX":        false,
 			"scrollCollapse": true,
+            "ordering": false,
             "bDestroy": true,
 			"fixedColumns":   {
 				"leftColumns": 2
@@ -938,12 +896,20 @@
                 {"data":"nombres"},
                 {"data":"apellidos"},
 				{"data":"nrosiniestros"},
-				{
-                    data: null,
-                    className: "centerd",
-                    defaultContent: '<button title="Editar placa" class="edit btn btn-primary"><i class="fa fa-pencil"></i></button> <button title="Ver siniestros" class="siniestro btn btn-warning"><i class="fa fa-search"></i></button> <button title="Eliminar placa" class="delete btn btn-danger"><i class="fa fa-trash"></i></button>'
-                }
+				{"data":"fecha_registro"}
 			],
+            "columnDefs":[
+                {
+                    "targets":8,
+                    "data":"descripcion",
+                    "render": function(url, type, full){
+                        var nroplaca = "'" + full[0] + "'";
+                        return '<button onclick="editar_placa('+ nroplaca +');" title="Editar placa" class="btn btn-primary"><i class="fa fa-pencil"></i></button> <button onclick="muestra_siniestros('+ nroplaca +');" title="Ver siniestros" class="btn btn-warning"><i class="fa fa-search"></i></button> <button onclick="alert_elimina('+ nroplaca +');" title="Eliminar placa" class="btn btn-danger"><i class="fa fa-trash"></i></button>';
+                        return false;
+                    },
+                    "width":"15%"
+                }
+            ],
 			"dom": 'Bfrtip',
 			"buttons": [
 				{
@@ -956,6 +922,7 @@
 					action: function ( e, dt, node, config ) {
                         opcion = "nuevo";
                         $('#md_nuevo').modal();
+                        $('#frm_placa').attr("data-value", "nuevo");
                         $("#modal_title").html("Nueva Placa");
                         $("#btn_enviar").text("Guardar");
                         $("#txt_placa").val("");
@@ -976,13 +943,16 @@
         
 		$("#frm_siniestro_nuevo").submit(function(event){
             event.preventDefault();
+            var nroplaca        = $("#btn_registrar_siniestro").attr("data-value");
             var fecha           = $("#txt_fecha").val();
             var aseguradora     = $("#txt_aseguradora").val();
             var nro_siniestro   = $("#txt_nrosiniestro").val();
+            var esprioritario   = 0;
+            if ($('#chk_prioritario').is(":checked"))
+            {
+                esprioritario = 1;
+            }
             var observaciones   = CKEDITOR.instances["txt_observaciones"].getData();
-            var obssiniestro    = CKEDITOR.instances["txt_observaciones_siniestro"].getData();
-            var obstrabajos     = CKEDITOR.instances["txt_observaciones_trabajos"].getData();
-            var obsocurrencias  = CKEDITOR.instances["txt_observaciones_ocurrencias"].getData();
             var info = {};
             
             info["fecha_siniestro"]     = fecha;
@@ -990,9 +960,7 @@
             info["nroplaca"]            = nroplaca;
             info["nrosiniestro"]        = nro_siniestro.toUpperCase();
             info["observaciones"]       = observaciones;
-            info["obs_siniestro"]       = obssiniestro;
-            info["obs_adicionales"]     = obstrabajos;
-            info["obs_ocurrencias"]     = obsocurrencias;
+            info["esprioritario"]       = esprioritario;
             var myJsonString            = JSON.stringify(info);
             $.ajax({
                 type: "POST",
@@ -1044,6 +1012,7 @@
             info["celular"]     = celular;
             info["correo"]      = correo;
             var myJsonString    = JSON.stringify(info);
+            var opcion          = $("#frm_placa").attr("data-value");
             
             if(opcion == "nuevo"){
                 $.ajax({
@@ -1092,54 +1061,9 @@
             }
             
         });
-
-        $('#placas tbody').on( 'click', 'button', function () {
-            var data = placas.row( $(this).parents('tr') ).data();
-            nroplaca = data['nroplaca'];
-            var descripcion = data['descripcion'];
-            
-            var option = $(this)[0].classList[0];
-            if(option == "edit"){
-                opcion = "editar";
-                $('#md_nuevo').modal();
-                $("#modal_title").html("Actualizar Placa");
-                $("#btn_enviar").text("Actualizar");
-                $("#txt_placa").attr("disabled", "disabled");
-                $.ajax({
-                    type: "POST",
-                    url: "<?PHP echo constant('URL'); ?>placa/VerPlaca", 
-                    data:{
-                        datos: '{"nroplaca": "' + nroplaca + '"}'
-                    },
-                    success: function(result){
-                        var datos = jQuery.parseJSON(result);
-                        $("#txt_placa").val(datos.nroplaca);
-                        $("#txt_marca").val(datos.marca);
-                        $("#txt_modelo").val(datos.modelo);
-                        $("#txt_color").val(datos.color);
-                        $("#txt_anio").val(datos.anio);
-                        $("#txt_dni").val(datos.dni);
-                        $("#txt_nombres").val(datos.nombres);
-                        $("#txt_apellidos").val(datos.apellidos);
-                        console.log(nroplaca);
-                    },
-                    error:function(result){
-                        console.log(result);
-                    }
-                });
-            }
-
-            if(option == "delete"){
-                $('#modal-delete').modal();
-                $('#sp_grupo').html(nroplaca);
-            }
-
-            if(option == "siniestro"){
-                muestra_siniestros(nroplaca);
-            }
-        });
        
         $("#btn_elimina").click(function(){
+            var nroplaca = $("#btn_elimina").attr("data-value");
             $.ajax({
                 type: "POST",
                 url: "<?PHP echo constant('URL'); ?>placa/EliminaPlaca", 
@@ -1177,9 +1101,6 @@
             var info = {};
             info["idsiniestro"]         = $("#btn_actualizar_observacion").attr("data-value");
             info["descripcion"]         = CKEDITOR.instances["observaciones_cliente_div"].getData();
-            info["obs_siniestros"]      = CKEDITOR.instances["observaciones_siniestros_div"].getData();
-            info["obs_trabajos"]        = CKEDITOR.instances["observaciones_trabajos_div"].getData();
-            info["obs_ocurrencias"]     = CKEDITOR.instances["observaciones_ocurrencias_div"].getData();
             var myJsonString            = JSON.stringify(info);
 
             $.ajax({
@@ -1281,10 +1202,16 @@
                     text: 'Nuevo',
                     action: function ( e, dt, node, config ) {
                         opcion = "nuevo";
+                        $("#tab_datosgenerales").addClass("active");
+                        $("#tab_observaciones_cliente").removeClass("active");
+                        $("#generales_siniestro").addClass("active");
+                        $("#obscliente").removeClass("active");
+                        $("#chk_prioritario").prop('checked', false);
                         $('#md_siniestros').modal('hide');
                         $('#md_nuevosiniestro').modal();
                         $("#modal_title_siniestro").html("Nuevo Siniestro");
                         $("#btn_enviar").text("Guardar");
+                        $("#btn_registrar_siniestro").attr("data-value", nroplaca);
                         $("#txt_fecha").val("");
                         $("#txt_aseguradora").val("");
                         $("#txt_nrosiniestro").val("");
@@ -1418,8 +1345,7 @@
                             //data.formData = inputs.serializeArray();
                             data.formData = { 
                                 'idsiniestro': idsiniestro, 
-                                'idtipofoto' : tipo,
-                                'txt_comentario' : datos[0].value.toUpperCase()
+                                'idtipofoto' : tipo
                             }
                         });
 
@@ -1468,6 +1394,7 @@
         fotos_inspeccion        = CrearDatatable(idsiniestro, 9, "fotos_inspeccion_tabla");
         fotos_repuestos         = CrearDatatable(idsiniestro, 7, "fotos_repuestos_tabla");
         fotos_siniestro         = CrearDatatable(idsiniestro, 8, "fotos_siniestros_tabla");
+        fotos_terminado         = CrearDatatable(idsiniestro, 16, "fotos_terminado_tabla");
         //END FOTOS
 
         //REPUESTOS
@@ -1514,6 +1441,7 @@
         fotos_inspeccion.ajax.reload();
         fotos_repuestos.ajax.reload();
         fotos_siniestro.ajax.reload();
+        fotos_terminado.ajax.reload();
         fotos_credito.ajax.reload();
         fotos_guia.ajax.reload();
         inventarios.ajax.reload();
@@ -1559,14 +1487,51 @@
                 var datos = JSON.parse(result);
                 console.log(datos);
                 CKEDITOR.instances.observaciones_cliente_div.setData(datos[0].descripcion);
-                CKEDITOR.instances.observaciones_siniestros_div.setData(datos[0].obs_siniestro);
-                CKEDITOR.instances.observaciones_trabajos_div.setData(datos[0].obs_adicionales);
-                CKEDITOR.instances.observaciones_ocurrencias_div.setData(datos[0].obs_ocurrencias);
                 $('#md_siniestros').modal('hide');
                 $('#btn_actualizar_observacion').attr("data-value", idsiniestro);        
             },
             error:function(result){
                 console.log("error"+result);
+            }
+        });
+    }
+
+    function alert_elimina(nroplaca)
+    {
+        $('#modal-delete').modal();
+        $('#sp_grupo').html(nroplaca);
+        $("#btn_elimina").attr("data-value", nroplaca);
+    }
+
+    function editar_placa(nroplaca)
+    {
+        $('#md_nuevo').modal();
+        $("#modal_title").html("Actualizar Placa");
+        $("#btn_enviar").text("Actualizar");
+        $("#txt_placa").attr("disabled", "disabled");
+        $("#frm_placa").attr("data-value", "editar");
+        $.ajax({
+            type: "POST",
+            url: "<?PHP echo constant('URL'); ?>placa/VerPlaca", 
+            data:{
+                datos: '{"nroplaca": "' + nroplaca + '"}'
+            },
+            success: function(result){
+                var datos = jQuery.parseJSON(result);
+                $("#txt_placa").val(datos.nroplaca);
+                $("#txt_marca").val(datos.marca);
+                $("#txt_modelo").val(datos.modelo);
+                $("#txt_color").val(datos.color);
+                $("#txt_anio").val(datos.anio);
+                $("#txt_dni").val(datos.dni);
+                $("#txt_nombres").val(datos.nombres);
+                $("#txt_apellidos").val(datos.apellidos);
+                $("#txt_correo").val(datos.correo);
+                $("#txt_celular").val(datos.celular);
+                console.log(nroplaca);
+            },
+            error:function(result){
+                console.log(result);
             }
         });
     }
