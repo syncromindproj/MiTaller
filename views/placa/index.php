@@ -236,6 +236,7 @@
                                                 <option value="RIMAC">RIMAC</option>
                                                 <option value="PACIFICO">PACIFICO</option>
                                                 <option value="MAPFRE">MAPFRE</option>
+                                                <option value="PARTICULAR">PARTICULAR</option>
                                             </select>
                                         </div>
                                     </div>
