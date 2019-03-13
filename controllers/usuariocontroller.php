@@ -16,7 +16,6 @@ class UsuarioController extends Controller
         $hora = gmdate('H:i', time() - $offset);
         
         $hora_inicio = strtotime("08:00");
-        //$hora_inicio = strtotime("01:00");
         $hora_inicio = date('H:i', $hora_inicio);
 
         $hora_final_lv = strtotime("17:30");

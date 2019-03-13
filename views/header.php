@@ -72,7 +72,7 @@ desired effect
   <header class="main-header">
 
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="<?PHP echo constant('URL'); ?>panel" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->
@@ -158,7 +158,7 @@ desired effect
               url: "<?PHP echo constant('URL'); ?>usuario/CerrarSesion", 
               success: function(result){
                   console.log(result);
-                  window.location = "../mitaller";
+                  window.location = "../";
               },
               error:function(result){
                   console.log(result);

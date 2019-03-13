@@ -20,7 +20,6 @@ class FotoController extends Controller
         $errorimg       = $_FILES["files"]["error"][0];
         $idsiniestro    = $_REQUEST['idsiniestro'];
         $idtipofoto     = $_REQUEST['idtipofoto'];
-        $comentario     = $_REQUEST['txt_comentario'];
         $path           = "";
 
         $ext = strtolower(pathinfo($img, PATHINFO_EXTENSION));
@@ -74,11 +73,14 @@ class FotoController extends Controller
             case 15:
                 $path .= "/OTROS_DOCUMENTOS/".strtolower($final_image);
                 break;
+            case 16:
+                $path .= "/FOTOS/FOTOS_TERMINADO/".strtolower($final_image);
+                break;
         }
 
         if(move_uploaded_file($tmp,$path)) 
         {
-            $placas = $this->model->InsertaFoto($idtipofoto, $idsiniestro, $path, $comentario);
+            $placas = $this->model->InsertaFoto($idtipofoto, $idsiniestro, $path, $img);
             echo json_encode($idsiniestro);
             
         }

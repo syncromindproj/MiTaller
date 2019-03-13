@@ -6,7 +6,7 @@
       Version 1.0
     </div>
     <!-- Default to the left -->
-    <strong>Desarrollado por <a href="http://www.syncromind.net">Syncromind</a>.</strong> 
+    <strong>Desarrollado por <a href="http://www.syncromind.net"><img src="<?PHP echo constant('URL'); ?>views/public/img/logo_syncro.png" /></a></strong> 
   </footer>
 
   <!-- Control Sidebar -->

@@ -11,11 +11,14 @@ class PlacaModel extends Model
         $items = [];
         try{
             $query = $this->db->connect()->query("
-            SELECT p.nroplaca, p.marca, p.modelo, p.color, p.anio, p.dni, p.nombres, p.apellidos, (CASE WHEN COUNT(ps.nroplaca)=0 then 'NO REGISTRA SINIESTROS' WHEN COUNT(ps.nroplaca)>0 THEN (CONCAT(COUNT(ps.nroplaca),  ' SINIESTROS')) END)  as nrosiniestros
+            SELECT p.nroplaca, p.marca, p.modelo, p.color, p.anio, p.dni, p.nombres, p.apellidos, (CASE WHEN COUNT(ps.nroplaca)=0 then 'NO REGISTRA SINIESTROS' WHEN COUNT(ps.nroplaca)>0 THEN (CONCAT(COUNT(ps.nroplaca),  ' SINIESTROS')) END)  as nrosiniestros, DATE_FORMAT(p.fecha_registro, '%d/%m/%Y') as fecha_registro
             FROM placa p
             left join placa_siniestro ps
             on p.nroplaca = ps.nroplaca
-            WHERE p.estado = 1 GROUP BY p.nroplaca");
+            left join siniestro s
+            on ps.idsiniestro = s.idsiniestro
+            WHERE p.estado = 1 GROUP BY p.nroplaca
+            order by p.fecha_registro desc");
 
             while($row =  $query->fetch()){
                 $items['data'][] = $row;
