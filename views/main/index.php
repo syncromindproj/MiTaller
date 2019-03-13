@@ -91,22 +91,25 @@
       $.ajax({
           type: "POST",
           url: "<?PHP echo constant('URL'); ?>usuario/Login", 
+          dataType: "json",
           data:{
               datos: myJsonString
           },
           success: function(result){
-              var datos = jQuery.parseJSON(result);
-              if(datos.data=="error_dias"){
-                console.log(datos.data);
+              var estado  = result.data.estado;
+              var tipo    = result.data.tipo;
+              if(estado=="error_dias"){
                 $("#error_div").show().delay(4000).fadeOut();
                 $("#mensaje_error").html("Usted ha intentado iniciar sesión en un horario no válido.<br> <b>HORARIOS DE INGRESO</b><br>L-V 8:00 a.m. - 05:30 p.m.<br>S 8:00 a.m. - 01:00 p.m.");
-              }else if(datos.data=="error_datos"){
-                console.log("datos");
+              }else if(estado=="error_datos"){
                 $("#mensaje_error").html("Los datos ingresados son erroneos. Inténtelo nuevamente.");
                 $("#error_div").show().delay(2000).fadeOut();
               }else{
-                console.log(datos.data);
-                window.location = "panel";
+                if(tipo != 'CLI'){
+                  window.location = "panel";
+                }else{
+                  window.location = "etaller_cliente";
+                }
               }
               
           },

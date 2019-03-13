@@ -67,7 +67,7 @@ desired effect
 -->
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-
+    
   <!-- Main Header -->
   <header class="main-header">
 
@@ -158,7 +158,7 @@ desired effect
               url: "<?PHP echo constant('URL'); ?>usuario/CerrarSesion", 
               success: function(result){
                   console.log(result);
-                  window.location = "../";
+                  window.location = "<?PHP echo constant('URL'); ?>";
               },
               error:function(result){
                   console.log(result);
@@ -169,3 +169,4 @@ desired effect
     </section>
     <!-- /.sidebar -->
   </aside>
+  

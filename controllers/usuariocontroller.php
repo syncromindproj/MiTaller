@@ -15,7 +15,7 @@ class UsuarioController extends Controller
         $dia = gmdate('D', time());
         $hora = gmdate('H:i', time() - $offset);
         
-        $hora_inicio = strtotime("08:00");
+        $hora_inicio = strtotime("11:00");
         $hora_inicio = date('H:i', $hora_inicio);
 
         $hora_final_lv = strtotime("17:30");
@@ -26,6 +26,7 @@ class UsuarioController extends Controller
         $valido     = 0;
         $esadmin    = 0;
         $usuarios   = [];
+        $tipo       = "";
 
         $tipo = $this->model->ObtieneTipo($datos["usuario"]);
         if($tipo == "ADM"){
@@ -50,20 +51,24 @@ class UsuarioController extends Controller
             $usuarios = $this->model->Login($datos["usuario"], $datos["clave"]);
             if($usuarios['data'] != "error_datos" && count($usuarios['data'])>0 && $usuarios['data'][0]['nombres'] != null){
                 $_SESSION['nombres'] = $usuarios['data'][0]['nombres'];
+                $_SESSION['usuario'] = $usuarios['data'][0]['usuario'];
             }
         }
 
-        if($valido == 0 && $esadmin == 0){
-            $usuarios['data'] = "error_dias";
+        if($valido == 0 && $esadmin == 0 && $tipo != "CLI"){
+            $usuarios['data']['estado'] = "error_dias";
         }
 
-        if($esadmin == 1){
+        if($esadmin == 1 || $tipo == 'CLI'){
             $usuarios = $this->model->Login($datos["usuario"], $datos["clave"]);
-            if($usuarios['data'] != "error_datos" && count($usuarios['data'])>0 && $usuarios['data'][0]['nombres'] != null){
+            if($usuarios['data']['estado'] != "error_datos" && count($usuarios['data'])>0 && $usuarios['data'][0]['nombres'] != null){
                 $_SESSION['nombres'] = $usuarios['data'][0]['nombres'];
-                $usuarios['data'] = "OK";
+                $_SESSION['usuario'] = $usuarios['data'][0]['usuario'];
+                $usuarios['data']['estado'] = "OK";
             }
         }
+        $_SESSION['tipo'] = $tipo;
+        $usuarios['data']['tipo'] = $tipo;
         echo json_encode($usuarios);        
     }
 

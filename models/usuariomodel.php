@@ -29,7 +29,9 @@ class UsuarioModel extends Model
             }
 
             if(count($items) == 0){
-                $items['data'] = "error_datos";
+                $items['data']['estado'] = "error_datos";
+            }else{
+                $items['data']['estado'] = "OK";
             }
             
             return $items;
