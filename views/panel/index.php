@@ -22,6 +22,19 @@
                 <!-- small box -->
                 <div class="small-box bg-red">
                     <div class="inner">
+                    <h3 id="h_clientes_prioritarios"></h3>
+
+                    <p>Clientes con alta prioridad</p>
+                    </div>
+                    <div class="icon">
+                    <i class="ion ion-alert"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-red">
+                    <div class="inner">
                     <h3 id="h_prioritarios"></h3>
 
                     <p>Siniestros con alta prioridad</p>
@@ -86,6 +99,7 @@
         GetInfoPanel("prioritarios", "h_prioritarios");
         GetInfoPanel("siniestros", "h_siniestros");
         GetInfoPanel("vehiculos", "h_vehiculos");
+        GetInfoPanel("clientes_prioritarios", "h_clientes_prioritarios");
     });
 
     function GetInfoPanel(tipo, div){
@@ -103,7 +117,6 @@
                 var numero = JSON.parse(result);
                 $("#" + div).html(numero);   
                 $("#div_" + tipo).css("display", "block");   
-                //console.log(numero); 
             },
             error:function(result){
                 console.log(result);

@@ -65,6 +65,7 @@
                                 <th>Apellidos</th>
                                 <th>Siniestros</th>
                                 <th>Fecha</th>
+                                <th>Estado</th>
                                 <th>Opciones</th>
                             </tr>
                         </thead>
@@ -187,6 +188,13 @@
                                 <label for="txt_correo">Correo</label>
                                 <input required type="email" class="form-control" id="txt_correo" name="txt_correo" placeholder="Correo">
                             </div>
+                        </div>
+                        <div class="row" style="padding-top:15px;">
+                            <div class="col-md-4">
+                                <label>
+                                    <input id="chk_cliente_prioritario" type="checkbox"> Prioritario
+                                </label>
+                            </div>                        
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -876,6 +884,15 @@
 			$(this).datepicker('hide');
 		});
 
+        $('#placas thead th').each( function () {
+            var title = $(this).text();
+            if(title == "Estado"){
+                var select = "<select style='width:70px;' class='form-control'><option value=''>Estado</option><option value='SI'>SI</option><option value='NO'>NO</option></select>";
+                $(this).html( select );
+            }
+            
+        } );
+
 		placas = $('#placas').DataTable( {
 		    "ajax": "<?PHP echo constant('URL'); ?>placa/getPlacas",
 			"responsive":true,
@@ -890,18 +907,19 @@
 				"url":"https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
 			},
 			"columns":[
-				{"data":"nroplaca", "width":"10%"},
-                {"data":"marca"},
-                {"data":"modelo"},
+				{"data":"nroplaca", "width":"6%"},
+                {"data":"marca", "width":"10%"},
+                {"data":"modelo", "width":"10%"},
                 {"data":"dni"},
                 {"data":"nombres"},
                 {"data":"apellidos"},
 				{"data":"nrosiniestros"},
-				{"data":"fecha_registro"}
+				{"data":"fecha_registro"},
+                {"data":"esprioritario", "width":"4%"},
 			],
             "columnDefs":[
                 {
-                    "targets":8,
+                    "targets":9,
                     "data":"descripcion",
                     "render": function(url, type, full){
                         var nroplaca = "'" + full[0] + "'";
@@ -933,6 +951,11 @@
                         $("#txt_dni").val("");
                         $("#txt_nombres").val("");
                         $("#txt_apellidos").val("");
+                        $("#txt_celular").val("");
+                        $("#txt_correo").val("");
+                        $("#txt_color").val("");
+                        $("#txt_anio").val("");
+                        $("#chk_cliente_prioritario").prop('checked', false);
                         $("#placa_error").css("display", "none");
                         $("#grupo_placa").removeClass("has-error");
                         $("#txt_placa").removeAttr("disabled");
@@ -941,8 +964,18 @@
 			]
 		} );
 
-        
-		$("#frm_siniestro_nuevo").submit(function(event){
+        placas.columns().every( function () {
+            var that = this;
+            $( 'select', this.header() ).on( ' change', function () {
+                if ( that.search() !== this.value ) {
+                    that
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
+
+    	$("#frm_siniestro_nuevo").submit(function(event){
             event.preventDefault();
             var nroplaca        = $("#btn_registrar_siniestro").attr("data-value");
             var fecha           = $("#txt_fecha").val();
@@ -1000,6 +1033,11 @@
             var apellidos   = $("#txt_apellidos").val();
             var celular     = $("#txt_celular").val();
             var correo      = $("#txt_correo").val();
+            var esclienteprioritario   = 0;
+            if ($('#chk_cliente_prioritario').is(":checked"))
+            {
+                esclienteprioritario = 1;
+            }
             var info = {};
             
             info["nroplaca"]    = nroplaca.toUpperCase();
@@ -1012,6 +1050,7 @@
             info["apellidos"]   = apellidos.toUpperCase();
             info["celular"]     = celular;
             info["correo"]      = correo;
+            info["esclienteprioritario"]      = esclienteprioritario;
             var myJsonString    = JSON.stringify(info);
             var opcion          = $("#frm_placa").attr("data-value");
             
@@ -1529,6 +1568,11 @@
                 $("#txt_apellidos").val(datos.apellidos);
                 $("#txt_correo").val(datos.correo);
                 $("#txt_celular").val(datos.celular);
+                if(datos.esprioritario == "1"){
+                    $("#chk_cliente_prioritario").prop('checked', true);
+                }else{
+                    $("#chk_cliente_prioritario").prop('checked', false);
+                }
                 console.log(nroplaca);
             },
             error:function(result){

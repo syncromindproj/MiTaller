@@ -62,6 +62,14 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
 
         try{
             switch($tipo){
+                case "clientes_prioritarios":
+                    $query = $this->db->connect()->prepare("SELECT count(*) as numero FROM placa WHERE estado = 1 and esprioritario=1");
+                    $query->execute();
+                    while($row =  $query->fetch()){
+                        $numero = $row['numero'];
+                    }
+                    break;
+
                 case "prioritarios":
                     $query = $this->db->connect()->prepare("SELECT count(*) as numero FROM siniestro WHERE estado = 1 and esprioritario=1");
                     $query->execute();
@@ -129,7 +137,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
                     mkdir($folder."/DOCUMENTOS_GENERALES", 0777, true);
                     mkdir($folder."/FOTOS", 0777, true);
                     mkdir($folder."/REPUESTOS", 0777, true);
-                    mkdir($folder."/MANO_OBRA", 0777, true);
+                    mkdir($folder."/PRESUPUESTOS", 0777, true);
                     mkdir($folder."/CARTAS_DE_APROBACION", 0777, true);
                     mkdir($folder."/INVENTARIOS", 0777, true);
                     mkdir($folder."/FRANQUICIAS", 0777, true);

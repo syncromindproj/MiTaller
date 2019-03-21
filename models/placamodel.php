@@ -11,7 +11,7 @@ class PlacaModel extends Model
         $items = [];
         try{
             $query = $this->db->connect()->query("
-            SELECT p.nroplaca, p.marca, p.modelo, p.color, p.anio, p.dni, p.nombres, p.apellidos, (CASE WHEN COUNT(ps.nroplaca)=0 then 'NO REGISTRA SINIESTROS' WHEN COUNT(ps.nroplaca)>0 THEN (CONCAT(COUNT(ps.nroplaca),  ' SINIESTROS')) END)  as nrosiniestros, DATE_FORMAT(p.fecha_registro, '%d/%m/%Y') as fecha_registro
+            SELECT p.nroplaca, p.marca, p.modelo, p.color, p.anio, p.dni, p.nombres, p.apellidos, (CASE WHEN COUNT(ps.nroplaca)=0 then 'NO REGISTRA SINIESTROS' WHEN COUNT(ps.nroplaca)>0 THEN (CONCAT(COUNT(ps.nroplaca),  ' SINIESTROS')) END)  as nrosiniestros, DATE_FORMAT(p.fecha_registro, '%d/%m/%Y') as fecha_registro, (CASE WHEN p.esprioritario=0 then 'NO' else 'SI' end) as esprioritario
             FROM placa p
             left join placa_siniestro ps
             on p.nroplaca = ps.nroplaca
@@ -36,8 +36,8 @@ class PlacaModel extends Model
 
     public function InsertaPlaca($datos){
         try{
-            $query = $this->db->connect()->prepare('insert into placa (nroplaca, marca, modelo, dni, nombres, apellidos, color, anio, celular, correo)
-            values (:nroplaca, :marca, :modelo, :dni, :nombres, :apellidos, :color, :anio, :celular, :correo)');
+            $query = $this->db->connect()->prepare('insert into placa (nroplaca, marca, modelo, dni, nombres, apellidos, color, anio, celular, correo, esprioritario)
+            values (:nroplaca, :marca, :modelo, :dni, :nombres, :apellidos, :color, :anio, :celular, :correo, :esprioritario)');
             $query->execute([
                 'nroplaca'  => $datos['nroplaca'],
                 'marca'     => $datos['marca'],
@@ -48,7 +48,8 @@ class PlacaModel extends Model
                 'color'     => $datos['color'],
                 'anio'      => $datos['anio'],
                 'celular'   => $datos['celular'],
-                'correo'    => $datos['correo']
+                'correo'    => $datos['correo'],
+                'esprioritario' => $datos['esclienteprioritario']
             ]);
 
             $query2 = $this->db->connect()->prepare('insert into usuario (idtipo, nombres, apellidos, usuario, clave)
@@ -69,7 +70,7 @@ class PlacaModel extends Model
     }
 
     public function ActualizaPlaca($datos){
-        $query = $this->db->connect()->prepare('update placa set marca = :marca, modelo = :modelo, dni = :dni, nombres = :nombres, apellidos = :apellidos, color = :color, anio = :anio, celular = :celular, correo = :correo where nroplaca=:nroplaca');
+        $query = $this->db->connect()->prepare('update placa set marca = :marca, modelo = :modelo, dni = :dni, nombres = :nombres, apellidos = :apellidos, color = :color, anio = :anio, celular = :celular, correo = :correo, esprioritario = :esprioritario where nroplaca=:nroplaca');
         $query->execute([
             'nroplaca'  => $datos['nroplaca'],
             'marca'     => $datos['marca'],
@@ -80,7 +81,8 @@ class PlacaModel extends Model
             'color'     => $datos['color'],
             'anio'      => $datos['anio'],
             'celular'   => $datos['celular'],
-            'correo'    => $datos['correo']
+            'correo'    => $datos['correo'],
+            'esprioritario' => $datos['esclienteprioritario']
         ]);
     }
 
@@ -111,6 +113,7 @@ class PlacaModel extends Model
                 $item->estado       = $row['estado'];
                 $item->celular      = $row['celular'];
                 $item->correo       = $row['correo'];
+                $item->esprioritario       = $row['esprioritario'];
             }
             
             return $item;

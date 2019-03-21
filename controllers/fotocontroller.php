@@ -58,7 +58,7 @@ class FotoController extends Controller
                 $path .= "/REPUESTOS/".strtolower($final_image);
                 break;
             case 3:
-                $path .= "/MANO_OBRA/".strtolower($final_image);
+                $path .= "/PRESUPUESTOS/".strtolower($final_image);
                 break;
             case 4:
                 $path .= "/CARTAS_DE_APROBACION/".strtolower($final_image);
