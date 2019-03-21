@@ -435,7 +435,7 @@
                                         <li id="tab_generales" class="active"><a href="#generales" data-toggle="tab">Datos Generales</a></li>
                                         <li id="tab_fotos"><a href="#fotos" data-toggle="tab">Fotos</a></li>
                                         <li id="tab_repuestos"><a href="#repuestos" data-toggle="tab">Repuestos</a></li>
-                                        <li id="tab_presupuestos"><a href="#presupuesto" data-toggle="tab">Presupuesto</a></li>
+                                        <li id="tab_presupuestos"><a href="#presupuesto" data-toggle="tab">Mano de Obra</a></li>
                                         <li id="tab_cartas"><a href="#carta" data-toggle="tab">Carta de Conformidad</a></li>
                                         <li id="tab_inventarios"><a href="#inventarios" data-toggle="tab">Inventarios</a></li>
                                         <li id="tab_franquicias"><a href="#franquicias" data-toggle="tab">Franquicias</a></li>

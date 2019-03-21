@@ -5,11 +5,34 @@ class FotoController extends Controller
         parent::__construct();
     }
 
+    function render()
+    {
+        //$placas = $this->model->get();
+        //$this->view->placas = $placas;
+        $this->view->title = "Fotos";
+        $this->view->subtitle = "Listado de Fotos";
+        $this->view->render('fotos/index');
+    }
+
     public function ListaFotos()
     {
         $datos = $_REQUEST['datos'];
         $datos = json_decode($datos, true);
         $fotos = $this->model->ListaFotos($datos["idsiniestro"], $datos["tipo"]);
+        echo json_encode($fotos);
+    }
+
+    public function GetFotosPorMarca()
+    {
+        $fotos = $this->model->GetFotosPorMarca();
+        echo json_encode($fotos);
+    }
+
+    public function GetRutasPorMarca()
+    {
+        $datos = $_REQUEST['datos'];
+        $datos = json_decode($datos, true);
+        $fotos = $this->model->GetRutasPorMarca($datos['marca'], $datos['tipo']);
         echo json_encode($fotos);
     }
 
@@ -35,7 +58,7 @@ class FotoController extends Controller
                 $path .= "/REPUESTOS/".strtolower($final_image);
                 break;
             case 3:
-                $path .= "/PRESUPUESTOS/".strtolower($final_image);
+                $path .= "/MANO_OBRA/".strtolower($final_image);
                 break;
             case 4:
                 $path .= "/CARTAS_DE_APROBACION/".strtolower($final_image);

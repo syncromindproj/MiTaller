@@ -50,6 +50,17 @@ class PlacaModel extends Model
                 'celular'   => $datos['celular'],
                 'correo'    => $datos['correo']
             ]);
+
+            $query2 = $this->db->connect()->prepare('insert into usuario (idtipo, nombres, apellidos, usuario, clave)
+            values (:idtipo, :nombres, :apellidos, :usuario, :clave)');
+            $query2->execute([
+                'idtipo'        => 'CLI',
+                'nombres'       => $datos['nombres'],
+                'apellidos'     => $datos['apellidos'],
+                'usuario'       => $datos['nroplaca'],
+                'clave'         => md5($datos['dni'])
+            ]);
+
             return "Placa Insertada";
         }catch(PDOException $e){
             return $e->getCode();
