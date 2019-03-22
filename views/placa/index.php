@@ -472,7 +472,7 @@
                                                     <div class="nav-tabs-custom">
                                                         <ul class="nav nav-tabs">
                                                             <li id="tab_fotos_siniestros" class="active"><a href="#fotos_siniestros" data-toggle="tab">Siniestro</a></li>
-                                                            <li id="tab_fotos_repuestos"><a href="#fotos_repuestos" data-toggle="tab">Repuestos</a></li>
+                                                            <li id="tab_fotos_repuestos"><a href="#fotos_repuestos" data-toggle="tab">M/O & RPTOS</a></li>
                                                             <li id="tab_fotos_inspeccion"><a href="#fotos_inspeccion" data-toggle="tab">Inspección</a></li>
                                                             <li id="tab_fotos_terminados"><a href="#fotos_terminados" data-toggle="tab">Vehículo terminado</a></li>
                                                         </ul>

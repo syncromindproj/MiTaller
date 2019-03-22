@@ -1,4 +1,11 @@
 <ul class="sidebar-menu" data-widget="tree">
+    <?PHP
+        if(isset($_SESSION['tipo']) && $_SESSION['tipo'] == 'CLI'){
+    ?>
+    <li class="bienvenida"><?PHP echo constant('BIENVENIDA'); ?></li>
+    <li class="bienvenida"><?PHP echo constant('BIENVENIDA_2'); ?></li>
+    <?PHP } ?>
+    
     <li class="header">NAVEGACIÓN</li>
     <!-- Optionally, you can add icons to the links -->
     <?PHP

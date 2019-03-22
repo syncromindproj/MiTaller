@@ -51,11 +51,11 @@
 
     <form method="post" id="frm_usuario">
       <div class="form-group has-feedback">
-        <input type="text" id="txt_usuario" required class="form-control" placeholder="Usuario">
+        <input type="text" id="txt_usuario" required class="form-control" placeholder="Placa / Usuario">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" id="txt_clave" required class="form-control" placeholder="Clave">
+        <input type="password" id="txt_clave" required class="form-control" placeholder="DNI / Clave">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
