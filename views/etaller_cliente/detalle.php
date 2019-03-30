@@ -76,7 +76,11 @@
                                         }
 
                                         if($cont < 4){
-                                            echo("<div class='col-md-3'><a href='".constant('URL').$row[$x]['archivo']."' data-toggle='lightbox' data-gallery='galeria-fotos'><img class='img-responsive' src='".constant('URL').$row[$x]['archivo']."' /></a></div>");
+                                            echo("<div class='col-md-3'><p>
+                                                    <a href='".constant('URL').$row[$x]['archivo']."' data-toggle='lightbox' data-gallery='galeria-fotos'><img class='img-responsive' src='".constant('URL').$row[$x]['archivo']."' /></a>
+                                                </p>
+                                                <p class='text-center'><strong>".$row[$x]['descripcion']."</strong></p>
+                                                </div>");
                                         }else{
                                             echo("</div>");
                                             echo("<div class='row'>");
@@ -102,7 +106,7 @@
 
 <!-- BEGIN JIVOSITE CODE {literal} -->
 <script type='text/javascript'>
-(function(){ var widget_id = '7bmY5uwY88';var d=document;var w=window;function l(){
+(function(){ var widget_id = 'XKZMbYFH3r';var d=document;var w=window;function l(){
   var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true;
   s.src = '//code.jivosite.com/script/widget/'+widget_id
     ; var ss = document.getElementsByTagName('script')[0]; ss.parentNode.insertBefore(s, ss);}

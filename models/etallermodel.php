@@ -30,18 +30,19 @@ class EtallerModel extends Model
         }
     }
 
-    function InsertaFoto($placa, $fecha, $archivo)
+    function InsertaFoto($placa, $fecha, $archivo, $descripcion)
     {
         try{
             $date             = str_replace('/', '-', $fecha);
             $fecha_etaller    = date("Y-m-d", strtotime($date));
 
-            $query = $this->db->connect()->prepare('insert into etaller (fecha, nroplaca, archivo)
-            values (:fecha, :nroplaca, :archivo)');
+            $query = $this->db->connect()->prepare('insert into etaller (fecha, nroplaca, archivo, descripcion)
+            values (:fecha, :nroplaca, :archivo, :descripcion)');
             $query->execute([
-                'fecha'     => $fecha_etaller,
-                'nroplaca'  => $placa,
-                'archivo'   => $archivo
+                'fecha'         => $fecha_etaller,
+                'nroplaca'      => $placa,
+                'archivo'       => $archivo,
+                'descripcion'   => $descripcion
             ]);
             return "Foto Insertada";
         }catch(PDOException $e){
@@ -86,7 +87,7 @@ class EtallerModel extends Model
     {
         try{
             //$query = $this->db->connect()->prepare("select idetaller, DATE_FORMAT(fecha, '%d/%m/%Y') as fecha, nroplaca, archivo from etaller where nroplaca = :placa order by fecha desc");
-            $query = $this->db->connect()->prepare("select idetaller, DATE_FORMAT(fecha, '%d/%m/%Y') as fecha_str, fecha, nroplaca, archivo from etaller where nroplaca = :placa order by fecha desc");
+            $query = $this->db->connect()->prepare("select idetaller, DATE_FORMAT(fecha, '%d/%m/%Y') as fecha_str, fecha, nroplaca, archivo, descripcion from etaller where nroplaca = :placa order by fecha desc");
             $query->execute([
                 'placa'   => $placa
             ]);

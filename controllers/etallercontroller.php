@@ -34,6 +34,7 @@ class EtallerController extends Controller
         $errorimg       = $_FILES["files"]["error"][0];
         $placa          = strtoupper($_REQUEST['placa']);
         $fecha          = $_REQUEST['fecha'];
+        $descripcion    = $_REQUEST['txt_comentario'];
 
         $path   = 'views/uploads/etaller/'.$placa;
         $marca  = constant('URL') . 'views/public/img/marca.png';
@@ -62,11 +63,12 @@ class EtallerController extends Controller
             $image          = imagecreatefromjpeg( $new_name );
             $logoImage      = imagecreatefrompng( $marca );
 
-            $stamp_new = imagecreatetruecolor(450,150);
+            //$stamp_new = imagecreatetruecolor(450,150);
+            $stamp_new = imagecreatetruecolor(750,300);
             imagealphablending($stamp_new, false);
             imagesavealpha($stamp_new, true);
-            imagecopyresampled($stamp_new, $logoImage, 0, 0, 0, 0, 450, 150, imagesx($logoImage),imagesy($logoImage));
-            
+            //imagecopyresampled($stamp_new, $logoImage, 0, 0, 0, 0, 450, 150, imagesx($logoImage),imagesy($logoImage));
+            imagecopyresampled($stamp_new, $logoImage, 0, 0, 0, 0, 750, 300, imagesx($logoImage),imagesy($logoImage));
             //imagealphablending( $logoImage, true );
 
             $imageWidth     = imagesx($image);
@@ -95,7 +97,7 @@ class EtallerController extends Controller
             
 
             //$etaller = $this->model->InsertaFoto($placa, $fecha, $path);
-            $etaller = $this->model->InsertaFoto($placa, $fecha, $new_name);
+            $etaller = $this->model->InsertaFoto($placa, $fecha, $new_name, $descripcion);
             echo(json_encode($etaller));
         }
         
