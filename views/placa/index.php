@@ -153,11 +153,11 @@
                         <div class="row">
                             <div class="col-md-4 form-group">
                                 <label for="txt_color">Color</label>
-                                <input required type="text" class="form-control" id="txt_color" name="txt_color" placeholder="Color">
+                                <input type="text" class="form-control" id="txt_color" name="txt_color" placeholder="Color">
                             </div>
                             <div class="col-md-4">
                                 <label for="txt_anio">Año</label>
-                                <input required type="text" class="form-control" id="txt_anio" name="txt_anio" placeholder="Año">
+                                <input type="text" class="form-control" id="txt_anio" name="txt_anio" placeholder="Año">
                             </div>
                         </div>
                         <div class="row">
@@ -182,11 +182,11 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <label for="txt_celular">Celular</label>
-                                <input required type="text" class="form-control" id="txt_celular" name="txt_celular" placeholder="Celular">
+                                <input type="text" class="form-control" id="txt_celular" name="txt_celular" placeholder="Celular">
                             </div>
                             <div class="col-md-4">
                                 <label for="txt_correo">Correo</label>
-                                <input required type="email" class="form-control" id="txt_correo" name="txt_correo" placeholder="Correo">
+                                <input type="email" class="form-control" id="txt_correo" name="txt_correo" placeholder="Correo">
                             </div>
                         </div>
                         <div class="row" style="padding-top:15px;">

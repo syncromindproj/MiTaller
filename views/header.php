@@ -55,6 +55,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
       text-transform:uppercase;
     }
   </style>
+
+    <?PHP if(isset($_SESSION['tipo']) && $_SESSION['tipo'] == 'CLI'){ ?>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-136219278-1"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-136219278-1');
+      </script>
+    <?PHP } ?>
 </head>
 <!--
 BODY TAG OPTIONS:

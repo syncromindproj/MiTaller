@@ -48,6 +48,27 @@
                 </div>
             </div>
         </section>
+
+        <!-- Delete Modal -->
+        <div class="modal modal-danger fade" id="modal-delete">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">¿Eliminar Registro?</h4>
+              </div>
+              <div class="modal-body">
+                <p>Desea eliminar la placa: <span id="sp_grupo"></span></p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancelar</button>
+                <button type="button" id="btn_elimina" data-value="" class="btn btn-outline">Eliminar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Delete Modal -->
 </div>
 
 <!-- Main Footer -->
