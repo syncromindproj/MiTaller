@@ -91,6 +91,7 @@
                         <thead>
                             <tr>
                                 <th>Foto</th>
+                                <th>Descripción</th>
                                 <th>Fecha</th>
                                 <th>Opciones</th>
                             </tr>
@@ -185,6 +186,9 @@
                                     <tr class="template-upload fade">
                                         <td>
                                             <span class="preview"></span>
+                                        </td>
+                                        <td>
+                                            <input name="txt_comentario[]" placeholder="Comentario"></input>
                                         </td>
                                         <td>
                                             <p class="name">{%=file.name%}</p>
@@ -391,7 +395,8 @@
                             var datos = inputs.serializeArray();
                             data.formData = { 
                                 'placa': placa, 
-                                'fecha' : fecha
+                                'fecha' : fecha,
+                                'txt_comentario' : datos[0].value.toUpperCase()
                             }
                         });
 
@@ -504,11 +509,12 @@
                     "data":"archivo",
                     "render": function(url, type, full){
                         var extension = full['archivo'].split(".");
-                        if(extension[1] == "jpg" || extension[1] == "png" || extension[1] == "gif"){
+                        var length = (extension.length) - 1;
+                        if(extension[length] == "jpg" || extension[length] == "png" || extension[length] == "gif"){
                             return '<a target="_blank" href="<?PHP echo constant('URL'); ?>/'+full['archivo']+'"><img width="200" src="<?PHP echo constant('URL'); ?>'+full['archivo']+'"/></a>';
                         }
                         
-                        if(extension[1] == "pdf"){
+                        if(extension[length] == "pdf"){
                             return '<a target="_blank" href="<?PHP echo constant('URL'); ?>/'+full['archivo']+'"><img width="200" src="<?PHP echo constant('URL'); ?>/views/public/img/pdf-icon-200.png"/></a>';
                         }
                         return false;
@@ -517,11 +523,16 @@
                 },
                 {
                     "targets":1,
-                    "data":"fecha_str",
+                    "data":"descripcion",
                     "width":"15%"
                 },
                 {
                     "targets":2,
+                    "data":"fecha_str",
+                    "width":"15%"
+                },
+                {
+                    "targets":3,
                     "data":"idetaller",
                     "render": function(url, type, full){
                         var id          = "'" + full[0] + "'";

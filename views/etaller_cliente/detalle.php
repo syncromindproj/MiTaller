@@ -50,6 +50,22 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <div class="bienvenido">BIENVENIDO A
+                                    <img class="img-valign" src="<?PHP echo constant('URL'); ?>views/public/img/logo.jpg" />
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="row" style="margin-bottom:70px;">
+                                <div class="col-md-12 text-center">
+                                    <div class="sub_bienvenido">¡GRACIAS POR PERMITIRNOS TRABAJAR PARA TÍ!
+                                    </div>
+                                </div>
+                                
+                            </div>
+
                             <input type="hidden" id="txt_cliente" value="<?PHP echo($_SESSION['usuario']); ?>" />
                                 <?PHP 
                                     $cont = 0;
@@ -60,7 +76,11 @@
                                         }
 
                                         if($cont < 4){
-                                            echo("<div class='col-md-3'><a href='".constant('URL').$row[$x]['archivo']."' data-toggle='lightbox' data-gallery='galeria-fotos'><img class='img-responsive' src='".constant('URL').$row[$x]['archivo']."' /></a></div>");
+                                            echo("<div class='col-md-3'><p>
+                                                    <a href='".constant('URL').$row[$x]['archivo']."' data-toggle='lightbox' data-gallery='galeria-fotos'><img class='img-responsive' src='".constant('URL').$row[$x]['archivo']."' /></a>
+                                                </p>
+                                                <p class='text-center'><strong>".$row[$x]['descripcion']."</strong></p>
+                                                </div>");
                                         }else{
                                             echo("</div>");
                                             echo("<div class='row'>");
@@ -83,6 +103,18 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js.map"></script>
+
+<!-- BEGIN JIVOSITE CODE {literal} -->
+<script type='text/javascript'>
+(function(){ var widget_id = 'XKZMbYFH3r';var d=document;var w=window;function l(){
+  var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true;
+  s.src = '//code.jivosite.com/script/widget/'+widget_id
+    ; var ss = document.getElementsByTagName('script')[0]; ss.parentNode.insertBefore(s, ss);}
+  if(d.readyState=='complete'){l();}else{if(w.attachEvent){w.attachEvent('onload',l);}
+  else{w.addEventListener('load',l,false);}}})();
+</script>
+<!-- {/literal} END JIVOSITE CODE -->
+
 <script>
     $(document).on('click', '[data-toggle="lightbox"]', function(event) {
         event.preventDefault();

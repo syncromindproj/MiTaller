@@ -13,6 +13,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <meta property="og:title" content="Home"/>
+		<meta property="og:type" content="article"/>
+		<meta property="og:url" content="http://syncromind.net/"/>
+		<meta property="og:site_name" content="Syncromind | Diseño y desarrollo web"/>
+		<meta property="og:description" content="¡A partir de hoy dejarás de ser una PYME"/>
+
   <title><?PHP echo constant('TITLE'); ?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -28,6 +35,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         apply the skin class to the body tag so the changes take effect. -->
   <link rel="stylesheet" href="<?PHP echo constant('URL'); ?>views/dist/css/skins/skin-blue.min.css">
   <link  rel="stylesheet" href="<?PHP echo constant('URL'); ?>views/dist/css/custom.css" />
+  <link  rel="stylesheet" href="<?PHP echo constant('URL'); ?>views/public/css/general.css" />
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -39,11 +47,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
+  <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet">
+
   <style>
     input{
       text-transform:uppercase;
     }
   </style>
+
+    <?PHP if(isset($_SESSION['tipo']) && $_SESSION['tipo'] == 'CLI'){ ?>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-136219278-1"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-136219278-1');
+      </script>
+    <?PHP } ?>
 </head>
 <!--
 BODY TAG OPTIONS:

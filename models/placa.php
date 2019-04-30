@@ -8,6 +8,7 @@ class Placa{
     public $dni;
     public $nombres;
     public $apellidos;
+    public $esprioritario;
     public $estado;
 }
 ?>

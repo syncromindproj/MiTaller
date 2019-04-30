@@ -34,8 +34,10 @@ class EtallerController extends Controller
         $errorimg       = $_FILES["files"]["error"][0];
         $placa          = strtoupper($_REQUEST['placa']);
         $fecha          = $_REQUEST['fecha'];
+        $descripcion    = $_REQUEST['txt_comentario'];
 
-        $path = 'views/uploads/etaller/'.$placa;
+        $path   = 'views/uploads/etaller/'.$placa;
+        $marca  = constant('URL') . 'views/public/img/marca.png';
         $estado = "0";
 
         if (file_exists($path)) {
@@ -50,9 +52,52 @@ class EtallerController extends Controller
             $path .= "/" . $rand . "_" . strtolower($img);
         }
 
-        if(move_uploaded_file($tmp,$path)) 
+        //$img_tmpname=$_FILES['image']['tmp_name'];
+        $num = substr( md5( rand( 10000,99999 ) ),0,9);    
+        $new_name = $path.$num.".jpg";
+        $image = $num.".jpg";
+        
+        //if(move_uploaded_file($tmp,$path)) 
+        if(move_uploaded_file($tmp,$new_name)) 
         {
-            $etaller = $this->model->InsertaFoto($placa, $fecha, $path);
+            $image          = imagecreatefromjpeg( $new_name );
+            $logoImage      = imagecreatefrompng( $marca );
+
+            //$stamp_new = imagecreatetruecolor(450,150);
+            $stamp_new = imagecreatetruecolor(750,300);
+            imagealphablending($stamp_new, false);
+            imagesavealpha($stamp_new, true);
+            //imagecopyresampled($stamp_new, $logoImage, 0, 0, 0, 0, 450, 150, imagesx($logoImage),imagesy($logoImage));
+            imagecopyresampled($stamp_new, $logoImage, 0, 0, 0, 0, 750, 300, imagesx($logoImage),imagesy($logoImage));
+            //imagealphablending( $logoImage, true );
+
+            $imageWidth     = imagesx($image);
+            $imageHeight    = imagesy($image); 
+            $logoWidth      = imagesx($stamp_new);
+            $logoHeight     = imagesy($stamp_new);
+            //$logoWidth      = imagesx($logoImage);
+            //$logoHeight     = imagesy($logoImage);
+
+            imagecopy(
+              $image,
+              //$logoImage,
+              $stamp_new,
+              $imageWidth-$logoWidth, $imageHeight-$logoHeight,
+              0, 0,
+              $logoWidth, $logoHeight);
+
+            // Set type of image and send the output
+            //header("Content-type: image/png");
+            //imagepng( $image );/*display image with watermark */
+            @imagepng( $image, $new_name );/* save image with watermark */
+
+            // Release memory
+            imagedestroy( $image );
+            imagedestroy( $logoImage );
+            
+
+            //$etaller = $this->model->InsertaFoto($placa, $fecha, $path);
+            $etaller = $this->model->InsertaFoto($placa, $fecha, $new_name, $descripcion);
             echo(json_encode($etaller));
         }
         

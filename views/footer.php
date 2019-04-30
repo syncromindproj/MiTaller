@@ -3,7 +3,7 @@
   <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-      Version 1.0
+      Version 1.5
     </div>
     <!-- Default to the left -->
     <strong>Desarrollado por <a href="http://www.syncromind.net"><img src="<?PHP echo constant('URL'); ?>views/public/img/logo_syncro.png" /></a></strong> 

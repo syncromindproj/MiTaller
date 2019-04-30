@@ -17,6 +17,8 @@
     height: 450px;
     overflow-y: auto;
 }
+
+
 </style>
 
     <!-- Content Wrapper. Contains page content -->
@@ -47,6 +49,22 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <div class="bienvenido">BIENVENIDO A
+                                    <img class="img-valign" src="<?PHP echo constant('URL'); ?>views/public/img/logo.jpg" />
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="row" style="margin-bottom:70px;">
+                                <div class="col-md-12 text-center">
+                                    <div class="sub_bienvenido">¡GRACIAS POR PERMITIRNOS TRABAJAR PARA TÍ!
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
                             <input type="hidden" id="txt_cliente" value="<?PHP echo($_SESSION['usuario']); ?>" />
                             <table id="etaller_tabla" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
@@ -98,6 +116,17 @@
 <script src="<?PHP echo constant('URL'); ?>views/public/js/jquery.fileupload-validate.js"></script>
 <!-- The File Upload user interface plugin -->
 <script src="<?PHP echo constant('URL'); ?>views/public/js/jquery.fileupload-ui.js"></script>
+
+<!-- BEGIN JIVOSITE CODE {literal} -->
+<script type='text/javascript'>
+(function(){ var widget_id = 'XKZMbYFH3r';var d=document;var w=window;function l(){
+  var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true;
+  s.src = '//code.jivosite.com/script/widget/'+widget_id
+    ; var ss = document.getElementsByTagName('script')[0]; ss.parentNode.insertBefore(s, ss);}
+  if(d.readyState=='complete'){l();}else{if(w.attachEvent){w.attachEvent('onload',l);}
+  else{w.addEventListener('load',l,false);}}})();
+</script>
+<!-- {/literal} END JIVOSITE CODE -->
 
 <script>
     var etaller = "";

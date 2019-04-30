@@ -7,8 +7,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!--meta property="og:title" content="E-Taller"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:url" content="http://www.penaranda.info/mitaller"/>
+  <meta property="og:site_name" content="Mitaller"/>
+  <meta property="og:description" content="Sabemos los importante que es tu vehiculo, a partir de ahora podras ver el avance de forma sencilla y desde cualquier dispositivo a traves del siguiente link."/>
+  <meta property="og:image" content="http://penaranda.info/mitaller/views/public/img/whatsapp.jpg"/-->
+
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
   <title><?PHP echo constant('TITLE'); ?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -51,11 +59,11 @@
 
     <form method="post" id="frm_usuario">
       <div class="form-group has-feedback">
-        <input type="text" id="txt_usuario" required class="form-control" placeholder="Usuario">
+        <input type="text" id="txt_usuario" required class="form-control" placeholder="Placa / Usuario">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" id="txt_clave" required class="form-control" placeholder="Clave">
+        <input type="password" id="txt_clave" required class="form-control" placeholder="DNI / Clave">
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
