@@ -147,6 +147,8 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
                     mkdir($folder."/FOTOS/REPUESTOS", 0777, true);
                     mkdir($folder."/FOTOS/INSPECCION", 0777, true);
                     mkdir($folder."/FOTOS/FOTOS_TERMINADO", 0777, true);
+                    mkdir($folder."/FOTOS/FOTOS_TABLERO", 0777, true);
+                    mkdir($folder."/FOTOS/FOTOS_INTERIOR", 0777, true);
 
                     mkdir($folder."/REPUESTOS/NOTAS_CREDITO", 0777, true);
                     mkdir($folder."/REPUESTOS/GUIAS_REMISION", 0777, true);

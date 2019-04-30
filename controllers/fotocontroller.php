@@ -99,6 +99,12 @@ class FotoController extends Controller
             case 16:
                 $path .= "/FOTOS/FOTOS_TERMINADO/".strtolower($final_image);
                 break;
+            case 17:
+                $path .= "/FOTOS/FOTOS_TABLERO/".strtolower($final_image);
+                break;
+            case 18:
+                $path .= "/FOTOS/FOTOS_INTERIOR/".strtolower($final_image);
+                break;
         }
 
         if(move_uploaded_file($tmp,$path)) 

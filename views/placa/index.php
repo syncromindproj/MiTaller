@@ -475,6 +475,8 @@
                                                             <li id="tab_fotos_repuestos"><a href="#fotos_repuestos" data-toggle="tab">M/O & RPTOS</a></li>
                                                             <li id="tab_fotos_inspeccion"><a href="#fotos_inspeccion" data-toggle="tab">Inspección</a></li>
                                                             <li id="tab_fotos_terminados"><a href="#fotos_terminados" data-toggle="tab">Vehículo terminado</a></li>
+                                                            <li id="tab_fotos_tablero"><a href="#fotos_tablero" data-toggle="tab">Tablero del Vehículo</a></li>
+                                                            <li id="tab_fotos_interior"><a href="#fotos_interior" data-toggle="tab">Interior del Vehículo</a></li>
                                                         </ul>
                                                         <div class="tab-content">
                                                             <div class="tab-pane active" id="fotos_siniestros">
@@ -529,6 +531,38 @@
                                                                 <div class="row">
                                                                     <div class="col-md-12">
                                                                         <table id="fotos_terminado_tabla" class="table table-striped table-bordered" style="width:100%">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Imagen</th>
+                                                                                    <th>Descripcion</th>
+                                                                                    <th>Opciones</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                        </table>
+                                                                    </div>                                                
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="tab-pane" id="fotos_tablero">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <table id="fotos_tablero_tabla" class="table table-striped table-bordered" style="width:100%">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Imagen</th>
+                                                                                    <th>Descripcion</th>
+                                                                                    <th>Opciones</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                        </table>
+                                                                    </div>                                                
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="tab-pane" id="fotos_interior">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <table id="fotos_interior_tabla" class="table table-striped table-bordered" style="width:100%">
                                                                             <thead>
                                                                                 <tr>
                                                                                     <th>Imagen</th>
@@ -1435,6 +1469,8 @@
         fotos_repuestos         = CrearDatatable(idsiniestro, 7, "fotos_repuestos_tabla");
         fotos_siniestro         = CrearDatatable(idsiniestro, 8, "fotos_siniestros_tabla");
         fotos_terminado         = CrearDatatable(idsiniestro, 16, "fotos_terminado_tabla");
+        fotos_tablero           = CrearDatatable(idsiniestro, 17, "fotos_tablero_tabla");
+        fotos_interior          = CrearDatatable(idsiniestro, 18, "fotos_interior_tabla");
         //END FOTOS
 
         //REPUESTOS
@@ -1482,6 +1518,8 @@
         fotos_repuestos.ajax.reload();
         fotos_siniestro.ajax.reload();
         fotos_terminado.ajax.reload();
+        fotos_tablero.ajax.reload();
+        fotos_interior.ajax.reload();
         fotos_credito.ajax.reload();
         fotos_guia.ajax.reload();
         inventarios.ajax.reload();
