@@ -2202,6 +2202,9 @@
                 data: dataString,
                 success: function(data) {
                     console.log(data);
+                    siniestros.ajax.reload();
+                    $('#md_siniestros').modal();
+                    $("#modal_inventario").modal('hide');
                 }
             });
             return false;
@@ -2267,7 +2270,7 @@
                     "data":"idinventario",
                     "render": function(url, type, full){
                         if(full[6] != ""){
-                            return '<a href="javascript:ver_inventario('+ full[0] +');">Ver inventario</a>'
+                            return '<a href="javascript:ver_inventario_pdf('+ full[0] +');">Ver inventario</a>'
                         }else{
                             return '<a href="javascript:ver_inventario('+ full[0] +');">Registrar inventario</a>'
                         }
@@ -2638,6 +2641,11 @@
         $('#sl_inv_chapapuertas').empty();
         $('#sl_inv_alarma').empty();
         $('#sl_inv_otros').empty();
+    }
+
+    function ver_inventario_pdf(idsiniestro)
+    {
+        window.open("<?PHP echo constant('URL'); ?>/views/uploads/inventario/registro-" + idsiniestro + ".pdf");
     }
 
     function ver_inventario(idsiniestro)

@@ -235,18 +235,18 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $idsiniestro                = $datos['idsiniestro'];
             $fecha                      = $datos['fecha'];
             $hora                       = $datos['hora'];
-            $recepcionista              = $datos['recepcionista'];
+            $recepcionista              = strtoupper($datos['recepcionista']);
 
-            $placa                      = $datos['placa'];
-            $marca                      = $datos['marca'];
-            $modelo                     = $datos['modelo'];
-            $piloto                     = $datos['piloto'];
+            $placa                      = strtoupper($datos['placa']);
+            $marca                      = strtoupper($datos['marca']);
+            $modelo                     = strtoupper($datos['modelo']);
+            $piloto                     = strtoupper($datos['piloto']);
             $telefono                   = $datos['telefono'];
             $celular                    = $datos['celular'];
-            $correo                     = $datos['correo'];
+            $correo                     = strtoupper($datos['correo']);
 
-            $servicio                   = $datos['servicio'];
-            $observacion                = $datos['observacion'];
+            $servicio                   = strtoupper($datos['servicio']);
+            $observacion                = strtoupper($datos['observacion']);
             $kilometraje                = $datos['kilometraje'];
             //$queda_taller               =$datos['queda_taller '];
             $queda_taller               =1;
@@ -1023,10 +1023,10 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             
             
 
-            $to = "alejandro.diaz@syncromind.net"; 
+            $to = "alejandro.diaz@syncromind.net, marketing@penaranda.info, ".$correo; 
             $from = "alejandro.diaz@syncromind.net"; 
             $subject = "Registro de inventario"; 
-            $message = "<p>Registro de inventario</p>";
+            $message = "<p>En este correo podrá encontrar el registro de inventario en formato PDF.</p>";
 
             $separator = md5(time());
 
@@ -1036,7 +1036,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
 
             //$pdfdoc = $pdf->Output("", "S");
             $pdfdoc = $pdf->Output($filename, "F");
-            //$pdfdoc = $pdf->Output("", "S");
+            $pdfdoc = $pdf->Output("", "S");
             $attachment = chunk_split(base64_encode($pdfdoc));
 
             $headers  = "From: ".$from.$eol;
@@ -1061,7 +1061,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $body .= $attachment.$eol;
             $body .= "--".$separator."--";
 
-            //mail($to, $subject, $body, $headers);
+            mail($to, $subject, $body, $headers);
 
         }catch(PDOException $e){
             return $e->getMessage();
