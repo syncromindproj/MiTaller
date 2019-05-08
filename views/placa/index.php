@@ -17,6 +17,21 @@
     height: 450px;
     overflow-y: auto;
 }
+#frm_inventario input{
+    height:25px;
+}
+#frm_inventario select{
+    height:25px;
+    padding:0;
+}
+#frm_inventario label{
+    font-size:12px;
+    font-weight:500;
+}
+
+.espacio_top{
+    margin-top:10px;
+}
 </style>
 
   <!-- Content Wrapper. Contains page content -->
@@ -118,6 +133,986 @@
           <!-- /.modal-dialog -->
         </div>
         <!-- End Modal Observaciones -->
+
+        <!-- Modal Iventario -->
+        <div class="modal fade" id="modal_inventario">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Registro de Inventario</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form id="frm_inventario" method="POST">
+                            <input type="hidden" id="txt_inv_siniestro" name="txt_inv_siniestro">
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="txt_inv_recepcionista">RECEPCIONISTA</label>    
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="txt_inv_recepcionista" name="txt_inv_recepcionista" placeholder="RECEPCIONISTA">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="txt_inv_placa">PLACA</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="txt_inv_placa" name="txt_inv_placa" placeholder="PLACA">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="txt_inv_marca">MARCA</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="txt_inv_marca" name="txt_inv_marca" placeholder="MARCA">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="txt_inv_modelo">MODELO</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="txt_inv_modelo" name="txt_inv_modelo" placeholder="MODELO">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="txt_inv_ingreso">INGRESO</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="txt_inv_ingreso" name="txt_inv_ingreso" placeholder="INGRESO">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="txt_inv_hora">HORA</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="txt_inv_hora" name="txt_inv_hora" placeholder="HORA">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <label for="txt_inv_piloto">PILOTO</label>
+                                        </div>
+                                        <div class="col-md-11">
+                                            <input type="text" class="form-control" id="txt_inv_piloto" name="txt_inv_piloto" placeholder="PILOTO">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="txt_inv_correo">CORREO</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="txt_inv_correo" name="txt_inv_correo" placeholder="CORREO">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="txt_inv_telefono">TELÉFONO</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="txt_inv_telefono" name="txt_inv_telefono" placeholder="TELÉFONO">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="txt_inv_celular">CELULAR</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="txt_inv_celular" name="txt_inv_celular" placeholder="CELULAR">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <label for="txt_inv_servicio">SERVICIO</label>
+                                        </div>
+                                        <div class="col-md-11">
+                                            <input type="text" class="form-control form-control-sm" id="txt_inv_servicio" name="txt_inv_servicio" placeholder="SERVICIO">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-8">
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                            <label for="txt_inv_observacion">OBS.</label>
+                                        </div>
+                                        <div class="col-md-11">
+                                            <textarea class="form-control" id="txt_inv_observacion" name="txt_inv_observacion" placeholder="OBSERVACIÓN"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="txt_inv_kilometraje">KILOMETRAJE</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control form-control-sm" id="txt_inv_kilometraje" name="txt_inv_kilometraje" placeholder="KILOMETRAJE">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="nav-tabs-custom">
+                                        <ul class="nav nav-tabs">
+                                            <li id="tab_interior" class="active"><a href="#interior" data-toggle="tab">Interior Vehículo</a></li>
+                                            <li id="tab_exterior"><a href="#exterior" data-toggle="tab">Exterior Vehículo</a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="interior">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_tarjpropiedad">TARJETA DE PROPIEDAD</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_tarjpropiedad" name="sl_inv_tarjpropiedad"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_tarjpropiedad" name="txt_inv_tarjpropiedad" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_soat">SOAT</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_soat" name="sl_inv_soat"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_soat" name="txt_inv_soat" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_llaveencendido">LLAVE DE ENCENDIDO</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_llaveencendido" name="sl_inv_llaveencendido"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_llaveencendido" name="txt_inv_llaveencendido" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_encendedor">ENCENDEDOR</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_encendedor" name="sl_inv_encendedor"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_encendedor" name="txt_inv_encendedor" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_aireacondicionado">AIRE ACONDICIONADO</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_aireacondicionado" name="sl_inv_aireacondicionado"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_aireacondicionado" name="txt_inv_aireacondicionado" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_cenicero">CENICERO</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_cenicero" name="sl_inv_cenicero"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_cenicero" name="txt_inv_cenicero" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_claxon">CLAXÓN</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_claxon" name="sl_inv_claxon"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_claxon" name="txt_inv_claxon" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_luzsalon">LUZ DE SALÓN</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_luzsalon" name="sl_inv_luzsalon"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_luzsalon" name="txt_inv_luzsalon" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_parlantes">PARLANTES</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_parlantes" name="sl_inv_parlantes"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_parlantes" name="txt_inv_parlantes" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_correasseguridad">CORREAS DE SEGURIDAD</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_correasseguridad" name="sl_inv_correasseguridad"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_correasseguridad" name="txt_inv_correasseguridad" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_controlalarma">CONTROL DE ALARMA</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_controlalarma" name="sl_inv_controlalarma"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_controlalarma" name="txt_inv_controlalarma" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_asientos">ASIENTOS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_asientos" name="sl_inv_asientos"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_asientos" name="txt_inv_asientos" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_pisos">PISOS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_pisos" name="sl_inv_pisos"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_pisos" name="txt_inv_pisos" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_espejointerior">ESPEJO INTERIOR</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_espejointerior" name="sl_inv_espejointerior"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_espejointerior" name="txt_inv_espejointerior" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_libroservicio">LIBRO DE SERVICIO</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_libroservicio" name="sl_inv_libroservicio"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_libroservicio" name="txt_inv_libroservicio" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_juegoherramientas">JUEGO DE HERRAMIENTAS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_juegoherramientas" name="sl_inv_juegoherramientas"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_juegoherramientas" name="txt_inv_juegoherramientas" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_juegoseguroaros">JUEGO SEGUROS DE AROS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_juegoseguroaros" name="sl_inv_juegoseguroaros"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_juegoseguroaros" name="txt_inv_juegoseguroaros" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_juegosegurovasos">JUEGO SEGURO DE VASOS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_juegosegurovasos" name="sl_inv_juegosegurovasos"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_juegosegurovasos" name="txt_inv_juegosegurovasos" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_radiocd">RADIO - CD</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_radiocd" name="sl_inv_radiocd"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_radiocd" name="txt_inv_radiocd" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_injecagua">INJEC. DE AGUA PARABRISAS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_injecagua" name="sl_inv_injecagua"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_injecagua" name="txt_inv_injecagua" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_trabagas">TRABAGAS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_trabagas" name="sl_inv_trabagas"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_trabagas" name="txt_inv_trabagas" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_mascara">MASCARA</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_mascara" name="sl_inv_mascara"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_mascara" name="txt_inv_mascara" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_seguroruedas">SEGURO DE RUEDAS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_seguroruedas" name="sl_inv_seguroruedas"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_seguroruedas" name="txt_inv_seguroruedas" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_revocular">REV. OCULAR MOTOR</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_revocular" name="sl_inv_revocular"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_revocular" name="txt_inv_revocular" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_cajacd">CAJA CD</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_cajacd" name="sl_inv_cajacd"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_cajacd" name="txt_inv_cajacd" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="exterior">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_antenas">ANTENAS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_antenas" name="sl_inv_antenas"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_antenas" name="txt_inv_antenas" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_espejoexterior">ESPEJO EXTERIOR</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_espejoexterior" name="sl_inv_espejoexterior"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_espejoexterior" name="txt_inv_espejoexterior" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_vasosrueda">VASOS DE RUEDA</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_vasosrueda" name="sl_inv_vasosrueda"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_vasosrueda" name="txt_inv_vasosrueda" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_brazosplumillas">BRAZOS Y PLUMILLAS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_brazosplumillas" name="sl_inv_brazosplumillas"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_brazosplumillas" name="txt_inv_brazosplumillas" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_direccionales">DIRECCIONALES</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_direccionales" name="sl_inv_direccionales"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_direccionales" name="txt_inv_direccionales" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_llantas">LLANTAS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_llantas" name="sl_inv_llantas"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_llantas" name="txt_inv_llantas" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_aros">AROS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_aros" name="sl_inv_aros"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_aros" name="txt_inv_aros" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_farosdelanteros">FAROS DELANTEROS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_farosdelanteros" name="sl_inv_farosdelanteros"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_farosdelanteros" name="txt_inv_farosdelanteros" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_farosposteriores">FAROS POSTERIORES</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_farosposteriores" name="sl_inv_farosposteriores"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_farosposteriores" name="txt_inv_farosposteriores" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_emblemas">EMBLEMAS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_emblemas" name="sl_inv_emblemas"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_emblemas" name="txt_inv_emblemas" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_escarpines">ESCARPINES</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_escarpines" name="sl_inv_escarpines"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_escarpines" name="txt_inv_escarpines" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_tapagasolina">TAPA DE GASOLINA INT. EXT.</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_tapagasolina" name="sl_inv_tapagasolina"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_tapagasolina" name="txt_inv_tapagasolina" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_llantarepuesto">LLANTA DE REPUESTO</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_llantarepuesto" name="sl_inv_llantarepuesto"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_llantarepuesto" name="txt_inv_llantarepuesto" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_gatapalanca">GATA Y PALANCA</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_gatapalanca" name="sl_inv_gatapalanca"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_gatapalanca" name="txt_inv_gatapalanca" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_manijas">MANIJAS Y PERILLAS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_manijas" name="sl_inv_manijas"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_manijas" name="txt_inv_manijas" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_llaveruedas">LLAVE DE RUEDAS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_llaveruedas" name="sl_inv_llaveruedas"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_llaveruedas" name="txt_inv_llaveruedas" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_tapaaceite">TAPA ACEITE</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_tapaaceite" name="sl_inv_tapaaceite"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_tapaaceite" name="txt_inv_tapaaceite" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_tapaliquido">TAPA LÍQUIDO DE FRENO</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_tapaliquido" name="sl_inv_tapaliquido"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_tapaliquido" name="txt_inv_tapaliquido" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_tapaliquidoembrague">TAPA LÍQUIDO DE EMBRAGUE</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_tapaliquidoembrague" name="sl_inv_tapaliquidoembrague"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_tapaliquidoembrague" name="txt_inv_tapaliquidoembrague" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_taparadiador">TAPA DE RADIADOR</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_taparadiador" name="sl_inv_taparadiador"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_taparadiador" name="txt_inv_taparadiador" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_varillaaceite">VARILLA DE ACEITE</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_varillaaceite" name="sl_inv_varillaaceite"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_varillaaceite" name="txt_inv_varillaaceite" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_tapicesalfombras">TAPICES Y ALFOMBRAS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_tapicesalfombras" name="sl_inv_tapicesalfombras"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_tapicesalfombras" name="txt_inv_tapicesalfombras" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_parabrisas">PARABRISAS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_parabrisas" name="sl_inv_parabrisas"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_parabrisas" name="txt_inv_parabrisas" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_lunaspuertas">LUNAS DE PUERTAS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_lunaspuertas" name="sl_inv_lunaspuertas"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_lunaspuertas" name="txt_inv_lunaspuertas" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_copasvasos">COPAS Y VASOS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_copasvasos" name="sl_inv_copasvasos"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_copasvasos" name="txt_inv_copasvasos" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_chapapuertas">CHAPA DE PUERTAS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_chapapuertas" name="sl_inv_chapapuertas"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_chapapuertas" name="txt_inv_chapapuertas" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_alarma">ALARMA</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_alarma" name="sl_inv_alarma"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_alarma" name="txt_inv_alarma" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                                <div class="row espacio_top">
+                                                    <div class="col-md-12">
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label for="txt_inv_otros">OTROS</label>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <select class="form-control" id="sl_inv_otros" name="sl_inv_otros"></select>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <input type="text" class="form-control" id="txt_inv_otros" name="txt_inv_otros" placeholder="OBSERVACIONES">
+                                                            </div>
+                                                        </div>    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="btn_registro_inventario" data-value="" class="btn btn-default" data-dismiss="modal">Registrar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+                </form>
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- End Modal Inventario -->
 
         <div id="md_nuevo" class="modal" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
@@ -300,6 +1295,7 @@
                                     <th>Fecha</th>
                                     <th>Nro siniestro</th>
                                     <th>Observaciones</th>
+                                    <th>Inventario</th>
                                     <th>Aseguradora</th>
                                     <th>Estado</th>
                                     <th>Opciones</th>
@@ -957,7 +1953,9 @@
                     "data":"descripcion",
                     "render": function(url, type, full){
                         var nroplaca = "'" + full[0] + "'";
-                        return '<button onclick="editar_placa('+ nroplaca +');" title="Editar placa" class="btn btn-primary"><i class="fa fa-pencil"></i></button> <button onclick="muestra_siniestros('+ nroplaca +');" title="Ver siniestros" class="btn btn-warning"><i class="fa fa-search"></i></button> <button onclick="alert_elimina('+ nroplaca +');" title="Eliminar placa" class="btn btn-danger"><i class="fa fa-trash"></i></button>';
+                        var marca = "'" + full[1] + "'";
+                        var modelo = "'" + full[2] + "'";
+                        return '<button onclick="editar_placa('+ nroplaca +');" title="Editar placa" class="btn btn-primary"><i class="fa fa-pencil"></i></button> <button onclick="muestra_siniestros('+ nroplaca +','+ marca +','+ modelo +');" title="Ver siniestros" class="btn btn-warning"><i class="fa fa-search"></i></button> <button onclick="alert_elimina('+ nroplaca +');" title="Eliminar placa" class="btn btn-danger"><i class="fa fa-trash"></i></button>';
                         return false;
                     },
                     "width":"15%"
@@ -1044,7 +2042,7 @@
                         $("#txt_placa").focus();
                     }else{
                         $('#md_nuevosiniestro').modal('hide');
-                        muestra_siniestros(nroplaca);
+                        muestra_siniestros(nroplaca, "", "");
                         placas.ajax.reload();	
                     }
                 },
@@ -1194,13 +2192,31 @@
                 }
             });
         });
+
+        $("#btn_registro_inventario").click(function(){
+            var dataString = $("#frm_inventario").serialize();
+            console.log('Datos serializados: '+dataString);
+            $.ajax({
+                type: "POST",
+                url: "<?PHP echo constant('URL'); ?>siniestro/InsertaInventario", 
+                data: dataString,
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+            return false;
+        });
         
     } );
 
-    function muestra_siniestros(nroplaca){
+    function muestra_siniestros(nroplaca, marca, modelo){
         $('#md_siniestros').modal();
         $("#modal_title_siniestro_ver").html(nroplaca);
         $("#btn_enviar_siniestro").text("Actualizar");
+        $("#txt_inv_placa").val(nroplaca);
+        $("#txt_inv_marca").val(marca);
+        $("#txt_inv_modelo").val(modelo);
+
         var info = {};
         info["nroplaca"]    = nroplaca;
         var myJsonString    = JSON.stringify(info);
@@ -1225,7 +2241,7 @@
                 {
                     "targets":0,
                     "data":"fecha_siniestro",
-                    "width":"15%"
+                    "width":"10%"
                 },
                 {
                     "targets":1,
@@ -1244,20 +2260,34 @@
                         
                         return false;
                     },
-                    "width":"15%"
+                    "width":"10%"
                 },
                 {
                     "targets":3,
+                    "data":"idinventario",
+                    "render": function(url, type, full){
+                        if(full[6] != ""){
+                            return '<a href="javascript:ver_inventario('+ full[0] +');">Ver inventario</a>'
+                        }else{
+                            return '<a href="javascript:ver_inventario('+ full[0] +');">Registrar inventario</a>'
+                        }
+                        
+                        return false;
+                    },
+                    "width":"10%"
+                },
+                {
+                    "targets":4,
                     "data":"aseguradora",
                     "width":"15%"
                 },
                 {
-                    "targets":4,
+                    "targets":5,
                     "data":"estado",
-                    "width":"15%"
+                    "width":"10%"
                 },
                 {
-                    "targets":5,
+                    "targets":6,
                     "data":"idsiniestro",
                     "render": function(url, type, full){
                         console.log(url);
@@ -1552,6 +2582,199 @@
 
     }
 
+    function limpiar_selects_inventario()
+    {
+        $('#sl_inv_tarjpropiedad').empty();
+        $('#sl_inv_soat').empty();
+        $('#sl_inv_llaveencendido').empty();
+        $('#sl_inv_encendedor').empty();
+        $('#sl_inv_aireacondicionado').empty();
+        $('#sl_inv_cenicero').empty();
+        $('#sl_inv_claxon').empty();
+        $('#sl_inv_luzsalon').empty();
+        $('#sl_inv_parlantes').empty();
+        $('#sl_inv_correasseguridad').empty();
+        $('#sl_inv_controlalarma').empty();
+        $('#sl_inv_asientos').empty();
+        $('#sl_inv_pisos').empty();
+        $('#sl_inv_espejointerior').empty();
+        $('#sl_inv_libroservicio').empty();
+        $('#sl_inv_juegoherramientas').empty();
+        $('#sl_inv_juegoseguroaros').empty();
+        $('#sl_inv_juegosegurovasos').empty();
+        $('#sl_inv_radiocd').empty();
+        $('#sl_inv_injecagua').empty();
+        $('#sl_inv_trabagas').empty();
+        $('#sl_inv_mascara').empty();
+        $('#sl_inv_seguroruedas').empty();
+        $('#sl_inv_revocular').empty();
+        $('#sl_inv_cajacd').empty();
+
+        $('#sl_inv_antenas').empty();
+        $('#sl_inv_espejoexterior').empty();
+        $('#sl_inv_vasosrueda').empty();
+        $('#sl_inv_brazosplumillas').empty();
+        $('#sl_inv_direccionales').empty();
+        $('#sl_inv_llantas').empty();
+        $('#sl_inv_aros').empty();
+        $('#sl_inv_farosdelanteros').empty();
+        $('#sl_inv_farosposteriores').empty();
+        $('#sl_inv_emblemas').empty();
+        $('#sl_inv_escarpines').empty();
+        $('#sl_inv_tapagasolina').empty();
+        $('#sl_inv_llantarepuesto').empty();
+        $('#sl_inv_gatapalanca').empty();
+        $('#sl_inv_manijas').empty();
+        $('#sl_inv_llaveruedas').empty();
+        $('#sl_inv_tapaaceite').empty();
+        $('#sl_inv_tapaliquido').empty();
+        $('#sl_inv_tapaliquidoembrague').empty();
+        $('#sl_inv_taparadiador').empty();
+        $('#sl_inv_varillaaceite').empty();
+        $('#sl_inv_tapicesalfombras').empty();
+        $('#sl_inv_parabrisas').empty();
+        $('#sl_inv_lunaspuertas').empty();
+        $('#sl_inv_copasvasos').empty();
+        $('#sl_inv_chapapuertas').empty();
+        $('#sl_inv_alarma').empty();
+        $('#sl_inv_otros').empty();
+    }
+
+    function ver_inventario(idsiniestro)
+    {
+        limpiar_selects_inventario();
+        $('#md_siniestros').modal('hide');
+        $("#modal_inventario").modal();
+        $("#txt_inv_siniestro").val(idsiniestro);
+        $.ajax({
+            type: "POST",
+            url: "<?PHP echo constant('URL'); ?>siniestro/ListaEstadosInventario", 
+            success: function(result){
+                var datos = JSON.parse(result);
+                var default_value = "<option value=''>SELECCIONAR</option>";
+                $('#sl_inv_tarjpropiedad').append(default_value);
+                $('#sl_inv_soat').append(default_value);
+                $('#sl_inv_llaveencendido').append(default_value);
+                $('#sl_inv_encendedor').append(default_value);
+                $('#sl_inv_aireacondicionado').append(default_value);
+                $('#sl_inv_cenicero').append(default_value);
+                $('#sl_inv_claxon').append(default_value);
+                $('#sl_inv_luzsalon').append(default_value);
+                $('#sl_inv_parlantes').append(default_value);
+                $('#sl_inv_correasseguridad').append(default_value);
+                $('#sl_inv_controlalarma').append(default_value);
+                $('#sl_inv_asientos').append(default_value);
+                $('#sl_inv_pisos').append(default_value);
+                $('#sl_inv_espejointerior').append(default_value);
+                $('#sl_inv_libroservicio').append(default_value);
+                $('#sl_inv_juegoherramientas').append(default_value);
+                $('#sl_inv_juegoseguroaros').append(default_value);
+                $('#sl_inv_juegosegurovasos').append(default_value);
+                $('#sl_inv_radiocd').append(default_value);
+                $('#sl_inv_injecagua').append(default_value);
+                $('#sl_inv_trabagas').append(default_value);
+                $('#sl_inv_mascara').append(default_value);
+                $('#sl_inv_seguroruedas').append(default_value);
+                $('#sl_inv_revocular').append(default_value);
+                $('#sl_inv_cajacd').append(default_value);
+
+                $('#sl_inv_antenas').append(default_value);
+                $('#sl_inv_espejoexterior').append(default_value);
+                $('#sl_inv_vasosrueda').append(default_value);
+                $('#sl_inv_brazosplumillas').append(default_value);
+                $('#sl_inv_direccionales').append(default_value);
+                $('#sl_inv_llantas').append(default_value);
+                $('#sl_inv_aros').append(default_value);
+                $('#sl_inv_farosdelanteros').append(default_value);
+                $('#sl_inv_farosposteriores').append(default_value);
+                $('#sl_inv_emblemas').append(default_value);
+                $('#sl_inv_escarpines').append(default_value);
+                $('#sl_inv_tapagasolina').append(default_value);
+                $('#sl_inv_llantarepuesto').append(default_value);
+                $('#sl_inv_gatapalanca').append(default_value);
+                $('#sl_inv_manijas').append(default_value);
+                $('#sl_inv_llaveruedas').append(default_value);
+                $('#sl_inv_tapaaceite').append(default_value);
+                $('#sl_inv_tapaliquido').append(default_value);
+                $('#sl_inv_tapaliquidoembrague').append(default_value);
+                $('#sl_inv_taparadiador').append(default_value);
+                $('#sl_inv_varillaaceite').append(default_value);
+                $('#sl_inv_tapicesalfombras').append(default_value);
+                $('#sl_inv_parabrisas').append(default_value);
+                $('#sl_inv_lunaspuertas').append(default_value);
+                $('#sl_inv_copasvasos').append(default_value);
+                $('#sl_inv_chapapuertas').append(default_value);
+                $('#sl_inv_alarma').append(default_value);
+                $('#sl_inv_otros').append(default_value);
+
+                for(var x=0;x < datos.data.length;x++){
+                    var valor = "<option value='"+ datos.data[x].idestadoinventario +"'>"+ datos.data[x].descripcion +"</option>";
+                    $('#sl_inv_tarjpropiedad').append(valor);
+                    $('#sl_inv_soat').append(valor);
+                    $('#sl_inv_llaveencendido').append(valor);
+                    $('#sl_inv_encendedor').append(valor);
+                    $('#sl_inv_aireacondicionado').append(valor);
+                    $('#sl_inv_cenicero').append(valor);
+                    $('#sl_inv_claxon').append(valor);
+                    $('#sl_inv_luzsalon').append(valor);
+                    $('#sl_inv_parlantes').append(valor);
+                    $('#sl_inv_correasseguridad').append(valor);
+                    $('#sl_inv_controlalarma').append(valor);
+                    $('#sl_inv_asientos').append(valor);
+                    $('#sl_inv_pisos').append(valor);
+                    $('#sl_inv_espejointerior').append(valor);
+                    $('#sl_inv_libroservicio').append(valor);
+                    $('#sl_inv_juegoherramientas').append(valor);
+                    $('#sl_inv_juegoseguroaros').append(valor);
+                    $('#sl_inv_juegosegurovasos').append(valor);
+                    $('#sl_inv_radiocd').append(valor);
+                    $('#sl_inv_injecagua').append(valor);
+                    $('#sl_inv_trabagas').append(valor);
+                    $('#sl_inv_mascara').append(valor);
+                    $('#sl_inv_seguroruedas').append(valor);
+                    $('#sl_inv_revocular').append(valor);
+                    $('#sl_inv_cajacd').append(valor);
+
+                    $('#sl_inv_antenas').append(valor);
+                    $('#sl_inv_espejoexterior').append(valor);
+                    $('#sl_inv_vasosrueda').append(valor);
+                    $('#sl_inv_brazosplumillas').append(valor);
+                    $('#sl_inv_direccionales').append(valor);
+                    $('#sl_inv_llantas').append(valor);
+                    $('#sl_inv_aros').append(valor);
+                    $('#sl_inv_farosdelanteros').append(valor);
+                    $('#sl_inv_farosposteriores').append(valor);
+                    $('#sl_inv_emblemas').append(valor);
+                    $('#sl_inv_escarpines').append(valor);
+                    $('#sl_inv_tapagasolina').append(valor);
+                    $('#sl_inv_llantarepuesto').append(valor);
+                    $('#sl_inv_gatapalanca').append(valor);
+                    $('#sl_inv_manijas').append(valor);
+                    $('#sl_inv_llaveruedas').append(valor);
+                    $('#sl_inv_tapaaceite').append(valor);
+                    $('#sl_inv_tapaliquido').append(valor);
+                    $('#sl_inv_tapaliquidoembrague').append(valor);
+                    $('#sl_inv_taparadiador').append(valor);
+                    $('#sl_inv_varillaaceite').append(valor);
+                    $('#sl_inv_tapicesalfombras').append(valor);
+                    $('#sl_inv_parabrisas').append(valor);
+                    $('#sl_inv_lunaspuertas').append(valor);
+                    $('#sl_inv_copasvasos').append(valor);
+                    $('#sl_inv_chapapuertas').append(valor);
+                    $('#sl_inv_alarma').append(valor);
+                    $('#sl_inv_otros').append(valor);
+
+                    $("#txt_inv_recepcionista").val('<?PHP echo($_SESSION['usuario']); ?>');
+                    $("#txt_inv_ingreso").val('<?PHP echo(date("d/m/Y")); ?>');
+                    $("#txt_inv_hora").val('<?php echo gmdate("H:i", (time() + (-5*3600)) ); ?>');
+                }
+            },
+            error:function(result){
+                console.log("error"+result);
+            }
+        });
+    }
+
     function ver_observacion(idsiniestro)
     {
         $("#modal_observaciones").modal();
@@ -1621,6 +2844,12 @@
 
     $('#modal_observaciones').on('hidden.bs.modal', function () {
         $("#modal_observaciones").modal('hide');
+        $('#md_siniestros').modal();
+        $('body').css("padding-right", "0px");
+    });
+
+    $('#modal_inventario').on('hidden.bs.modal', function () {
+        $("#modal_inventario").modal('hide');
         $('#md_siniestros').modal();
         $('body').css("padding-right", "0px");
     });
