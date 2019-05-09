@@ -290,6 +290,22 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="form-group col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="sl_queda">¿Queda en taller?</label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <select id="sl_queda" name="sl_queda" class="form-control">
+                                                <option value="">SELECCIONAR</option>
+                                                <option value="SI">SI</option>
+                                                <option value="NO">NO</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="nav-tabs-custom">
                                         <ul class="nav nav-tabs">

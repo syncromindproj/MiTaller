@@ -98,7 +98,7 @@ class SiniestroController extends Controller
         $datos['servicio'] = $_POST['txt_inv_servicio'];
         $datos['observacion'] = $_POST['txt_inv_observacion'];
         $datos['kilometraje'] = $_POST['txt_inv_kilometraje'];
-        //$datos['queda_taller'] = $_POST['txt_inv_queda'];
+        $datos['queda_taller'] = $_POST['sl_queda'];
         $datos['tarjeta_propiedad_estado'] = $_POST['sl_inv_tarjpropiedad'];
         $datos['tarjeta_propiedad_obs'] = $_POST['txt_inv_tarjpropiedad'];
         $datos['antenas_estado'] = $_POST['sl_inv_antenas'];
