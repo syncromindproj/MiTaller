@@ -1255,6 +1255,8 @@
                                                 <option value="RIMAC">RIMAC</option>
                                                 <option value="PACIFICO">PACIFICO</option>
                                                 <option value="MAPFRE">MAPFRE</option>
+                                                <option value="LA POSITIVA">LA POSITIVA</option>
+                                                <option value="HDI SEGUROS">HDI SEGUROS</option>
                                                 <option value="PARTICULAR">PARTICULAR</option>
                                             </select>
                                         </div>
@@ -1790,7 +1792,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancelar</button>
-                <button type="button" data-value="" id="btn_elimina_siniestro" onclick="elimina_siniestro();" class="btn btn-outline">Eliminar</button>
+                <button type="button" data-value="" placa-value="" id="btn_elimina_siniestro" onclick="elimina_siniestro();" class="btn btn-outline">Eliminar</button>
               </div>
             </div>
           </div>
@@ -2310,7 +2312,8 @@
                     "data":"idsiniestro",
                     "render": function(url, type, full){
                         console.log(url);
-                        return '<button title="Ver documentos" type="button" onclick="show_muestra_documentos('+ full[0] +');" class="btn btn-warning"><i class="fa fa-file"></i></button> <button title="Eliminar siniestro" type="button" onclick="alerta_elimina_siniestro('+ full[0] +');" class="btn btn-danger"><i class="fa fa-trash"></i></button> <button title="Descargar documentos" type="button" onclick="descarga_siniestro('+ full[0] +');" class="btn btn-success"><i class="fa fa-download"></i></button>'
+                        var nroplaca = "'" + full[7] + "'";
+                        return '<button title="Ver documentos" type="button" onclick="show_muestra_documentos('+ full[0] +');" class="btn btn-warning"><i class="fa fa-file"></i></button> <button title="Eliminar siniestro" type="button" onclick="alerta_elimina_siniestro('+ full[0] +', '+ nroplaca +');" class="btn btn-danger"><i class="fa fa-trash"></i></button> <button title="Descargar documentos" type="button" onclick="descarga_siniestro('+ full[0] +');" class="btn btn-success"><i class="fa fa-download"></i></button>'
                         return false;
                     },
                     "width":"40%"
@@ -2368,9 +2371,10 @@
         });
     }
 
-    function alerta_elimina_siniestro(idsiniestro){
+    function alerta_elimina_siniestro(idsiniestro, nroplaca){
         $('#modal-delete-siniestro').modal();
         $('#btn_elimina_siniestro').attr("data-value", idsiniestro);
+        $('#btn_elimina_siniestro').attr("placa-value", nroplaca);
     }
 
     function CrearDatatable(idsiniestro, tipo, tabla){
@@ -2580,12 +2584,19 @@
     function elimina_siniestro()
     {
         var idsiniestro = $("#btn_elimina_siniestro").attr('data-value');
+        var placa = $("#btn_elimina_siniestro").attr('placa-value');
+        console.log(placa);
         console.log(idsiniestro);
+        var info = {};
+        info["idsiniestro"]    = idsiniestro;
+        info["nroplaca"]       = placa;
+        var myJsonString    = JSON.stringify(info);
+
         $.ajax({
             type: "POST",
             url: "<?PHP echo constant('URL'); ?>siniestro/EliminaSiniestro", 
             data:{
-                datos: '{"idsiniestro": ' + idsiniestro + '}'
+                datos: myJsonString
             },
             success: function(result){
                 console.log(result);

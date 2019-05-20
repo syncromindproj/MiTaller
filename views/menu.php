@@ -18,4 +18,19 @@
     <?PHP }elseif($_SESSION['tipo'] == 'CLI'){ ?>
         <li><a href="<?PHP echo constant('URL'); ?>etaller_cliente"><i class="fa fa-link"></i> <span>E-taller</span></a></li>
     <?PHP } ?>
+    <?PHP
+        if(isset($_SESSION['tipo']) && $_SESSION['tipo'] != 'CLI'){
+    ?>
+    <li class="treeview">
+        <a href="#">
+        <i class="fa fa-link"></i> <span>Reportes</span>
+        <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+        </span>
+        </a>
+        <ul class="treeview-menu">
+            <li><a href="<?PHP echo constant('URL'); ?>reportediario"><i class="fa fa-circle-o"></i> Reporte de Ingresos</a></li>
+        </ul>
+    </li>
+    <?PHP } ?>
 </ul>

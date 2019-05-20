@@ -18,7 +18,7 @@ class PlacaModel extends Model
             left join siniestro s
             on ps.idsiniestro = s.idsiniestro
             WHERE p.estado = 1 GROUP BY p.nroplaca
-            order by p.fecha_registro desc");
+            order by p.ultimo_siniestro desc");
 
             while($row =  $query->fetch()){
                 $items['data'][] = $row;
@@ -36,8 +36,8 @@ class PlacaModel extends Model
 
     public function InsertaPlaca($datos){
         try{
-            $query = $this->db->connect()->prepare('insert into placa (nroplaca, marca, modelo, dni, nombres, apellidos, color, anio, celular, correo, esprioritario)
-            values (:nroplaca, :marca, :modelo, :dni, :nombres, :apellidos, :color, :anio, :celular, :correo, :esprioritario)');
+            $query = $this->db->connect()->prepare('insert into placa (nroplaca, marca, modelo, dni, nombres, apellidos, color, anio, celular, correo, esprioritario, ultimo_siniestro)
+            values (:nroplaca, :marca, :modelo, :dni, :nombres, :apellidos, :color, :anio, :celular, :correo, :esprioritario, :ultimo_siniestro)');
             $query->execute([
                 'nroplaca'  => $datos['nroplaca'],
                 'marca'     => $datos['marca'],
@@ -49,7 +49,8 @@ class PlacaModel extends Model
                 'anio'      => $datos['anio'],
                 'celular'   => $datos['celular'],
                 'correo'    => $datos['correo'],
-                'esprioritario' => $datos['esclienteprioritario']
+                'esprioritario' => $datos['esclienteprioritario'],
+                'ultimo_siniestro' => date("Y-m-d")
             ]);
 
             $query2 = $this->db->connect()->prepare('insert into usuario (idtipo, nombres, apellidos, usuario, clave)
@@ -87,7 +88,7 @@ class PlacaModel extends Model
     }
 
     public function EliminaPlaca($datos){
-        $query = $this->db->connect()->prepare('update placa set estado = 0 where nroplaca=:nroplaca');
+        $query = $this->db->connect()->prepare('delete from placa where nroplaca=:nroplaca');
         $query->execute([
             'nroplaca'  => $datos['nroplaca']
         ]);

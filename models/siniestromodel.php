@@ -10,7 +10,7 @@ class SiniestroModel extends Model{
         
         try{
             $query = $this->db->connect()->prepare("
-            SELECT s.idsiniestro, s.nrosiniestro, DATE_FORMAT(s.fecha_siniestro, '%d/%m/%Y') as fecha_siniestro, s.aseguradora, (case when s.estado = 0 then 'INACTIVO' WHEN s.estado = 1 THEN 'ACTIVO' END) as estado, descripcion, COALESCE(i.idinventario, '') as idinventario
+            SELECT s.idsiniestro, s.nrosiniestro, DATE_FORMAT(s.fecha_siniestro, '%d/%m/%Y') as fecha_siniestro, s.aseguradora, (case when s.estado = 0 then 'INACTIVO' WHEN s.estado = 1 THEN 'ACTIVO' END) as estado, descripcion, COALESCE(i.idinventario, '') as idinventario, ps.nroplaca
 FROM siniestro s 
 left join placa_siniestro ps on s.idsiniestro = ps.idsiniestro 
 left join inventario i on i.idsiniestro = ps.idsiniestro
@@ -146,6 +146,12 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
                 'esprioritario'     => $esprioritario
             ]);
 
+            $query2 = $this->db->connect()->prepare('update placa set ultimo_siniestro = :fecha_siniestro where nroplaca = :nroplaca;');
+            $query2->execute([
+                'fecha_siniestro'   => $fecha_siniestro,
+                'nroplaca'          => $datos['nroplaca']
+            ]);
+
             while($row =  $query->fetch()){
                 $idsiniestro     = $row['lid'];
             }
@@ -188,7 +194,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
         }
     }
 
-    function EliminaSiniestro($idsiniestro)
+    function EliminaSiniestro($idsiniestro, $nroplaca)
     {
         try{
             $query = $this->db->connect()->prepare('delete from siniestro where idsiniestro = :idsiniestro');
@@ -200,6 +206,31 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $query->execute([
                 'idsiniestro'   => $idsiniestro
             ]);
+
+            //Actualiza Fecha Ultimo Siniestro
+            $sql = "select p.*, DATE_FORMAT(p.fecha_registro, '%Y-%m-%d') as nueva_fecha from placa p where estado=1 and p.nroplaca='".$nroplaca."'";
+            //echo("id: ".$nroplaca);die;
+
+            foreach ($this->db->connect()->query($sql) as $row) {
+                $placa = $row['nroplaca'];
+                //echo("id: ".$placa);die;
+                $sql = "select s.fecha_siniestro from siniestro s inner join placa_siniestro ps on ps.idsiniestro = s.idsiniestro where ps.nroplaca='".$nroplaca."' order by s.fecha_siniestro desc limit 1";
+                $query = $this->db->connect()->query($sql);
+                $results = $query->fetchall();
+            
+                if(count($results) > 0){
+                    foreach ($this->db->connect()->query($sql) as $row2) {
+                        $fecha_siniestro = $row2['fecha_siniestro'];
+                        $sql = "update placa set ultimo_siniestro='".$fecha_siniestro."' where nroplaca='".$placa."'";
+                        $this->db->connect()->query($sql);
+                    }
+                }else{
+                    $fecha_siniestro = $row['nueva_fecha'];
+                    $sql = "update placa set ultimo_siniestro='".$fecha_siniestro."' where nroplaca='".$placa."'";
+                    $this->db->connect()->query($sql);
+                }
+            }
+
 
             return "Eliminado";    
             
@@ -1024,8 +1055,8 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             
             
 
-            $to = "alejandro.diaz@syncromind.net, marketing@penaranda.info, ".$correo; 
-            $from = "alejandro.diaz@syncromind.net"; 
+            $to = "marketing@penaranda.info, ".$correo; 
+            $from = "marketing@penaranda.info"; 
             $subject = "Registro de inventario"; 
             $message = "<p>En este correo podrá encontrar el registro de inventario en formato PDF.</p>";
 
