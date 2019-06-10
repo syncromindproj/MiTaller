@@ -60,40 +60,40 @@ class EtallerController extends Controller
         //if(move_uploaded_file($tmp,$path)) 
         if(move_uploaded_file($tmp,$new_name)) 
         {
-            $image          = imagecreatefromjpeg( $new_name );
-            $logoImage      = imagecreatefrompng( $marca );
+            // $image          = imagecreatefromjpeg( $new_name );
+            // $logoImage      = imagecreatefrompng( $marca );
 
-            //$stamp_new = imagecreatetruecolor(450,150);
-            $stamp_new = imagecreatetruecolor(750,300);
-            imagealphablending($stamp_new, false);
-            imagesavealpha($stamp_new, true);
-            //imagecopyresampled($stamp_new, $logoImage, 0, 0, 0, 0, 450, 150, imagesx($logoImage),imagesy($logoImage));
-            imagecopyresampled($stamp_new, $logoImage, 0, 0, 0, 0, 750, 300, imagesx($logoImage),imagesy($logoImage));
-            //imagealphablending( $logoImage, true );
+            // //$stamp_new = imagecreatetruecolor(450,150);
+            // $stamp_new = imagecreatetruecolor(750,300);
+            // imagealphablending($stamp_new, false);
+            // imagesavealpha($stamp_new, true);
+            // //imagecopyresampled($stamp_new, $logoImage, 0, 0, 0, 0, 450, 150, imagesx($logoImage),imagesy($logoImage));
+            // imagecopyresampled($stamp_new, $logoImage, 0, 0, 0, 0, 750, 300, imagesx($logoImage),imagesy($logoImage));
+            // //imagealphablending( $logoImage, true );
 
-            $imageWidth     = imagesx($image);
-            $imageHeight    = imagesy($image); 
-            $logoWidth      = imagesx($stamp_new);
-            $logoHeight     = imagesy($stamp_new);
-            //$logoWidth      = imagesx($logoImage);
-            //$logoHeight     = imagesy($logoImage);
+            // $imageWidth     = imagesx($image);
+            // $imageHeight    = imagesy($image); 
+            // $logoWidth      = imagesx($stamp_new);
+            // $logoHeight     = imagesy($stamp_new);
+            // //$logoWidth      = imagesx($logoImage);
+            // //$logoHeight     = imagesy($logoImage);
 
-            imagecopy(
-              $image,
-              //$logoImage,
-              $stamp_new,
-              $imageWidth-$logoWidth, $imageHeight-$logoHeight,
-              0, 0,
-              $logoWidth, $logoHeight);
+            // imagecopy(
+            //   $image,
+            //   //$logoImage,
+            //   $stamp_new,
+            //   $imageWidth-$logoWidth, $imageHeight-$logoHeight,
+            //   0, 0,
+            //   $logoWidth, $logoHeight);
 
-            // Set type of image and send the output
-            //header("Content-type: image/png");
-            //imagepng( $image );/*display image with watermark */
-            @imagepng( $image, $new_name );/* save image with watermark */
+            // // Set type of image and send the output
+            // //header("Content-type: image/png");
+            // //imagepng( $image );/*display image with watermark */
+            // @imagepng( $image, $new_name );/* save image with watermark */
 
-            // Release memory
-            imagedestroy( $image );
-            imagedestroy( $logoImage );
+            // // Release memory
+            // imagedestroy( $image );
+            // imagedestroy( $logoImage );
             
 
             //$etaller = $this->model->InsertaFoto($placa, $fecha, $path);
