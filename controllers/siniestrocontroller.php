@@ -79,6 +79,22 @@ class SiniestroController extends Controller
         echo json_encode($siniestros);
     }
 
+    public function ActualizaTotales()
+    {
+        $datos = $_REQUEST['datos'];
+        $datos = json_decode($datos, true);
+        $siniestros = $this->model->ActualizaTotales($datos);
+        echo json_encode($siniestros);
+    }
+
+    public function GetTotales()
+    {
+        $datos = $_REQUEST['datos'];
+        $datos = json_decode($datos, true);
+        $siniestros = $this->model->GetTotales($datos);
+        echo json_encode($siniestros);
+    }
+
     public function InsertaInventario()
     {   
         $datos = array();

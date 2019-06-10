@@ -34,6 +34,36 @@ class PlacaModel extends Model
         }
     }
 
+    public function getCatalogo(){
+        $items = [];
+        try{
+            $query = $this->db->connect()->query("
+            SELECT s.idsiniestro, p.nroplaca, p.marca, p.modelo, p.color, p.anio, p.dni, p.nombres, 
+            p.apellidos, 
+            DATE_FORMAT(s.fecha_siniestro, '%d/%m/%Y') as fecha_siniestro_lbl, 
+            s.total_horas, s.total_panos, s.total_cotizacion
+            FROM placa p
+            left join placa_siniestro ps
+            on p.nroplaca = ps.nroplaca
+            left join siniestro s
+            on ps.idsiniestro = s.idsiniestro
+            WHERE p.estado = 1 
+            order by s.fecha_siniestro desc");
+
+            while($row =  $query->fetch()){
+                $items['data'][] = $row;
+            }
+
+            if(count($items) == 0){
+                $items['data'] = "";
+            }
+            
+            return $items;
+        }catch(PDOException $e){
+            return [];
+        }
+    }
+
     public function InsertaPlaca($datos){
         try{
             $query = $this->db->connect()->prepare('insert into placa (nroplaca, marca, modelo, dni, nombres, apellidos, color, anio, celular, correo, esprioritario, ultimo_siniestro)

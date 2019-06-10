@@ -134,6 +134,44 @@
         </div>
         <!-- End Modal Observaciones -->
 
+        <!-- Modal Totales -->
+        <div class="modal fade" id="modal_totales">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Totales</h4>
+              </div>
+              <div class="modal-body">
+                <form class="form" id="frm_totales" method="POST">
+                    <input type="hidden" id="txt_tot_siniestro" name="txt_tot_siniestro">
+                    <div class="form-group">
+                        <label for="txt_tot_horas">TOTAL HORAS</label>    
+                        <input type="text" class="form-control" id="txt_tot_horas" name="txt_tot_horas" placeholder="TOTAL HORAS">
+                    </div>
+                    <div class="form-group">
+                        <label for="txt_tot_panos">TOTAL PAÑOS</label>
+                        <input type="text" class="form-control" id="txt_tot_panos" name="txt_tot_panos" placeholder="TOTAL PAÑOS">
+                    </div>
+                    <div class="form-group">
+                        <label for="txt_tot_cotizacion">TOTAL COTIZACIÓN</label>
+                        <input type="text" class="form-control" id="txt_tot_cotizacion" name="txt_tot_cotizacion" placeholder="TOTAL COTIZACIÓN">
+                    </div>
+                    
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" id="btn_actualizar_totales" data-value="" class="btn btn-default" data-dismiss="modal">Actualizar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- End Modal Totales -->
+
         <!-- Modal Iventario -->
         <div class="modal fade" id="modal_inventario">
             <div class="modal-dialog modal-lg">
@@ -1315,6 +1353,7 @@
                                     <th>Observaciones</th>
                                     <th>Inventario</th>
                                     <th>Aseguradora</th>
+                                    <th>Totales</th>
                                     <th>Estado</th>
                                     <th>Opciones</th>
                                 </tr>
@@ -2227,6 +2266,33 @@
             });
             return false;
         });
+
+        $("#btn_actualizar_totales").click(function(){
+            var total_horas = $("#txt_tot_horas").val();
+            var total_panos = $("#txt_tot_panos").val();
+            var total_cotizacion = $("#txt_tot_cotizacion").val();
+            var idsiniestro = $("#txt_tot_siniestro").val();
+            var info = {};
+            info["idsiniestro"] = idsiniestro;
+            info["total_horas"] = total_horas;
+            info["total_panos"] = total_panos;
+            info["total_cotizacion"] = total_cotizacion;
+            var datos = JSON.stringify(info);
+            console.log(datos);
+            $.ajax({
+                url:"<?PHP echo constant('URL'); ?>siniestro/ActualizaTotales", 
+                type: "POST",
+                data:{
+                    datos: datos
+                },
+                success:function(result){
+                    console.log(result);
+                },
+                error:function(result){
+                    console.log(result);
+                }
+            });
+        });
         
     } );
 
@@ -2304,11 +2370,20 @@
                 },
                 {
                     "targets":5,
+                    "data":"idsiniestro",
+                    "render": function(url, type, full){
+                        var idsiniestro = full["idsiniestro"];
+                        return '<a href="javascript:ver_totales('+ idsiniestro +');">Ver Totales</a>';
+                        return false;
+                    }
+                },
+                {
+                    "targets":6,
                     "data":"estado",
                     "width":"10%"
                 },
                 {
-                    "targets":6,
+                    "targets":7,
                     "data":"idsiniestro",
                     "render": function(url, type, full){
                         console.log(url);
@@ -2346,6 +2421,33 @@
                 }
             ]
         } );
+    }
+
+    function ver_totales(idsiniestro){
+        $('#md_siniestros').modal('hide');
+        $("#modal_totales").modal();
+        $("#txt_tot_siniestro").val(idsiniestro);
+        $("#txt_tot_horas").val("");
+        $("#txt_tot_panos").val("");
+        $("#txt_tot_cotizacion").val("");
+        $.ajax({
+            type: "POST",
+            url:"<?PHP echo constant('URL'); ?>siniestro/GetTotales", 
+            datatype: "json",
+            data:{
+                datos: '{"idsiniestro": ' + idsiniestro + '}'
+            },
+            success:function(result){
+                var datos = JSON.parse(result);
+                $("#txt_tot_horas").val(datos.data[0].total_horas);
+                $("#txt_tot_panos").val(datos.data[0].total_panos);
+                $("#txt_tot_cotizacion").val(datos.data[0].total_cotizacion);
+                console.log(datos.data);
+            },
+            error:function(result){
+                console.log(result);
+            }
+        });
     }
 
     function descarga_siniestro(idsiniestro){
@@ -2888,6 +2990,13 @@
         $('#md_siniestros').modal();
         $('body').css("padding-right", "0px");
     });
+
+    $('#modal_totales').on('hidden.bs.modal', function () {
+        $("#modal_totales").modal('hide');
+        $('#md_siniestros').modal();
+        $('body').css("padding-right", "0px");
+    });
+    
     
 </script>
 <!-- The main application script -->

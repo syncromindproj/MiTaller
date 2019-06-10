@@ -31,6 +31,7 @@
         <ul class="treeview-menu">
             <li><a href="<?PHP echo constant('URL'); ?>reportediario"><i class="fa fa-circle-o"></i> Reporte de Ingresos</a></li>
             <li><a href="<?PHP echo constant('URL'); ?>reporte_anual"><i class="fa fa-circle-o"></i> Reporte Anual</a></li>
+            <li><a href="<?PHP echo constant('URL'); ?>catalogo_precio"><i class="fa fa-circle-o"></i> Catálogo de Precios</a></li>
         </ul>
     </li>
     <?PHP } ?>

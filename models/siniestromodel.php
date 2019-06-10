@@ -34,6 +34,32 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
         }
     }
 
+    function GetTotales($datos){
+        $items = [];
+        
+        try{
+            $query = $this->db->connect()->prepare("
+            SELECT total_horas, total_panos, total_cotizacion
+            FROM siniestro
+            WHERE idsiniestro = :idsiniestro");
+            $query->execute([
+                'idsiniestro'  => $datos['idsiniestro']
+            ]);
+
+            while($row =  $query->fetch()){
+                $items['data'][] = $row;
+            }
+
+            if(count($items) == 0){
+                $items['data'] = "";
+            }
+            
+            return $items;
+        }catch(PDOException $e){
+            return [];
+        }
+    }
+
     function ListaEstadosInventario()
     {
         $items = [];
@@ -249,6 +275,31 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $query = $this->db->connect()->prepare('update siniestro set descripcion = :descripcion where idsiniestro = :idsiniestro');
             $query->execute([
                 'descripcion'       => $descripcion,
+                'idsiniestro'       => $idsiniestro
+            ]);
+
+            return "Actualizado";    
+            
+        }catch(PDOException $e){
+            return $e->getMessage();
+            
+        }
+    }
+
+    function ActualizaTotales($datos)
+    {
+        try{
+            $idsiniestro            = $datos['idsiniestro'];
+            $total_horas            = $datos['total_horas'];
+            $total_panos            = $datos['total_panos'];
+            $total_cotizacion       = $datos['total_cotizacion'];
+            
+            $query = $this->db->connect()->prepare('update siniestro set total_horas = :total_horas, 
+            total_panos = :total_panos, total_cotizacion = :total_cotizacion where idsiniestro = :idsiniestro');
+            $query->execute([
+                'total_horas'       => $total_horas,
+                'total_panos'       => $total_panos,
+                'total_cotizacion'  => $total_cotizacion,
                 'idsiniestro'       => $idsiniestro
             ]);
 

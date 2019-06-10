@@ -20,6 +20,12 @@ class PlacaController extends Controller
         echo(json_encode($placas));
     }
 
+    public function getCatalogo()
+    {
+        $placas = $this->model->getCatalogo();
+        echo(json_encode($placas));
+    }
+
     public function GuardarPlaca()
     {
         $datos = $_REQUEST['datos'];
