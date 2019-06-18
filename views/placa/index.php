@@ -8,7 +8,6 @@
 <!-- CSS adjustments for browsers with JavaScript disabled -->
 <noscript><link rel="stylesheet" href="<?PHP echo constant('URL'); ?>views/public/css/jquery.fileupload-noscript.css"></noscript>
 <noscript><link rel="stylesheet" href="<?PHP echo constant('URL'); ?>views/public/css/jquery.fileupload-ui-noscript.css"></noscript>
-
 <style>
 .modal-dialog{
     overflow-y: initial !important
@@ -36,6 +35,7 @@
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
+      
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
@@ -349,6 +349,7 @@
                                         <ul class="nav nav-tabs">
                                             <li id="tab_interior" class="active"><a href="#interior" data-toggle="tab">Interior Vehículo</a></li>
                                             <li id="tab_exterior"><a href="#exterior" data-toggle="tab">Exterior Vehículo</a></li>
+                                            <li id="tab_firma"><a href="#firma" data-toggle="tab">Firma Digital</a></li>
                                         </ul>
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="interior">
@@ -1150,6 +1151,11 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="tab-pane" id="firma">
+                                                <canvas id="canvas_firma" width="400" height="200"></canvas>
+                                                <br>
+                                                <button type="button" class="btn btn-primary" id="btn_limpiar_canvas">Limpiar</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1928,15 +1934,32 @@
 <!-- CK Editor -->
 <script src="<?PHP echo constant('URL'); ?>views/bower_components/ckeditor/ckeditor.js"></script>
 <!-- End Uploader -->
-
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
 
 <script>
     var siniestros = "";
     var placas = "";
+    var canvas_firma = "";
+    var signaturePad = "";
     
     $(document).ready(function() {
         var placa = "";
         var opcion = "";
+
+        var canvas_firma = document.getElementById("canvas_firma");
+        $("#canvas_firma").css("border", "1px solid");
+        //$("#canvas_firma").css("width", "100%");
+        signaturePad = new SignaturePad(canvas_firma, {
+            minWidth: 2,
+            maxWidth: 2,
+            penColor: "rgb(0, 0, 0)"
+        });
+
+        $("#btn_limpiar_canvas").click(function(){
+            signaturePad.clear();
+        });
+
+
 
         var options_editor = {
             toolbarGroups: [
@@ -2252,6 +2275,9 @@
 
         $("#btn_registro_inventario").click(function(){
             var dataString = $("#frm_inventario").serialize();
+            //dataString += "&firmaURL=" + signaturePad.toDataURL();
+            var canvas_firma = document.getElementById("canvas_firma");
+            dataString += "&firmaURL=" + canvas_firma.toDataURL('image/png');
             console.log('Datos serializados: '+dataString);
             $.ajax({
                 type: "POST",

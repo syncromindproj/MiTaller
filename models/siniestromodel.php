@@ -314,6 +314,18 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
     function InsertaInventario($datos)
     {
         try{
+            $path                       = 'views/uploads/firmas/';
+
+            $firma                      = $datos['firma'];
+            $parts                      = explode(',', $firma);  
+            $data                       = $parts[1];  
+            $data                       = str_replace(' ', '+', $data);
+            $data                       = base64_decode($data);  
+            
+            $fp                         = fopen($path.$datos['idsiniestro'].'_firma.png', 'w');  
+            fwrite($fp, $data);  
+            fclose($fp); 
+            
             $idsiniestro                = $datos['idsiniestro'];
             $fecha                      = $datos['fecha'];
             $hora                       = $datos['hora'];
@@ -552,7 +564,8 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
                 `caja_CD_estado`,
                 `caja_CD_obs`,
                 `otros_estado`,
-                `otros_obs`)
+                `otros_obs`,
+                `firma`)
         VALUES(
                 :idsiniestro,
                 :fecha,
@@ -667,7 +680,8 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
                 :caja_CD_estado,
                 :caja_CD_obs,
                 :otros_estado,
-                :otros_obs
+                :otros_obs,
+                :firma
         );";
             $query = $this->db->connect()->prepare($sql);
             $query->execute([
@@ -784,18 +798,18 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
                 'caja_CD_estado'=>$caja_CD_estado,
                 'caja_CD_obs'=>$caja_CD_obs,
                 'otros_estado'=>$otros_estado,
-                'otros_obs'=>$otros_obs
-
+                'otros_obs'=>$otros_obs,
+                'firma'=> $path.$datos['idsiniestro'].'_firma.png'
             ]);
 
             $pdf = new FPDF();
-            $pdf->SetFont('Arial','',10);
+            $pdf->SetFont('Arial','',7);
             $pdf->AddPage();
-            $height_cel = 6;
+            $height_cel = 5;
             $border = 0;
             $pdf->setFillColor(230,230,230);
-            $pdf->Image('http://penaranda.info/mitaller/views/public/img/logo.jpg',10,10,-150);
-            $pdf->Ln(15);
+            $pdf->Image('http://penaranda.info/mitaller/views/public/img/logo.jpg',3,3,-200);
+            $pdf->Ln(5);
             $pdf->Cell(40,$height_cel,"RECEPCIONISTA:", $border, 0, 'R');
             $pdf->Cell(60,$height_cel,utf8_decode($recepcionista), $border, 0, 'L', true);
             $pdf->Cell(30,$height_cel,"PLACA:", $border, 0, 'R');
@@ -1101,9 +1115,12 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($otros_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($otros_obs), $border, 0, 'L', true);
-            $pdf->Ln(12);
-            $pdf->Cell(190,$height_cel,utf8_decode("Doy conformidad a lo declarado en este documento, asimismo, autorizo al Taller a circular mi vehículo fuera de su local para las pruebas necesarias"), $border, 0, 'C', false);
-            
+            $pdf->Ln(7);
+            $pdf->Cell(190,2,utf8_decode("Doy conformidad a lo declarado en este documento, asimismo, autorizo al Taller a circular mi vehículo fuera de su local para las pruebas necesarias"), $border, 0, 'C', false);
+            $pdf->Ln(5);
+            $pdf->Image($path.$datos['idsiniestro'].'_firma.png', 90, null, -380);
+            $pdf->Ln(1);
+            $pdf->Cell(190,2,utf8_decode("FIRMA DEL CLIENTE"), $border, 0, 'C', false);
             
 
             $to = "marketing@penaranda.info, ".$correo; 

@@ -221,6 +221,8 @@ class SiniestroController extends Controller
         $datos['caja_CD_obs'] = $_POST['txt_inv_cajacd'];
         $datos['otros_estado'] = $_POST['sl_inv_otros'];
         $datos['otros_obs'] = $_POST['txt_inv_otros'];
+
+        $datos['firma'] = $_POST['firmaURL'];
         //$datos = json_decode($datos, true);
         $inventario = $this->model->InsertaInventario($datos);
         echo json_encode($inventario);
