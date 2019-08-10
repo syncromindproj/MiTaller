@@ -36,6 +36,30 @@ class FotoModel extends Model
         }
     }
 
+    function ListaDocumentosContables(){
+        $items = [];
+        try{
+            $query = $this->db->connect()->prepare("
+            SELECT 
+            *
+            FROM documento_contable
+            where estado=1");
+            $query->execute();
+
+            while($row =  $query->fetch()){
+                $items['data'][] = $row;
+            }
+
+            if(count($items) == 0){
+                $items['data'] = "";
+            }
+            
+            return $items;
+        }catch(PDOException $e){
+            return [];
+        }
+    }
+
     function InsertaFoto($idtipofoto, $idsiniestro, $archivo, $descripcion)
     {
         try{
@@ -44,6 +68,22 @@ class FotoModel extends Model
             $query->execute([
                 'idtipofoto'    => $idtipofoto,
                 'idsiniestro'   => $idsiniestro,
+                'ruta'          => $archivo,
+                'descripcion'   => $descripcion
+            ]);
+            return "Foto Insertada";
+        }catch(PDOException $e){
+            return $e->getCode();
+            //die(parent::outputPDOerror($e->getCode()));
+        }
+    }
+
+    function InsertaDocumentoContable($archivo, $descripcion)
+    {
+        try{
+            $query = $this->db->connect()->prepare('insert into documento_contable (ruta, descripcion)
+            values (:ruta, :descripcion)');
+            $query->execute([
                 'ruta'          => $archivo,
                 'descripcion'   => $descripcion
             ]);
@@ -71,6 +111,37 @@ class FotoModel extends Model
             $query = $this->db->connect()->prepare('delete from foto where idfoto = :idfoto');
             $query->execute([
                 'idfoto'   => $idfoto
+            ]);
+
+            if (file_exists($archivo)) {
+                unlink($archivo);
+            }
+
+            return $archivo;    
+            
+        }catch(PDOException $e){
+            return $e->getMessage();
+            
+        }
+    }
+
+    function EliminaDocumento($iddocumento_contable)
+    {
+        $archivo = "";
+        
+        try{
+            $query = $this->db->connect()->prepare('select ruta from documento_contable where iddocumento_contable = :iddocumento_contable');
+            $query->execute([
+                'iddocumento_contable'   => $iddocumento_contable
+            ]);
+
+            while($row =  $query->fetch()){
+                $archivo = $row['ruta'];
+            }
+
+            $query = $this->db->connect()->prepare('delete from documento_contable where iddocumento_contable = :iddocumento_contable');
+            $query->execute([
+                'iddocumento_contable'   => $iddocumento_contable
             ]);
 
             if (file_exists($archivo)) {

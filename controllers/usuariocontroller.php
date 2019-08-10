@@ -15,16 +15,17 @@ class UsuarioController extends Controller
         $dia = gmdate('D', time());
         $hora = gmdate('H:i', time() - $offset);
         
-        $hora_inicio = strtotime("11:00");
+        $hora_inicio = strtotime("08:00");
         $hora_inicio = date('H:i', $hora_inicio);
 
-        $hora_final_lv = strtotime("17:30");
+        $hora_final_lv = strtotime("18:30");
         $hora_final_lv = date('H:i', $hora_final_lv);
-        $hora_final_s = strtotime("13:00");
+        $hora_final_s = strtotime("13:30");
         $hora_final_s = date('H:i', $hora_final_s);
 
         $valido     = 0;
         $esadmin    = 0;
+        $escontador = 0;
         $usuarios   = [];
         $tipo       = "";
 
@@ -67,6 +68,15 @@ class UsuarioController extends Controller
                 $usuarios['data']['estado'] = "OK";
             }
         }
+
+        if($tipo == 'CON'){
+            $usuarios = $this->model->Login($datos["usuario"], $datos["clave"]);
+            if($usuarios['data'] != "error_datos" && count($usuarios['data'])>0 && $usuarios['data'][0]['nombres'] != null){
+                $_SESSION['nombres'] = $usuarios['data'][0]['nombres'];
+                $_SESSION['usuario'] = $usuarios['data'][0]['usuario'];
+            }
+        }
+
         $_SESSION['tipo'] = $tipo;
         $usuarios['data']['tipo'] = $tipo;
         echo json_encode($usuarios);        

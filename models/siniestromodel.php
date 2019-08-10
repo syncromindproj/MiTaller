@@ -10,14 +10,63 @@ class SiniestroModel extends Model{
         
         try{
             $query = $this->db->connect()->prepare("
-            SELECT s.idsiniestro, s.nrosiniestro, DATE_FORMAT(s.fecha_siniestro, '%d/%m/%Y') as fecha_siniestro, s.aseguradora, (case when s.estado = 0 then 'INACTIVO' WHEN s.estado = 1 THEN 'ACTIVO' END) as estado, descripcion, COALESCE(i.idinventario, '') as idinventario, ps.nroplaca
-FROM siniestro s 
-left join placa_siniestro ps on s.idsiniestro = ps.idsiniestro 
-left join inventario i on i.idsiniestro = ps.idsiniestro
-WHERE s.estado = 1 and ps.nroplaca = :nroplaca
-order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
+            SELECT 
+            s.idsiniestro, 
+            s.nrosiniestro, 
+            DATE_FORMAT(s.fecha_siniestro, '%d/%m/%Y') as fecha_siniestro, 
+            s.aseguradora, 
+            (case when s.estado = 0 then 'INACTIVO' WHEN s.estado = 1 THEN 'ACTIVO' END) as estado, 
+            descripcion, 
+            COALESCE(i.idinventario, '') as idinventario, 
+            ps.nroplaca,
+            COALESCE(c.idcarta, '') as idcarta
+            FROM siniestro s 
+            left join placa_siniestro ps on s.idsiniestro = ps.idsiniestro 
+            left join inventario i on i.idsiniestro = ps.idsiniestro
+            left join carta c on c.idsiniestro = ps.idsiniestro
+            WHERE s.estado = 1 and ps.nroplaca = :nroplaca
+            order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $query->execute([
                 'nroplaca'  => $nroplaca
+            ]);
+
+            while($row =  $query->fetch()){
+                $items['data'][] = $row;
+            }
+
+            if(count($items) == 0){
+                $items['data'] = "";
+            }
+            
+            return $items;
+        }catch(PDOException $e){
+            return [];
+        }
+    }
+
+    function DatosCarta($datos)
+    {
+        $items = [];
+        
+        try{
+            $query = $this->db->connect()->prepare("
+            select
+            p.nombres,
+            p.apellidos,
+            p.dni,
+            p.nroplaca,
+            p.marca,
+            p.modelo,
+            p.color,
+            p.anio,
+            p.correo
+            from siniestro s
+            INNER JOIN placa_siniestro ps on ps.idsiniestro = s.idsiniestro
+            inner join placa p on p.nroplaca = ps.nroplaca
+            where 
+            s.idsiniestro=:idsiniestro");
+            $query->execute([
+                'idsiniestro'  => $datos['idsiniestro']
             ]);
 
             while($row =  $query->fetch()){
@@ -314,6 +363,29 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
     function InsertaInventario($datos)
     {
         try{
+            $path                       = 'views/uploads/firmas/';
+
+            $firma                      = $datos['firma'];
+            $firma_taller               = $datos['firma_taller'];
+            
+            $parts                      = explode(',', $firma);  
+            $data                       = $parts[1];  
+            $data                       = str_replace(' ', '+', $data);
+            $data                       = base64_decode($data);  
+            
+            $parts_taller               = explode(',', $firma_taller);  
+            $data_taller                = $parts_taller[1];  
+            $data_taller                = str_replace(' ', '+', $data_taller);
+            $data_taller                = base64_decode($data_taller);  
+            
+            $fp                         = fopen($path.$datos['idsiniestro'].'_firma.png', 'w');  
+            fwrite($fp, $data);  
+            fclose($fp); 
+
+            $fp_taller                  = fopen($path.$datos['idsiniestro'].'_firma_taller.png', 'w');  
+            fwrite($fp_taller, $data_taller);  
+            fclose($fp_taller); 
+            
             $idsiniestro                = $datos['idsiniestro'];
             $fecha                      = $datos['fecha'];
             $hora                       = $datos['hora'];
@@ -552,7 +624,9 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
                 `caja_CD_estado`,
                 `caja_CD_obs`,
                 `otros_estado`,
-                `otros_obs`)
+                `otros_obs`,
+                `firma`,
+                `firma_taller`)
         VALUES(
                 :idsiniestro,
                 :fecha,
@@ -667,7 +741,9 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
                 :caja_CD_estado,
                 :caja_CD_obs,
                 :otros_estado,
-                :otros_obs
+                :otros_obs,
+                :firma,
+                :firma_taller
         );";
             $query = $this->db->connect()->prepare($sql);
             $query->execute([
@@ -784,53 +860,55 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
                 'caja_CD_estado'=>$caja_CD_estado,
                 'caja_CD_obs'=>$caja_CD_obs,
                 'otros_estado'=>$otros_estado,
-                'otros_obs'=>$otros_obs
-
+                'otros_obs'=>$otros_obs,
+                'firma'=> $path.$datos['idsiniestro'].'_firma.png',
+                'firma_taller'=> $path.$datos['idsiniestro'].'_firma_taller.png'
             ]);
 
             $pdf = new FPDF();
-            $pdf->SetFont('Arial','',10);
+            $pdf->SetFont('Arial','',7);
             $pdf->AddPage();
-            $height_cel = 6;
+            $height_cel = 5;
             $border = 0;
+            $espacio_alto = 6;
             $pdf->setFillColor(230,230,230);
-            $pdf->Image('http://penaranda.info/mitaller/views/public/img/logo.jpg',10,10,-150);
-            $pdf->Ln(15);
+            $pdf->Image('http://penaranda.info/mitaller/views/public/img/logo.jpg',3,3,-200);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"RECEPCIONISTA:", $border, 0, 'R');
             $pdf->Cell(60,$height_cel,utf8_decode($recepcionista), $border, 0, 'L', true);
             $pdf->Cell(30,$height_cel,"PLACA:", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,utf8_decode($placa), $border, 0, 'L', true);
             $pdf->Cell(20,$height_cel,"MARCA:", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,utf8_decode($marca), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"MODELO:", $border, 0, 'R');
             $pdf->Cell(60,$height_cel,utf8_decode($modelo), $border, 0, 'L', true);
             $pdf->Cell(30,$height_cel,"INGRESO:", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,utf8_decode($fecha), $border, 0, 'L', true);
             $pdf->Cell(20,$height_cel,"HORA:", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,utf8_decode($hora), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"PILOTO:", $border, 0, 'R');
             $pdf->Cell(150,$height_cel,utf8_decode($piloto), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"CORREO:", $border, 0, 'R');
             $pdf->Cell(60,$height_cel,utf8_decode($correo), $border, 0, 'L', true);
             $pdf->Cell(30,$height_cel,utf8_decode("TELÉFONO:"), $border, 0, 'R');
             $pdf->Cell(20,$height_cel,utf8_decode($telefono), $border, 0, 'L', true);
             $pdf->Cell(20,$height_cel,"CELULAR:", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,utf8_decode($celular), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"SERVICIO:", $border, 0, 'R');
             $pdf->Cell(150,$height_cel,utf8_decode($servicio), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,utf8_decode("OBSERVACIÓN:"), $border, 0, 'R');
             $pdf->Cell(150,$height_cel,utf8_decode($observacion), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"KILOMETRAJE:", $border, 0, 'R');
             $pdf->Cell(30,$height_cel,utf8_decode($kilometraje), $border, 0, 'L', true);
             $pdf->Cell(40,$height_cel,utf8_decode("¿QUEDA TALLER?"), $border, 0, 'R');
             $pdf->Cell(30,$height_cel,utf8_decode($queda_taller), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->SetFont('Arial','',7);
             $pdf->Cell(40,$height_cel,"TARJETA DE PROPIEDAD", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($tarjeta_propiedad_estado), $border, 0, 'L', true);
@@ -841,7 +919,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($antenas_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($antenas_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"SOAT", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($soat_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -851,7 +929,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($vasos_rueda_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($vasos_rueda_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"LLAVE DE ENCENDIDO", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($llave_encendido_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -861,7 +939,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($brazos_plumillas_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($brazos_plumillas_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"ENCENDEDOR", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($encendedor_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -871,7 +949,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($direccionales_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($direccionales_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"AIRE ACONDICIONADO", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($aire_acondicionado_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -881,7 +959,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($llantas_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($llantas_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"CENICERO", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($cenicero_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -891,7 +969,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($aros_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($aros_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,utf8_decode("CLAXÓN"), $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($claxon_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -901,7 +979,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($faros_delanteros_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($faros_delanteros_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,utf8_decode("LUZ DE SALÓN"), $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($luz_salon_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -911,7 +989,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($faros_posteriores_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($faros_posteriores_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"PARLANTES", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($parlantes_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -921,7 +999,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($emblemas_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($emblemas_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"CORREAS DE SEGURIDAD", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($correas_seguridad_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -931,7 +1009,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($escarpines_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($escarpines_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"CONTROL DE ALARMA", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($control_alarma_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -941,7 +1019,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($tapa_gasolina_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($tapa_gasolina_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"ASIENTOS", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($asientos_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -951,7 +1029,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($llanta_repuesto_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($llanta_repuesto_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"PISOS", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($pisos_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -961,7 +1039,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($gata_palanca_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($gata_palanca_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"ESPEJO INTERIOR", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($espejo_interior_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -971,7 +1049,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($manijas_perillas_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($manijas_perillas_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"ESPEJO EXTERIOR", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($espejo_exterior_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -981,7 +1059,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($llave_ruedas_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($llave_ruedas_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"LIBRO DE SERVICIO", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($libro_servicio_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -991,7 +1069,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($tapa_aceite_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($tapa_aceite_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"JUEGO DE HERRAMIENTAS", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($juego_herramientas_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -1001,7 +1079,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($tapa_liquido_freno_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($tapa_liquido_freno_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"JUEGO SEGUROS DE AROS", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($juego_seguros_aros_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -1011,7 +1089,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($tapa_liquido_embrague_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($tapa_liquido_embrague_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"JUEGO SEGUROS DE VASOS", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($juego_seguro_vasos_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -1021,7 +1099,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($tapa_radiador_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($tapa_radiador_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"TAPA ACEITE", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($tapa_aceite_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -1031,7 +1109,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($varilla_aceite_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($varilla_aceite_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"RADIO - CD", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($radio_cd_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -1041,7 +1119,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($tapices_alfombras_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($tapices_alfombras_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"INJEC. DE AGUA PARABRISAS", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($injec_agua_parabrisas_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -1051,7 +1129,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($parabrisas_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($parabrisas_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"TRABAGAS", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($trabagas_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -1061,7 +1139,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($lunas_puertas_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($lunas_puertas_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"MASCARA", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($mascara_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -1071,7 +1149,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($copas_vasos_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($copas_vasos_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"SEGURO DE RUEDAS", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($seguro_ruedas_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -1081,7 +1159,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($chapa_puertas_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($chapa_puertas_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"REV. OCULAR MOTOR", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($rev_ocular_motor_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -1091,7 +1169,7 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($alarma_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($alarma_obs), $border, 0, 'L', true);
-            $pdf->Ln(7);
+            $pdf->Ln($espacio_alto);
             $pdf->Cell(40,$height_cel,"CAJA CD", $border, 0, 'R');
             $pdf->Cell(20,$height_cel,$this->getEstado($caja_CD_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
@@ -1101,9 +1179,16 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $pdf->Cell(20,$height_cel,$this->getEstado($otros_estado), $border, 0, 'L', true);
             $pdf->Cell(1,$height_cel,"", $border, 0, 'R');
             $pdf->Cell(32,$height_cel,utf8_decode($otros_obs), $border, 0, 'L', true);
-            $pdf->Ln(12);
-            $pdf->Cell(190,$height_cel,utf8_decode("Doy conformidad a lo declarado en este documento, asimismo, autorizo al Taller a circular mi vehículo fuera de su local para las pruebas necesarias"), $border, 0, 'C', false);
+            $pdf->Ln(10);
+            $pdf->Cell(190,2,utf8_decode("Doy conformidad a lo declarado en este documento, asimismo, autorizo al Taller a circular mi vehículo fuera de su local para las pruebas necesarias"), $border, 0, 'C', false);
+            $pdf->Ln(6);
+            $pdf->Image($path.$datos['idsiniestro'].'_firma_taller.png', 25, 230, 60, 30);
+            $pdf->Image($path.$datos['idsiniestro'].'_firma.png', 145, 230, 60, 30);
+            $pdf->SetXY(25, 260);
             
+            $pdf->Ln(2);
+            $pdf->Cell(85,1,utf8_decode("FIRMA DEL ASESOR"), $border, 0, 'C', false);
+            $pdf->Cell(145,1,utf8_decode("FIRMA DEL CLIENTE"), $border, 0, 'C', false);
             
 
             $to = "marketing@penaranda.info, ".$correo; 
@@ -1132,6 +1217,176 @@ order by DATE_FORMAT(s.fecha_siniestro, '%Y/%m/%d') desc");
             $body .= "Registro de Inventario - Peñaranda Planchado y Pintura .".$eol;
             //$body .= "La audición se llevará a cabo en el Centro Naval (Av. San Luis Cdra. 24 S/N - San Borja. .".$eol;
 
+            $body .= "--".$separator.$eol;
+            $body .= "Content-Type: text/html; charset=\"iso-8859-1\"".$eol;
+            $body .= "Content-Transfer-Encoding: 8bit".$eol.$eol;
+            $body .= $message.$eol;
+
+            $body .= "--".$separator.$eol;
+            $body .= "Content-Type: application/octet-stream; name=\"".$filename."\"".$eol; 
+            $body .= "Content-Transfer-Encoding: base64".$eol;
+            $body .= "Content-Disposition: attachment".$eol.$eol;
+            $body .= $attachment.$eol;
+            $body .= "--".$separator."--";
+
+            mail($to, $subject, $body, $headers);
+
+        }catch(PDOException $e){
+            return $e->getMessage();
+        }
+    }
+
+    function InsertaCarta($datos)
+    {
+        try{
+            $path                       = 'views/uploads/cartas/';
+
+            $firma                      = $datos['firma'];
+            
+            $parts                      = explode(',', $firma);  
+            $data                       = $parts[1];  
+            $data                       = str_replace(' ', '+', $data);
+            $data                       = base64_decode($data);  
+            
+            $fp                         = fopen($path.$datos['idsiniestro'].'_firma.png', 'w');  
+            fwrite($fp, $data);  
+            fclose($fp); 
+
+            $idsiniestro                = $datos['idsiniestro'];
+            $nombres                    = $datos['nombres'];
+            $dni                        = $datos['dni'];
+            $correo                     = $datos['correo'];
+            $placa                      = $datos['placa'];
+            $marca                      = $datos['marca'];
+            $modelo                     = $datos['modelo'];
+            $color                      = $datos['color'];
+            $anio                       = $datos['anio'];
+            $poliza                     = $datos['poliza'];
+            $siniestro                  = $datos['siniestro'];
+            $caso                       = $datos['caso'];
+            $firma                      = $datos['firma'];
+            
+            
+            $sql = "INSERT INTO carta(
+                `idsiniestro`,
+                `carta`)
+                VALUES(
+                :idsiniestro,
+                :firma
+                );";
+
+            $query = $this->db->connect()->prepare($sql);
+            $query->execute([
+                'idsiniestro'   => $idsiniestro,
+                'firma'         => $path.$idsiniestro.'_firma.png',
+            ]);
+            date_default_timezone_set('America/Lima'); 
+            $fecha = date('d/m/Y H:i:s');
+
+            $pdf = new FPDF();
+            $pdf->SetFont('Arial','',7);
+            $pdf->AddPage();
+            $height_cel = 5;
+            $border = 0;
+            $espacio_alto = 6;
+            $pdf->setFillColor(230,230,230);
+            $pdf->Image('http://penaranda.info/mitaller/views/public/img/logo.jpg',3,3,40, 15);
+            $pdf->Ln(7);
+            $pdf->SetFont('Arial','',10);
+            $pdf->Cell(190,$height_cel, $fecha, $border, 0, 'R');
+            $pdf->Ln(20);
+            $pdf->SetFont('Arial','BU',17);
+            $pdf->Cell(190,$height_cel,"CONSTANCIA DE CONFORMIDAD", $border, 0, 'C');
+            $pdf->Ln(15);
+            $pdf->SetFont('Arial','',10);
+            $pdf->Cell(100,$height_cel,"1. DATOS DEL CLIENTE", $border, 0, 'L');
+            $pdf->Ln(8);
+            $pdf->SetFont('Arial','',8);
+            $pdf->Cell(20,$height_cel,"NOMBRE:", $border, 0, 'L');
+            $pdf->Cell(100,$height_cel,utf8_decode($nombres), $border, 0, 'L', true);
+            $pdf->Ln($espacio_alto);
+            $pdf->Cell(20,$height_cel,"DNI/RUC/CE:", $border, 0, 'L');
+            $pdf->Cell(100,$height_cel,utf8_decode($dni), $border, 0, 'L', true);
+            $pdf->Ln(12);
+            $pdf->SetFont('Arial','',10);
+            $pdf->Cell(100,$height_cel,utf8_decode("2. DATOS DEL VEHÍCULO"), $border, 0, 'L');
+            $pdf->Ln(8);
+            $pdf->SetFont('Arial','',8);
+            $pdf->Cell(20,$height_cel,"PLACA:", $border, 0, 'L');
+            $pdf->Cell(100,$height_cel,utf8_decode($placa), $border, 0, 'L', true);
+            $pdf->Ln($espacio_alto);
+            $pdf->Cell(20,$height_cel,utf8_decode("MARCA:"), $border, 0, 'L');
+            $pdf->Cell(100,$height_cel,utf8_decode($marca), $border, 0, 'L', true);
+            $pdf->Ln($espacio_alto);
+            $pdf->Cell(20,$height_cel,"MODELO:", $border, 0, 'L');
+            $pdf->Cell(100,$height_cel,utf8_decode($modelo), $border, 0, 'L', true);
+            $pdf->Ln($espacio_alto);
+            $pdf->Cell(20,$height_cel,utf8_decode("COLOR:"), $border, 0, 'L');
+            $pdf->Cell(100,$height_cel,utf8_decode($color), $border, 0, 'L', true);
+            $pdf->Ln($espacio_alto);
+            $pdf->Cell(20,$height_cel,utf8_decode("AÑO:"), $border, 0, 'L');
+            $pdf->Cell(100,$height_cel,utf8_decode($anio), $border, 0, 'L', true);
+            $pdf->Ln($espacio_alto);
+            $pdf->Cell(20,$height_cel,utf8_decode("POLIZA:"), $border, 0, 'L');
+            $pdf->Cell(100,$height_cel,utf8_decode($poliza), $border, 0, 'L', true);
+            $pdf->Ln($espacio_alto);
+            $pdf->Cell(20,$height_cel,utf8_decode("SINIESTRO:"), $border, 0, 'L');
+            $pdf->Cell(100,$height_cel,utf8_decode($siniestro), $border, 0, 'L', true);
+            $pdf->Ln($espacio_alto);
+            $pdf->Cell(20,$height_cel,utf8_decode("CASO:"), $border, 0, 'L');
+            $pdf->Cell(100,$height_cel,utf8_decode($caso), $border, 0, 'L', true);
+            $pdf->Ln(12);
+            $pdf->SetFont('Arial','',10);
+            $pdf->Cell(100,$height_cel,utf8_decode("3. CONFORMIDAD DE ENTREGA"), $border, 0, 'L');
+            $pdf->Ln(8);
+            $pdf->SetFont('Arial','',8);
+            $x = $pdf->GetX();
+            $y = $pdf->GetY();
+            $pdf->SetX($x);
+            $pdf->SetFont('Arial','',10);
+            $pdf->Write(5,utf8_decode("Por medio del presente documento el cliente declara su conformidad y satisfacción por las reparaciones realizadas en el taller PEÑARANDA PLANCHADO Y PINTURA respecto del siniestro y vehículo en referencia."));
+
+            $pdf->SetX($pdf->GetX());
+            $pdf->SetY($pdf->GetY() + 20);
+            $pdf->Image($path.$idsiniestro.'_firma.png', 65, $pdf->GetY() + 5, 80, 40);
+            $pdf->SetX($pdf->GetX());
+            $pdf->SetY($pdf->GetY() + 40);
+
+            $pdf->Ln(2);
+            $pdf->Cell(190,1,utf8_decode("FIRMA DEL CLIENTE"), $border, 0, 'C', false);
+            $pdf->Ln(6);
+            $pdf->Cell(40,$height_cel,utf8_decode("NOMBRE:"), $border, 0, 'R');
+            $pdf->Cell(100,$height_cel,utf8_decode($nombres), $border, 0, 'L', true);
+            $pdf->Ln($espacio_alto);
+            $pdf->Cell(40,$height_cel,utf8_decode("DNI/RUT/CE:"), $border, 0, 'R');
+            $pdf->Cell(100,$height_cel,utf8_decode($dni), $border, 0, 'L', true);
+            
+
+            $to = "marketing@penaranda.info, ".$correo; 
+            $from = "marketing@penaranda.info"; 
+            $subject = "Registro de carta de conformidad"; 
+            $message = "<p>En este correo podrá encontrar la carta de conformidad en formato PDF.</p>";
+
+            $separator = md5(time());
+
+            $eol = PHP_EOL;
+
+            $filename = "views/uploads/cartas/registro-". $idsiniestro .".pdf";
+
+            //$pdfdoc = $pdf->Output("", "S");
+            $pdfdoc = $pdf->Output($filename, "F");
+            $pdfdoc = $pdf->Output("", "S");
+            $attachment = chunk_split(base64_encode($pdfdoc));
+
+            $headers  = "From: ".$from.$eol;
+            //$headers .= "CC: ".$correo_postulante.",".$mail_apoderado.$eol;
+            $headers .= "MIME-Version: 1.0".$eol; 
+            $headers .= "Content-Type: multipart/mixed; boundary=\"".$separator."\"";
+
+            $body = "--".$separator.$eol;
+            $body .= "Content-Transfer-Encoding: 7bit".$eol.$eol;
+            $body .= "Registro de Carta de Conformidad - Peñaranda Planchado y Pintura .".$eol;
+            
             $body .= "--".$separator.$eol;
             $body .= "Content-Type: text/html; charset=\"iso-8859-1\"".$eol;
             $body .= "Content-Transfer-Encoding: 8bit".$eol.$eol;

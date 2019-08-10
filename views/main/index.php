@@ -113,11 +113,14 @@
                 $("#mensaje_error").html("Los datos ingresados son erroneos. Inténtelo nuevamente.");
                 $("#error_div").show().delay(2000).fadeOut();
               }else{
-                if(tipo != 'CLI'){
+                if(tipo == 'SIN' || tipo == 'ADM'){
                   window.location = "panel";
-                }else{
+                }else if(tipo=='CLI'){
                   window.location = "etaller_cliente";
+                }else if(tipo=='CON'){
+                  window.location = "documentos_contabilidad";
                 }
+                
               }
               
           },
