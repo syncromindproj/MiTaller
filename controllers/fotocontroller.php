@@ -22,6 +22,12 @@ class FotoController extends Controller
         echo json_encode($fotos);
     }
 
+    public function ListaDocumentosContables()
+    {
+        $fotos = $this->model->ListaDocumentosContables();
+        echo json_encode($fotos);
+    }
+
     public function GetFotosPorMarca()
     {
         $fotos = $this->model->GetFotosPorMarca();
@@ -115,11 +121,42 @@ class FotoController extends Controller
         }
     }
 
+    public function SubirDocumento()
+    {
+        $img            = $_FILES["files"]["name"][0];
+        $tmp            = $_FILES["files"]["tmp_name"][0];
+        $errorimg       = $_FILES["files"]["error"][0];
+        $descripcion    = $_REQUEST['txt_comentario'];
+        $path           = "";
+
+        $ext = strtolower(pathinfo($img, PATHINFO_EXTENSION));
+        $final_image = $img;
+        
+        $path = 'views/uploads/documentos_contables/';
+        $path .= strtolower($final_image);
+        //echo($path);die;
+        if(move_uploaded_file($tmp,$path)) 
+        {
+            $placas = $this->model->InsertaDocumentoContable($path, $descripcion);
+            echo json_encode("sdf");
+            
+        }
+    }
+
     public function EliminaFoto()
     {
         $datos = $_REQUEST['datos'];
         $datos = json_decode($datos, true);
         $fotos = $this->model->EliminaFoto($datos["idfoto"]);
+        echo json_encode($fotos);
+        
+    }
+
+    public function EliminaDocumento()
+    {
+        $datos = $_REQUEST['datos'];
+        $datos = json_decode($datos, true);
+        $fotos = $this->model->EliminaDocumento($datos["idfoto"]);
         echo json_encode($fotos);
         
     }

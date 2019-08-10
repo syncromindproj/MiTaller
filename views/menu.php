@@ -9,7 +9,7 @@
     <li class="header">NAVEGACIÓN</li>
     <!-- Optionally, you can add icons to the links -->
     <?PHP
-        if(isset($_SESSION['tipo']) && $_SESSION['tipo'] != 'CLI'){
+        if(isset($_SESSION['tipo']) && $_SESSION['tipo'] != 'CLI' && $_SESSION['tipo'] != 'CON'){
     ?>
     <li><a href="<?PHP echo constant('URL'); ?>panel"><i class="fa fa-tachometer"></i> <span>Panel de Administración</span></a></li>
     <li><a href="<?PHP echo constant('URL'); ?>placa"><i class="fa fa-link"></i> <span>Registro</span></a></li>
@@ -19,7 +19,7 @@
         <li><a href="<?PHP echo constant('URL'); ?>etaller_cliente"><i class="fa fa-link"></i> <span>E-taller</span></a></li>
     <?PHP } ?>
     <?PHP
-        if(isset($_SESSION['tipo']) && $_SESSION['tipo'] != 'CLI'){
+        if(isset($_SESSION['tipo']) && $_SESSION['tipo'] != 'CLI' && $_SESSION['tipo'] != 'CON'){
     ?>
     <li class="treeview">
         <a href="#">
@@ -34,5 +34,12 @@
             <li><a href="<?PHP echo constant('URL'); ?>catalogo_precio"><i class="fa fa-circle-o"></i> Catálogo de Precios</a></li>
         </ul>
     </li>
+    <?PHP } ?>
+
+    <?PHP
+        if(isset($_SESSION['tipo']) && $_SESSION['tipo'] == 'CON' || $_SESSION['tipo'] == 'ADM'){
+    ?>
+    <li><a href="<?PHP echo constant('URL'); ?>documentos_contabilidad"><i class="fa fa-tachometer"></i> <span>Documentos Contabilidad</span></a></li>
+    
     <?PHP } ?>
 </ul>

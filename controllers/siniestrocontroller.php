@@ -14,6 +14,14 @@ class SiniestroController extends Controller
         echo json_encode($siniestros);
     }
 
+    public function DatosCarta()
+    {
+        $datos = $_REQUEST['datos'];
+        $datos = json_decode($datos, true);
+        $siniestros = $this->model->DatosCarta($datos);
+        echo json_encode($siniestros);
+    }
+
     public function RegistraSiniestro()
     {
         $datos = $_REQUEST['datos'];
@@ -223,8 +231,30 @@ class SiniestroController extends Controller
         $datos['otros_obs'] = $_POST['txt_inv_otros'];
 
         $datos['firma'] = $_POST['firmaURL'];
+        $datos['firma_taller'] = $_POST['firmaTallerURL'];
         //$datos = json_decode($datos, true);
         $inventario = $this->model->InsertaInventario($datos);
+        echo json_encode($inventario);
+    }
+
+    public function InsertaCarta()
+    {   
+        $datos = array();
+        
+        $datos['idsiniestro']   = $_POST['idsiniestro'];
+        $datos['nombres']   = $_POST['txt_nombres_carta'];
+        $datos['dni']       = $_POST['txt_dni_carta'];
+        $datos['correo']    = $_POST['txt_correo_carta'];
+        $datos['placa']     = $_POST['txt_placa_carta'];
+        $datos['marca']     = $_POST['txt_marca_carta'];
+        $datos['modelo']    = $_POST['txt_modelo_carta'];
+        $datos['color']     = $_POST['txt_color_carta'];
+        $datos['anio']      = $_POST['txt_anio_carta'];
+        $datos['poliza']    = $_POST['txt_poliza_carta'];
+        $datos['siniestro'] = $_POST['txt_siniestro_carta'];
+        $datos['caso']      = $_POST['txt_caso_carta'];
+        $datos['firma']     = $_POST['firmaURL'];
+        $inventario = $this->model->InsertaCarta($datos);
         echo json_encode($inventario);
     }
 

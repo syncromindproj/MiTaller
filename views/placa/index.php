@@ -32,7 +32,6 @@
     margin-top:10px;
 }
 </style>
-
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
       
@@ -57,7 +56,7 @@
         <h4><i class="icon fa fa-check"></i> Confirmación</h4>
         <span id="mensaje_confirmacion"></span>
     </div>
-
+    
       <!--------------------------
         | Your Page Content Here |
         -------------------------->
@@ -349,7 +348,8 @@
                                         <ul class="nav nav-tabs">
                                             <li id="tab_interior" class="active"><a href="#interior" data-toggle="tab">Interior Vehículo</a></li>
                                             <li id="tab_exterior"><a href="#exterior" data-toggle="tab">Exterior Vehículo</a></li>
-                                            <li id="tab_firma"><a href="#firma" data-toggle="tab">Firma Digital</a></li>
+                                            <li id="tab_firma"><a href="#firma" data-toggle="tab">Firma Digital Cliente</a></li>
+                                            <li id="tab_firma_taller"><a href="#firma_taller" data-toggle="tab">Firma Digital Taller</a></li>
                                         </ul>
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="interior">
@@ -1156,6 +1156,11 @@
                                                 <br>
                                                 <button type="button" class="btn btn-primary" id="btn_limpiar_canvas">Limpiar</button>
                                             </div>
+                                            <div class="tab-pane" id="firma_taller">
+                                                <canvas id="canvas_firma_taller" width="400" height="200"></canvas>
+                                                <br>
+                                                <button type="button" class="btn btn-primary" id="btn_limpiar_canvas_taller">Limpiar</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1339,9 +1344,122 @@
         </div>
         <!-- Fin Nuevo Siniestro -->
 
+        <!-- Div Carta -->
+        <div id="md_carta" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Carta de Conformidad</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="frm_carta" method="POST">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box box-danger">
+                                    <div class="box-header">
+                                        <h3 class="box-title">1. Datos del Cliente</h3>
+                                        <div class="pull-right box-tools">
+                                        </div>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                        <div class="col-md-4 form-group">
+                                            <label for="txt_nombres_carta">Nombres</label>
+                                            <input type="text" class="form-control" id="txt_nombres_carta" name="txt_nombres_carta" placeholder="Nombres">
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <label for="txt_dni_carta">DNI</label>
+                                            <input type="text" class="form-control" id="txt_dni_carta" name="txt_dni_carta" placeholder="DNI">
+                                        </div>
+                                        <div class="col-md-4 form-group">
+                                            <label for="txt_correo_carta">Correo</label>
+                                            <input type="text" class="form-control" id="txt_correo_carta" name="txt_correo_carta" placeholder="Correo">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="box box-danger">
+                                    <div class="box-header">
+                                        <h3 class="box-title">2. Datos del Vehículo</h3>
+                                        <div class="pull-right box-tools">
+                                        </div>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                        <div class="col-md-3 form-group">
+                                            <label for="txt_placa_carta">Placa</label>
+                                            <input type="text" class="form-control" id="txt_placa_carta" name="txt_placa_carta" placeholder="Placa">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label for="txt_marca_carta">Marca</label>
+                                            <input type="text" class="form-control" id="txt_marca_carta" name="txt_marca_carta" placeholder="Marca">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label for="txt_modelo_carta">Modelo</label>
+                                            <input type="text" class="form-control" id="txt_modelo_carta" name="txt_modelo_carta" placeholder="Modelo">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label for="txt_color_carta">Color</label>
+                                            <input type="text" class="form-control" id="txt_color_carta" name="txt_color_carta" placeholder="Color">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label for="txt_anio_carta">Año</label>
+                                            <input type="text" class="form-control" id="txt_anio_carta" name="txt_anio_carta" placeholder="Año">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label for="txt_poliza_carta">Poliza</label>
+                                            <input type="text" class="form-control" id="txt_poliza_carta" name="txt_poliza_carta" placeholder="Poliza">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label for="txt_siniestro_carta">Siniestro</label>
+                                            <input type="text" class="form-control" id="txt_siniestro_carta" name="txt_siniestro_carta" placeholder="Siniestro">
+                                        </div>
+                                        <div class="col-md-3 form-group">
+                                            <label for="txt_caso_carta">Caso</label>
+                                            <input type="text" class="form-control" id="txt_caso_carta" name="txt_caso_carta" placeholder="Caso">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="box box-danger">
+                                    <div class="box-header">
+                                        <h3 class="box-title">3. Conformidad de Entrega</h3>
+                                        <div class="pull-right box-tools">
+                                        </div>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body">
+                                        <div class="col-md-12">
+                                            Por medio del presente documento el cliente declara su conformidad y satisfacción por las reparaciones realizadas en el taller
+                                            <strong>PEÑARANDA PLANCHADO Y PINTURA</strong> respecto del siniestro y vehículo en referencia.
+                                        </div>
+                                        <div class="col-md-12 text-center" style="margin-top:35px;">
+                                            <canvas id="carta_firma" width="400" height="200" ></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" data-value="" id="btn_registra_carta" name="btn_enviar" class="btn btn-primary">Registrar</button>
+                </div>
+                </form>
+                </div>
+            </div>
+        </div>
+        <!-- Fin Carta -->
+
+
         <!-- Div Ver Siniestros -->
         <div id="md_siniestros" class="modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog modal-lg" style="width:100% !important;" role="document">
                 <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title">Ver siniestros de la placa: <span id="modal_title_siniestro_ver"></span></h3>
@@ -1358,6 +1476,7 @@
                                     <th>Nro siniestro</th>
                                     <th>Observaciones</th>
                                     <th>Inventario</th>
+                                    <th>Carta de conformidad</th>
                                     <th>Aseguradora</th>
                                     <th>Totales</th>
                                     <th>Estado</th>
@@ -1940,7 +2059,11 @@
     var siniestros = "";
     var placas = "";
     var canvas_firma = "";
+    var canvas_firma_taller = "";
+    var canvas_carta_firma = "";
     var signaturePad = "";
+    var signaturePad_taller = "";
+    var signaturePad_carta = "";
     
     $(document).ready(function() {
         var placa = "";
@@ -1948,8 +2071,27 @@
 
         var canvas_firma = document.getElementById("canvas_firma");
         $("#canvas_firma").css("border", "1px solid");
-        //$("#canvas_firma").css("width", "100%");
+        
+        var canvas_firma_taller = document.getElementById("canvas_firma_taller");
+        $("#canvas_firma_taller").css("border", "1px solid");
+
+        var canvas_carta_firma = document.getElementById("carta_firma");
+        $("#carta_firma").css("border", "1px solid");
+
+        
         signaturePad = new SignaturePad(canvas_firma, {
+            minWidth: 2,
+            maxWidth: 2,
+            penColor: "rgb(0, 0, 0)"
+        });
+
+        signaturePad_taller = new SignaturePad(canvas_firma_taller, {
+            minWidth: 2,
+            maxWidth: 2,
+            penColor: "rgb(0, 0, 0)"
+        });
+
+        signaturePad_carta = new SignaturePad(canvas_carta_firma, {
             minWidth: 2,
             maxWidth: 2,
             penColor: "rgb(0, 0, 0)"
@@ -1957,6 +2099,10 @@
 
         $("#btn_limpiar_canvas").click(function(){
             signaturePad.clear();
+        });
+
+        $("#btn_limpiar_canvas_taller").click(function(){
+            signaturePad_taller.clear();
         });
 
 
@@ -2273,11 +2419,35 @@
             });
         });
 
+        //BOTON REGISTRO DE CARTA
+        $("#btn_registra_carta").click(function(){
+            var idsiniestro = $("#btn_registra_carta").attr("data-value");
+            var dataString = $("#frm_carta").serialize();
+            var canvas_firma = document.getElementById("carta_firma");
+            dataString += "&firmaURL=" + canvas_firma.toDataURL('image/png');
+            dataString += "&idsiniestro=" + idsiniestro;
+            console.log('Datos serializados: '+dataString);
+            $.ajax({
+                type: "POST",
+                url: "<?PHP echo constant('URL'); ?>siniestro/InsertaCarta", 
+                data: dataString,
+                success: function(data) {
+                    console.log(data);
+                    siniestros.ajax.reload();
+                    $('#md_siniestros').modal();
+                    $("#md_carta").modal('hide');
+                }
+            });
+            return false;
+        });
+
+        //BOTON - REGISTRO DE INVENTARIO
         $("#btn_registro_inventario").click(function(){
             var dataString = $("#frm_inventario").serialize();
             //dataString += "&firmaURL=" + signaturePad.toDataURL();
             var canvas_firma = document.getElementById("canvas_firma");
             dataString += "&firmaURL=" + canvas_firma.toDataURL('image/png');
+            dataString += "&firmaTallerURL=" + canvas_firma_taller.toDataURL('image/png');
             console.log('Datos serializados: '+dataString);
             $.ajax({
                 type: "POST",
@@ -2354,12 +2524,12 @@
                 {
                     "targets":0,
                     "data":"fecha_siniestro",
-                    "width":"10%"
+                    "width":"8%"
                 },
                 {
                     "targets":1,
                     "data":"nrosiniestro",
-                    "width":"15%"
+                    "width":"8%"
                 },
                 {
                     "targets":2,
@@ -2373,7 +2543,7 @@
                         
                         return false;
                     },
-                    "width":"10%"
+                    "width":"15%"
                 },
                 {
                     "targets":3,
@@ -2387,29 +2557,44 @@
                         
                         return false;
                     },
-                    "width":"10%"
+                    "width":"8%"
                 },
                 {
                     "targets":4,
-                    "data":"aseguradora",
+                    "data":"idcarta",
+                    "render": function(url, type, full){
+                        if(full['idcarta'] != ""){
+                            return '<a href="javascript:ver_carta_pdf('+ full[0] +');">Ver carta</a>'
+                        }else{
+                            return '<a href="javascript:ver_carta('+ full[0] +');">Registrar carta</a>'
+                        }
+                        
+                        return false;
+                    },
                     "width":"15%"
                 },
                 {
                     "targets":5,
+                    "data":"aseguradora",
+                    "width":"8%"
+                },
+                {
+                    "targets":6,
                     "data":"idsiniestro",
                     "render": function(url, type, full){
                         var idsiniestro = full["idsiniestro"];
                         return '<a href="javascript:ver_totales('+ idsiniestro +');">Ver Totales</a>';
                         return false;
-                    }
-                },
-                {
-                    "targets":6,
-                    "data":"estado",
-                    "width":"10%"
+                    },
+                    "width":"8%"
                 },
                 {
                     "targets":7,
+                    "data":"estado",
+                    "width":"8%"
+                },
+                {
+                    "targets":8,
                     "data":"idsiniestro",
                     "render": function(url, type, full){
                         console.log(url);
@@ -2581,6 +2766,11 @@
                         
                         $('#fileupload').fileupload({
                             url: '<?PHP echo constant('URL'); ?>foto/Subir',
+                            disableImageResize: /Android(?!.*Chrome)|Opera/
+                            .test(window.navigator && navigator.userAgent),
+                            imageMaxWidth: 950,
+                            //imageMaxHeight: 800,
+                            imageCrop: false, // Force cropped images
                             formData: { 
                                 'idsiniestro': idsiniestro, 
                                 'idtipofoto' : tipo
@@ -2803,8 +2993,49 @@
         window.open("<?PHP echo constant('URL'); ?>/views/uploads/inventario/registro-" + idsiniestro + ".pdf");
     }
 
+    function ver_carta_pdf(idsiniestro)
+    {
+        window.open("<?PHP echo constant('URL'); ?>/views/uploads/cartas/registro-" + idsiniestro + ".pdf");
+    }
+
+    function ver_carta(idsiniestro)
+    {
+        signaturePad_carta.clear();
+        $("#btn_registra_carta").attr("data-value", idsiniestro);
+        var info = {};
+        info['idsiniestro'] = idsiniestro;
+        var datos = JSON.stringify(info);
+
+        $('#md_siniestros').modal('hide');
+        $("#md_carta").modal();
+        $.ajax({
+            type: "POST",
+            url: "<?PHP echo constant('URL'); ?>siniestro/DatosCarta", 
+            data:{
+                datos: datos
+            },
+            success: function(result){
+                var datos = JSON.parse(result);
+                var item = datos.data[0];
+                $("#txt_nombres_carta").val(item.nombres + " " + item.apellidos);
+                $("#txt_dni_carta").val(item.dni);
+                $("#txt_correo_carta").val(item.correo);
+                $("#txt_placa_carta").val(item.nroplaca);
+                $("#txt_marca_carta").val(item.marca);
+                $("#txt_modelo_carta").val(item.modelo);
+                $("#txt_color_carta").val(item.color);
+                $("#txt_anio_carta").val(item.anio);
+            },
+            error: function(result){
+                console.log(result);
+            }
+        });
+    }
+
     function ver_inventario(idsiniestro)
     {
+        signaturePad.clear();
+        signaturePad_taller.clear();
         limpiar_selects_inventario();
         $('#md_siniestros').modal('hide');
         $("#modal_inventario").modal();
