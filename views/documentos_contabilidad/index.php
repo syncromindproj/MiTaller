@@ -18,8 +18,8 @@
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">E-taller</a></li>
-                <li class="active">Listado de Registros</li>
+                <li><a href="#">Documentos Contables</a></li>
+                <li class="active">Listado de Documentos</li>
             </ol>
         </section>
 
